@@ -1,0 +1,253 @@
+#info, #correcto, #ojo, #error {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:13px;
+    text-align:left;
+    width:auto;
+}
+#confirmar {
+    color: #008000;
+    background-color: #C0FFC0;
+    border: 1px solid #00C000;
+    /*background-image: url('../images/ojo.JPG');*/
+}
+#correcto {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('../images/correcto.JPG');
+}
+#ojo {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('../images/ojo.JPG');    
+}
+#error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('../images/error.jpg');
+}
+.list_group_item_0{
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #ffffff;//#67C3DA
+    border: 1px solid #dddddd;
+}
+.list_group_item_1{
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #ffffff;//#67C3DA
+    border: 1px solid #dddddd;
+}
+
+.input_text_panel_pricipal {
+  display: block;
+  width: 121%;
+  height: 27px;
+  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 1.428571429;
+  color: #555555;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+
+}
+
+.list_group_item{ 
+    display: block;
+    padding: 10px 15px;
+    background-color: #ffffff;//#67C3DA#E5F5FB
+    border: 1px solid red;
+    border-radius: 5px;   
+}
+
+.ctrl_input_t {
+  text-transform: uppercase;
+  height: 25px;
+  padding: 4px 5px 3px 5px ;
+  font-size: 12px;
+  color: #555555;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #83CBFF;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+          transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.ctrl_input_t_email {  
+  height: 25px;
+  padding: 4px 5px 3px 5px ;
+  font-size: 12px;
+  color: #555555;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #83CBFF;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+          transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.ctrl_input{
+    margin: 3px;
+    text-align: left;
+}
+.ctrl_lavel_0{
+    width: 9%;
+    text-align: right;
+}
+.ctrl_lavel_1{
+    width: 12.5%;
+    text-align: right;
+}  
+fieldset.scheduler-border {
+  border: 1px groove red !important;
+  padding: 0 1.4em 1.4em 1.4em !important;
+  margin: 0 0 1.5em 0 !important;
+  -webkit-box-shadow:  0px 0px 0px 0px #000;
+          box-shadow:  0px 0px 0px 0px #000;   
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
+    color:#428BCA;
+
+}
+
+.filtros{
+    border: 1px solid #99bce8;
+     margin: 1.5% 1.5% 1%;
+    padding-bottom: 20px;
+/*    *border: 1px solid #99bce8;
+    *margin-top: 5px;
+    *padding-bottom: 20px;*/
+}
+.spanasis {
+    /*background-image: url(../images/lay_men.gif);*/
+    background-color: #CCDEF4;
+    margin: 0px;
+    font-weight: bold;
+    color: #04408c;
+    padding: 4px;
+    font-size: 11px;
+    font-family: tahoma,arial,verdana,sans-serif;
+    border-bottom: solid 1px #99bce8;
+    /*height: 16px;*/
+    /*text-transform: capitalize;*/
+    text-shadow: 0 1px 0 white;
+    /*line-height: 1.5;*/
+    padding-left: 5px;
+    border-top: solid 1px #99bce8;
+    margin-top: -1px;
+    
+}
+///////JQUERY DIALOG////////////////////////////////
+.ui-widget-content.ui-dialog{
+   border: 2px solid #418BC3;   
+}
+.ui-dialog .ui-dialog-titlebar{
+    border-radius: 0px;
+/*    padding: .5em .5em;
+    position: relative;
+    font-size: 1em;*/
+    /*border: 1px solid red;*/
+}
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: .8em;
+}
+
+.ui-widget-content {
+    background: #F9FBFD;
+    border: 1px solid #82A0C6;
+    color: #222222;
+    font-size: 12px;
+}
+
+.ui-dialog {
+    left: 0;
+    outline: 0 none;
+    border-radius: 0px;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+}
+.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    overflow: auto;
+    position: relative;
+    padding: 0 !important;
+}
+
+.ui-widget-header {
+    background: #418BC3;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+}
+/////DATEPIKER
+/*div principal del datepicker*/
+    .ui-datepicker
+    {
+    width: auto;
+    background: black;
+    }
+
+    /*Tabla con los días del mes*/
+    .ui-datepicker table
+    {
+    font-size: 10px;
+    }
+
+    /*La cabecera*/
+/*	.ui-datepicker .ui-datepicker-header
+    {
+    font-size: 12px;
+    background: #FFFFFF;
+    }*/
+
+    /*Para los días de la semana: Sa Mo ... */
+    .ui-datepicker th
+    {
+    color: #418BC3;   
+    font-weight: bold;
+    }
+
+    /*Para items con los días del mes por defecto */
+    .ui-datepicker .ui-state-default
+    {
+    background: white;
+    }
+
+    /*Para el item del día del mes seleccionado */
+    .ui-datepicker .ui-state-active
+    {
+    background: orange;
+    color: #FFFFFF;
+    }
+
+///////////////////GRID/////////////
+
+
+
+

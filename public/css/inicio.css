@@ -1,0 +1,32 @@
+    body {
+      background: url('../images/background.jpg');
+    }
+    #info {
+      width: 400px;
+      text-align: center;
+      background: #fff;
+      margin: 150px auto 0 auto;
+      padding: 30px;
+      border-radius: 5px;
+    }
+    .fecha {      
+      bottom: 20px;
+      left:15px;     
+      color: #3B5998;
+    }
+    #hora {
+      color: #3B5998;
+      font-family: "Century Gothic";
+      /*font-style:italic;*/
+      font-size: 80px;
+      font-weight: bold;
+    }
+    #dia {
+      color: #3B5998;
+      font-family: "Century Gothic";
+      /*font-style:italic;*/
+      font-size: 50px;
+    }
+    #centrado{
+      margin-top:10%;
+    }

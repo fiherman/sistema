@@ -1,5 +1,5 @@
 <?php
-//esta es una linea editada de vlady
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

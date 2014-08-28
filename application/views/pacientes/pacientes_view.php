@@ -363,7 +363,7 @@
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:18%">Monto</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/." maxlength="6">
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/." maxlength="8">
             <label class="ctrl_lavel_1" style="width:28.5%">Fecha de emision</label>
             <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha de Pago">              
         </div>

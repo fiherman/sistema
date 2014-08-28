@@ -1,5 +1,5 @@
 <?php
-//cambio de vlady - cambio de augusto
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

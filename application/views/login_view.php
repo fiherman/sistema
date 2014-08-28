@@ -36,7 +36,7 @@
           </div>
          </div>  
      </div>    
-     <div class="fecha">
+    <div class="fecha" style="position: absolute; width: 700px; height: 180px; left: 725px; padding: 10px;">
          <span id="hora"></span><br>
          <span id="dia"></span>
      </div>    

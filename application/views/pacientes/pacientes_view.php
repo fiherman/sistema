@@ -110,7 +110,7 @@
         <div class="ctrl_input">               
             <input type="hidden" id="pac_id" value="" >
             <label class="ctrl_lavel_0">Nombres</label>
-            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="nombre" onblur="fn_onblur(this);" placeholder="Ingrese Nombres">             
+            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="nombre" onblur="fn_onblur(this);"  placeholder="Ingrese Nombres">             
         </div>       
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_0">Apellidos</label>
@@ -440,7 +440,7 @@
             <label class="ctrl_lavel_1" style="width:13%">Paciente</label>
             <input type="text" class="ctrl_input_t" style="width: 55%;background-color: #EFFAEE" id="div_historial_pagos_nom_pac" disabled/> 
             <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>            
-            <select class="ctrl_input_t" id="div_historial_pagos_select" onchange="select_ver_trat(this.value);" style="background-color: #EFFAEE;width: 13.7%">
+            <select class="ctrl_input_t" id="div_historial_pagos_select" onchange="select_ver_historial_pagos(this.value);" style="background-color: #EFFAEE;width: 13.7%">
                
             </select>           
         </div>        
@@ -450,8 +450,6 @@
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_historial_pagos_salir" onClick="btn_salir('div_historial_pagos');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    
-    
 </div>
 
 

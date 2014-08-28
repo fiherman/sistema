@@ -29,10 +29,11 @@ class Pago extends CI_Controller{
 //        }
         echo @json_encode($Consulta);//$todo
     }
+    
     function get_historial_pagos(){
         header('Content-type: application/json');
-        $seg_id=$_GET['seg_id'];
-        $esp_tip=$_GET['esp_tip'];
+        $pac_id=$_GET['pac_id'];
+        $trat_num=$_GET['trat_num'];
         $page  = $_GET['page']; 
         $limit = $_GET['rows']; 
         $sidx  = $_GET['sidx']; 
@@ -41,7 +42,7 @@ class Pago extends CI_Controller{
         if(!$sidx){
             $sidx  = 1;
         }
-        $count = count($this->administracion_model->get_cont_especialidades($seg_id,$esp_tip));
+        $count = count($this->pago_model->get_cont_historial_pagos($pac_id,$trat_num));
 
         if($count > 0){
             $total_pages = ceil($count / $limit);
@@ -53,7 +54,7 @@ class Pago extends CI_Controller{
         if($start<0){
             $start = 0;
         }
-        $Consulta =$this->administracion_model->get_all_especialidades($seg_id,$esp_tip,$sidx,$sord,$start,$limit);
+        $Consulta =$this->pago_model->get_all_historial_pagos($pac_id,$trat_num,$sidx,$sord,$start,$limit);
 
         $Lista = new stdClass();
         $Lista->page    = $page;
@@ -62,13 +63,13 @@ class Pago extends CI_Controller{
         
         foreach($Consulta as $Index => $Datos)
         {
-           $Lista->rows[$Index]['id'] = $Datos->esp_id;
-	   $Lista->rows[$Index]['cell']= array(trim($Datos->esp_id),
-                            trim($Datos->seg_id),
-                            trim($Datos->esp_tip),
-                            trim($Datos->esp_des),
-                            trim($Datos->esp_cos_sol),
-                            '<input id="btn_image_editar_esp" type="image" width="17px" height="15px" title="Editar Especialidad" src="'.base_url('public/images/editar.png').'" onClick="btn_editar_especialidad('.$Datos->esp_id.');"/>',                            
+           $Lista->rows[$Index]['id'] = $Datos->pag_id;
+	   $Lista->rows[$Index]['cell']= array(trim($Datos->pag_id),
+                            trim($Datos->pag_monto),
+                            trim($Datos->pag_fch),
+                            trim($Datos->documento),
+                            trim($Datos->pag_codigo),                                                      
+                            trim($Datos->pag_obs)
                             );	      
         }
         echo json_encode($Lista);

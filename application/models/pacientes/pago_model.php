@@ -58,6 +58,20 @@ class Pago_model extends CI_Model{
 //                group by a.trat_pac_id,a.trat_num
 //        ")->result();
     }
+    ////////////////////HISTORIAL DE PAGOS ////////////////////////////////////////////////////////////////////////////////////////
+    function get_cont_historial_pagos($pac_id,$trat_num){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select * from vw_ver_historial_pagos where pag_pac_id= $pac_id and pag_trat_num=$trat_num
+        ")->result();
+    }
+    
+    function get_all_historial_pagos($pac_id,$trat_num,$sidx,$sord,$start,$limit){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select * from vw_ver_historial_pagos where pag_pac_id= $pac_id and pag_trat_num=$trat_num order by $sidx $sord limit $limit offset $start
+        ")->result();
+    }
 }
 
 

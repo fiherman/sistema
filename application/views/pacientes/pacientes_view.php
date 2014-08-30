@@ -110,48 +110,48 @@
         <div class="ctrl_input">               
             <input type="hidden" id="pac_id" value="" >
             <label class="ctrl_lavel_0">Nombres</label>
-            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="nombre" onblur="fn_onblur(this);"  placeholder="Ingrese Nombres">             
+            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="nombre" onblur="fn_onblur(this);" tabindex="1" placeholder="Ingrese Nombres">             
         </div>       
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_0">Apellidos</label>
-            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="apellidos" onblur="fn_onblur(this);" placeholder="Ingrese Apellidos">
+            <input type="text" class="ctrl_input_t" style="width: 89%;background-color: #EFFAEE" id="apellidos" onblur="fn_onblur(this);" tabindex="2" placeholder="Ingrese Apellidos">
         </div>         
         <div class="ctrl_input">    
             <label class="ctrl_lavel_0">Direccion</label>
-            <input type="text" class="ctrl_input_t" style="width: 60%;background-color: #EFFAEE" id="direccion" onblur="fn_onblur(this);" placeholder="Ingrese Direccion">                                      
+            <input type="text" class="ctrl_input_t" style="width: 60%;background-color: #EFFAEE" id="direccion" onblur="fn_onblur(this);" tabindex="3" placeholder="Ingrese Direccion">                                      
             <label class="ctrl_lavel_0">Dni</label>
-            <input type="text" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE" id="dni" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" maxlength="8" placeholder="Ingrese DNI">               
+            <input type="text" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE" id="dni" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" tabindex="4" maxlength="8" placeholder="Ingrese DNI">               
         </div>           
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Distrito</label>
-            <input type="text" class="ctrl_input_t" style="width: 40%;background-color: #EFFAEE" id="distrito"  onblur="fn_onblur(this);" placeholder="Distrito">           
+            <input type="text" class="ctrl_input_t" style="width: 40%;background-color: #EFFAEE" id="distrito"  onblur="fn_onblur(this);" tabindex="5" placeholder="Distrito">           
             <label class="ctrl_lavel_0">Sexo</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="sexo"  onblur="fn_onblur(this);" placeholder="M / F" maxlength="1"> 
+            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="sexo"  onblur="fn_onblur(this);" tabindex="6" placeholder="M / F" maxlength="1"> 
             <label class="ctrl_lavel_0">Fch. Nac.</label>
-            <input type="input" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE"  id="fec_nac" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha de Nacimiento">              
+            <input type="input" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE"  id="fec_nac"  tabindex="7" onblur="fn_onblur(this);"   maxlength="10" placeholder="Fecha de Nacimiento">              
         </div>          
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Telefono</label>
-            <input type="text" class="ctrl_input_t" style="width: 23.3%" id="telefono"  maxlength="11" placeholder="# Telefono">
+            <input type="text" class="ctrl_input_t" style="width: 23.3%" id="telefono" tabindex="8"  maxlength="11" placeholder="# Telefono">
             <label class="ctrl_lavel_0">Movistar</label>
-            <input type="text" class="ctrl_input_t" style="width: 23.3%" id="movistar"   maxlength="11" placeholder="# Celular Movistar">
+            <input type="text" class="ctrl_input_t" style="width: 23.3%" id="movistar" tabindex="9"  maxlength="11" placeholder="# Celular Movistar">
             <label class="ctrl_lavel_0">Claro</label>
-            <input type="text" class="ctrl_input_t" style="width: 22.3%" id="claro"   maxlength="11" placeholder="# Celular Claro">
+            <input type="text" class="ctrl_input_t" style="width: 22.3%" id="claro" tabindex="10" maxlength="11" placeholder="# Celular Claro">
         </div>          
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Email</label>
-            <input type="text" class="" style="width: 89%;background-color: #EFFAEE;background-image: none;height: 27px;  padding: 3px 10px;  font-size: 12px;  color: #555555;  vertical-align: middle; border: 1px solid #83CBFF;  border-radius: 3px;"id="email" name="email" onblur="fn_onblur(this);" value="" placeholder="Ingrese Correo electronico">
+            <input type="text" class="" style="width: 89%;background-color: #EFFAEE;background-image: none;height: 27px;  padding: 3px 10px;  font-size: 12px;  color: #555555;  vertical-align: middle; border: 1px solid #83CBFF;  border-radius: 3px;"id="email" name="email" onblur="fn_onblur(this);" tabindex="11" value="" placeholder="Ingrese Correo electronico">
         </div> 
     </div>
     <div class="filtros">
         <p class="spanasis">SEGURO</p><br/>
         <div class="ctrl_input">
             <label class="ctrl_lavel_1">Dependiente</label>
-            <input type="text" class="ctrl_input_t" style="width: 85%" id="dependiente"  placeholder="Ingrese Apoderado (menor de edad)">
+            <input type="text" class="ctrl_input_t" style="width: 85%" id="dependiente" tabindex="12" placeholder="Ingrese Apoderado (menor de edad)">
         </div>       
         <div class="ctrl_input">
             <label class="ctrl_lavel_1">Seguro</label>
-            <select class="ctrl_input_t" id="seg_id" style="background-color: #EFFAEE">
+            <select class="ctrl_input_t" id="seg_id" tabindex="13" style="background-color: #EFFAEE">
                 <option value="1">SIN SEGURO</option>
                 <option value="2">LA POSITIVA</option>
                 <option value="3">CERRO VERDE</option>
@@ -161,7 +161,7 @@
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act"  id="btn_salir_registro" onClick="btn_salir('div_reg_pac_nuevo');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act"  id="btn_guardar_registro" onClick="brn_guardar_pac('INSERTAR');"><img src="public/images/guardar.png" style="width:20px">Guardar Paciente</img></button>
+    <button class="btn_full_act"  id="btn_guardar_registro" onClick="brn_guardar_pac('INSERTAR');"><img src="public/images/guardar.png" tabindex="14"  style="width:20px">Guardar Paciente</img></button>
     <button class="btn_full_act"  id="btn_editar_registro" onClick="brn_guardar_pac('EDITAR');"><img src="public/images/guardar.png" style="width:20px"> Editar Paciente</img></button>
     
    
@@ -357,32 +357,33 @@
     </div>
     <div class="filtros">
         <p class="spanasis">REALIZAR PAGO</p><br/>
-        <div class="ctrl_input">             
-            <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
-            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  placeholder="Numero de factura o boleta">              
-        </div>
         <div class="ctrl_input"> 
-            <label class="ctrl_lavel_1" style="width:18%">Monto</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/." maxlength="8">
-            <label class="ctrl_lavel_1" style="width:28.5%">Fecha de emision</label>
-            <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha de Pago">              
-        </div>
-        <div class="ctrl_input"> 
-            <label class="ctrl_lavel_1" style="width:18%">Forma de Pago</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE" id="div_pac_rea_pago_for_pago">
-                <option value="1">EFECTIVO</option>
-                <option value="2">TARJ. CREDITO</option>
-            </select>
-            <label class="ctrl_lavel_1" style="width:26%">Documento de Facturacion</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE"  id="div_pac_rea_pago_doc_fac">
+            <label class="ctrl_lavel_1" style="width:25%">Doc. de Facturacion</label>
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;"  id="div_pac_rea_pago_doc_fac">
                 <option value="1">BOLETA</option>
                 <option value="2">RECIBO</option>
                 <option value="3">FACTURA</option>
-            </select>            
+            </select> 
+            <label class="ctrl_lavel_1" style="width:15%">Forma de Pago</label>
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;" id="div_pac_rea_pago_for_pago">
+                <option value="1">EFECTIVO</option>
+                <option value="2">TARJ. CREDITO</option>
+            </select>                       
+        </div>
+        
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1" style="width:25%">Fecha de emision</label>
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago">              
+            <label class="ctrl_lavel_1" style="width:15%">Monto</label>
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/." maxlength="8">            
+        </div>
+        <div class="ctrl_input">             
+            <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
+            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
         </div>
         <div class="ctrl_input"> 
-            <label class="ctrl_lavel_1" style="width:18%">Observacion</label>
-            <textarea rows="2" class="ctrl_input_t" style="width: 73%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_obs" placeholder="Observacion"></textarea>
+            <label class="ctrl_lavel_1" style="width:25%">Observacion</label>
+            <textarea rows="2" class="ctrl_input_t" style="width: 66%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_obs" placeholder="Observacion"></textarea>
         </div>        
     </div>
     

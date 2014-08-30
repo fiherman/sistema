@@ -1,5 +1,5 @@
 var patron = new Array(2, 2, 4);
-function mascara(d, sep, pat, nums)
+function mascara(d, sep  )//nums  pat
 {
     if (d.valant !== d.value) {
         val = d.value;
@@ -10,21 +10,21 @@ function mascara(d, sep, pat, nums)
         {
             val2 += val[r];
         }
-        if (nums) {
-            for (z = 0; z < val2.length; z++) {
-                if (isNaN(val2.charAt(z))) {
-                    letra = new RegExp(val2.charAt(z), "g");
-                    val2 = val2.replace(letra, "");
-                }
-            }
-        }
+//        if (nums) {
+//            for (z = 0; z < val2.length; z++) {
+//                if (isNaN(val2.charAt(z))) {
+//                    letra = new RegExp(val2.charAt(z), "g");
+//                    val2 = val2.replace(letra, "");
+//                }
+//            }
+//        }
         val = '';
         val3 = new Array();
-        for (s = 0; s < pat.length; s++)
-        {
-            val3[s] = val2.substring(0, pat[s]);
-            val2 = val2.substr(pat[s]);
-        }
+//        for (s = 0; s < pat.length; s++)
+//        {
+//            val3[s] = val2.substring(0, pat[s]);
+//            val2 = val2.substr(pat[s]);
+//        }
         for (q = 0; q < val3.length; q++) {
             if (q === 0)
             {
@@ -44,10 +44,21 @@ function mascara(d, sep, pat, nums)
 }
 function justNumbers(e)
 {
+
     var keynum = window.event ? window.event.keyCode : e.which;
     if ((keynum === 8) || (keynum === 46))
         return true;
     return /\d/.test(String.fromCharCode(keynum));
+}
+
+
+
+function soloNumeroTab(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+    return true;
 }
 function mostraralertas(div, texto, tit) {
 
@@ -184,11 +195,11 @@ function formato_numero(numero, decimales, separador_decimal, separador_miles) {
     return numero;
 }
 
-function focusNext(form, elemName, evt) {   
+function focusNext(form, elemName, evt) {
     evt = (evt) ? evt : event;
     var charCode = (evt.charCode) ? evt.charCode :
             ((evt.which) ? evt.which : evt.keyCode);
-    if (charCode == 13 || charCode == 3) {        
+    if (charCode == 13 || charCode == 3) {
         document.getElementById(elemName).focus();
         alert("entro");
         return false;

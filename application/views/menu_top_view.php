@@ -52,7 +52,7 @@
     <script src="<?php echo base_url('public/js/jqgrid/js/jquery.jqGrid.min.js');?>" type="text/javascript"></script>    
     <script src="<?php echo base_url('public/js/jqgrid/js/i18n/grid.locale-es.js');?>"></script>    
     <script src="<?php echo base_url('public/js/timepiker/jquery.ui.timepicker.js');?>"></script>  
-    
+    <script src="<?php echo base_url('public/js/jquery.maskedinput.js');?>" type="text/javascript"></script><!--para fechas-->
     
     
     

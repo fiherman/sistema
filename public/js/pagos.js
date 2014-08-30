@@ -15,6 +15,7 @@ function btn_pago_pac() {
             }
         }).dialog('open');
         limpiar_ctrl('div_pac_realizar_pago');
+        $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
         datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
         $("#hiddendiv_pac_realizar_pago").val($("#hiddendiv_ver_trat_pac").val());
         $("#div_realizar_pago_pac").val(pac);

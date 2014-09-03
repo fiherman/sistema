@@ -28,3 +28,4 @@ include_once 'pacientes/pacientes_view.php';
 include_once 'pacientes/administracion_view.php'; 
 include_once 'dialogos.php'; 
 
+//Nelson asdfasdfsadfsdfsdaasfd

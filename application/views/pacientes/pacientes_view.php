@@ -86,7 +86,7 @@
         <p class="spanasis">BUSCAR PACIENTE</p><br/>        
         <div style="margin: -5px 0px -12px 20px">
             Buscar: <input type="text" id="txtbuscar_pac" style="text-transform:uppercase;padding: 3px 10px;width:50%; height: 23px; border-radius: 6px;border: 1px solid #C0CDF6;margin-bottom: 5px;"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_full" id="btn_buscar" onClick="fn_buscar_pac();">Buscar</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_full" id="btn_buscar" onClick="fn_buscar_pac();">Buscar</button>            
         </div>
     </div>
     <div style="margin: 1.5% 1.5% 1%;">
@@ -99,8 +99,8 @@
     <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Realizar Consulta</img></button>
     <button class="btn_full_act" id="btn_actualizar_pac" onClick="btn_actualizar();"><img src="public/images/actualizar.png" style="width:20px">Actualizar</img></button>
     <button class="btn_full_act" id="btn_plan_trat_pac" onClick="btn_plan_tratamiento();"><img src="public/images/tratamiento.png" style="width:20px">Tratamiento</img></button>
-    
-    <!--<button class="btn_full_act" id="btn_pago_pac" onClick="btn_pago_pac();"><img src="public/images/pago2.png" style="width:20px">Realizar Pago</img></button>-->
+
+<!--<button class="btn_full_act" id="btn_pago_pac" onClick="btn_pago_pac();"><img src="public/images/pago2.png" style="width:20px">Realizar Pago</img></button>-->
 </div>
 
 <!--registro de paciente-->
@@ -120,7 +120,7 @@
             <label class="ctrl_lavel_0">Direccion</label>
             <input type="text" class="ctrl_input_t" style="width: 60%;background-color: #EFFAEE" id="direccion" onblur="fn_onblur(this);" tabindex="3" placeholder="Ingrese Direccion">                                      
             <label class="ctrl_lavel_0">Dni</label>
-            <input type="text" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE" id="dni" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" tabindex="4" maxlength="8" placeholder="Ingrese DNI">               
+            <input type="text" class="ctrl_input_t" style="width: 19%" id="dni"  onkeypress="return soloNumeroTab(event);" tabindex="4" maxlength="8" placeholder="Ingrese DNI">               
         </div>           
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Distrito</label>
@@ -163,8 +163,8 @@
     <button class="btn_full_act"  id="btn_salir_registro" onClick="btn_salir('div_reg_pac_nuevo');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act"  id="btn_guardar_registro" onClick="brn_guardar_pac('INSERTAR');"><img src="public/images/guardar.png" tabindex="14"  style="width:20px">Guardar Paciente</img></button>
     <button class="btn_full_act"  id="btn_editar_registro" onClick="brn_guardar_pac('EDITAR');"><img src="public/images/guardar.png" style="width:20px"> Editar Paciente</img></button>
-    
-   
+
+
 </div>
 <!--REALIZAR CONSULTA-->
 <div id="div_consulta" style="display: none; font-size: 12px" title="SEPARAR CONSULTA">
@@ -177,11 +177,11 @@
         </div>       
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1">Costo</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/."maxlength="2">
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."maxlength="2">
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1">Fecha</label>
-            <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_fch" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha de consulta">              
+            <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_fch" onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de consulta">              
             <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
             <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm"> 
         </div>       
@@ -224,7 +224,7 @@
                 <div style="margin-left: 84%">DOCTOR</div>
             </div>
             <div id="div_tra_dinamico"  > 
-                        
+
             </div>
             <div style="margin:1% 48%;border-top: 1px solid;width: 16%;">
                 <label class="ctrl_lavel_1" style="width:40%;">TOTAL</label>
@@ -263,7 +263,7 @@
             <input type="text" class="ctrl_input_t" style="width: 55%;background-color: #EFFAEE" id="div_ver_trat_pac" disabled/> 
             <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>            
             <select class="ctrl_input_t" id="div_ver_trat_select" onchange="select_ver_trat(this.value);" style="background-color: #EFFAEE;width: 13.7%">
-               
+
             </select>           
         </div>
         <div class="ctrl_input" style="margin:2% 0 -1.5% 2%">
@@ -281,15 +281,15 @@
     </div>
     <!--<div class="filtros" style="">-->
         <!--<p class="spanasis">DOCTOR</p><br/>--> 
-        <div style="margin: 0% 1.5%;">
-            <table id="grid_ver_trat_pac"></table>
+    <div style="margin: 0% 1.5%;">
+        <table id="grid_ver_trat_pac"></table>
 <!--            <div id="1_0" style="float:left ;margin-top: -39%;margin-left: 5.5%;"><input type="text" id="txt_ver_trat_doc" style="width:255%; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: left; " disabled /></div>-->
 <!--            <div id="1_1" style="float:left ;margin-top: -39%;margin-left: 45.6%;">Costo Total: <input type="text" placeholder="0.00" id="txt_ver_trat_subtot" style="width:75px; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: right " disabled /></div>
-            <div id="1_2" style="float:left ;margin-top: -39%;margin-left: 66%;">Dscto: <input type="text" placeholder="0.00" id="txt_ver_trat_dscto" style="width:70px; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: right " disabled /></div>                
-            <div id="1_3" style="float:left ;margin-top: -39%;margin-left: 81%;">Pago Total: <input type="text" placeholder="0.00" id="txt_ver_trat_tot" style="width:75px; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: right " disabled /></div>
-            -->
-            <!--<div id="pager_ver_trat_pac"></div>-->
-        </div>
+        <div id="1_2" style="float:left ;margin-top: -39%;margin-left: 66%;">Dscto: <input type="text" placeholder="0.00" id="txt_ver_trat_dscto" style="width:70px; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: right " disabled /></div>                
+        <div id="1_3" style="float:left ;margin-top: -39%;margin-left: 81%;">Pago Total: <input type="text" placeholder="0.00" id="txt_ver_trat_tot" style="width:75px; height: 21px; border-radius: 2px;border: 1px solid #C0CDF6;margin-bottom: 5px; text-align: right " disabled /></div>
+        -->
+        <!--<div id="pager_ver_trat_pac"></div>-->
+    </div>
     <!--</div>-->
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_ver_trat_salir" onClick="btn_salir('div_ver_tratamiento');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
@@ -297,7 +297,7 @@
     <button class="btn_full_act" id="btn_ver_trat_pago" onClick="btn_pago_pac();"><img src="public/images/pago2.png" style="width:20px">Realizar Pago</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
-    
+
 </div>
 <!--DESCUENTO-->
 <div id="div_pac_dscto" style="display: none; font-size: 12px" title="DESCUENTO">
@@ -323,11 +323,11 @@
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot"  placeholder="S/. 0.00" disabled/>           
         </div> 
     </div>
-  
+
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_dscto_salir" onClick="btn_salir('div_pac_dscto');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_dscto_guardar" onClick="btn_insert_dscto();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
-    
+
 </div>
 
 <!--REALIZAR PAGO-->
@@ -335,7 +335,7 @@
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
         <div class="ctrl_input" style="margin:-1%">
-            <input type="hidden" id="hiddendiv_usuario" value="<?php echo trim($_SESSION['doctor']);?>">
+            <input type="hidden" id="hiddendiv_usuario" value="<?php echo trim($_SESSION['doctor']); ?>">
             <input type="hidden" id="hiddendiv_pac_realizar_pago" value="">
             <label class="ctrl_lavel_1" style="width:14.5%">Paciente</label>
             <input type="text" class="ctrl_input_t" style="width: 58%;background-color: #EFFAEE" id="div_realizar_pago_pac"  disabled/>
@@ -370,7 +370,7 @@
                 <option value="2">TARJ. CREDITO</option>
             </select>                       
         </div>
-        
+
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Fecha de emision</label>
             <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago">              
@@ -386,11 +386,11 @@
             <textarea rows="2" class="ctrl_input_t" style="width: 66%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_obs" placeholder="Observacion"></textarea>
         </div>        
     </div>
-    
+
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_pac_realizar_pago_salir" onClick="btn_salir('div_pac_realizar_pago');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago();"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
-    
+
 </div>
 
 <!--evolucion--> 
@@ -425,11 +425,11 @@
             <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 78%;height: 42px;background-color: #EFFAEE" id="div_pac_evol_pro_acti_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>
         </div>
     </div>
-  
+
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_evol_salir" onClick="btn_salir('div_pac_evolucion');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_evol_guardar" onClick="btn_insert_evol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
-    
+
 </div>
 
 <!--HISTORIAL DE PAGOS-->
@@ -442,12 +442,18 @@
             <input type="text" class="ctrl_input_t" style="width: 55%;background-color: #EFFAEE" id="div_historial_pagos_nom_pac" disabled/> 
             <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>            
             <select class="ctrl_input_t" id="div_historial_pagos_select" onchange="select_ver_historial_pagos(this.value);" style="background-color: #EFFAEE;width: 13.7%">
-               
+
             </select>           
         </div>        
     </div>
-    <div style="margin: 0% 1.5%;">
-        <table id="grid_ver_historial_pagos"></table>
+    <div style="position: absolute; z-index: 1; left: 77%; top: 20%;">
+        <label class="ctrl_lavel_1" style="width:26%; color: white">SALDO</label>
+        <input type="text" style="background-color: rgb(224, 242, 255); border: 1px solid rgb(131, 203, 255); width: 52%; height: 18px; text-align: right; font-size: 13px; color: rgb(55, 118, 166);" id="div_historial_pagos_saldo" /> 
+    </div> 
+    <div style="margin: 0% 1.5%;position: relative">        
+        <table id="grid_ver_historial_pagos">
+
+        </table>
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_historial_pagos_salir" onClick="btn_salir('div_historial_pagos');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>

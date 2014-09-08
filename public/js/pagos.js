@@ -50,7 +50,7 @@ function btn_guardar_pago() {
                 if (data == 'si') {
                     mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
                     btn_salir('div_pac_realizar_pago');
-                    trat_saldo(pac_id, trat_num);
+                    trat_saldo(pac_id, trat_num,0);
                 } else {
                     mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
                 }
@@ -72,7 +72,8 @@ function btn_guardar_pago() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function trat_saldo(Id, trat_num) {
+
+function trat_saldo(Id, trat_num, flag) {
 
 //    pac_id=$("#hiddendiv_ver_trat_pac").val();
 //    trat_num=$("#div_ver_trat_select").val();
@@ -87,6 +88,9 @@ function trat_saldo(Id, trat_num) {
             $("#div_ver_trat_tot_pag").val(data[0].pago_total);
             $("#div_ver_trat_pagado").val(data[0].pagado);
             $("#div_ver_trat_saldo").val(data[0].saldo);
+            if (flag===1){
+                $("#div_historial_pagos_saldo").val("S/. " + formato_numero(data[0].saldo,2,'.','.'));
+            }
         },
         error: function(data) {
             mensaje_sis('mensaje', ' no se puede calcular el saldo', 'MENSAJE DEL SISTEMA');
@@ -98,7 +102,7 @@ function trat_saldo(Id, trat_num) {
 cargar_his_pagos=0;
 function open_historial_pagos() {
     Id = $("#hiddendiv_ver_trat_pac").val();
-    
+    saldo= $("#div_ver_trat_saldo").val();
     nom_pac = $("#div_ver_trat_pac").val();
     $.ajax({
         url: 'pacientes/pacientes/get_num_trat?ide_trb=' + Id,
@@ -121,13 +125,14 @@ function open_historial_pagos() {
             }
             $("#div_historial_pagos_nom_pac").val(nom_pac);
             $("#hiddendiv_historial_pagos_nom_pac").val(Id);
+            $("#div_historial_pagos_saldo").val("S/. " + formato_numero(saldo,2,'.','.'));
             
             if (cargar_his_pagos===0){
                 cargar_his_pagos=1;
-                ver_grid_historial_pagos(Id,1);///CARGA GRID PO PRIMERA VEZ
+                ver_grid_historial_pagos(Id,$('#div_historial_pagos_select').val());///CARGA GRID PO PRIMERA VEZ
             }
             else{
-                select_ver_historial_pagos(1);
+                select_ver_historial_pagos($('#div_historial_pagos_select').val());
             }
 //            
             
@@ -158,7 +163,8 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
 }
 function select_ver_historial_pagos(cbo_trat) {
     Id = $("#hiddendiv_historial_pagos_nom_pac").val();
-    
+    trat_saldo(Id,cbo_trat,1);
+
     jQuery("#grid_ver_historial_pagos").jqGrid('setGridParam', {
         url: 'pacientes/pago/get_historial_pagos?pac_id=' + Id + '&trat_num=' + cbo_trat
     }).trigger('reloadGrid');
@@ -169,3 +175,4 @@ function select_ver_historial_pagos(cbo_trat) {
 //    get_dscto_all(ver_trat_pac_id,cbo_trat,0);
 //    trat_saldo(ver_trat_pac_id,$('#div_ver_trat_select').val());
 }
+

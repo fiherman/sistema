@@ -30,6 +30,8 @@ class Pago extends CI_Controller{
         echo @json_encode($Consulta);//$todo
     }
     
+
+    
     function get_historial_pagos(){
         header('Content-type: application/json');
         $pac_id=$_GET['pac_id'];

@@ -15,7 +15,7 @@ function brn_guardar_pac(modo) {
     dependiente = $("#dependiente").val();
     seg_id = $("#seg_id").val();
 
-    if (nombre != "" && apellidos != "" && direccion != "" && dni != "" && distrito != "" && sexo != "" && fec_nac != "" && email != "") {
+    if (nombre != "" && apellidos != "" && direccion != "" && distrito != "" && sexo != "" && fec_nac != "" && email != "") {
 
         if (email != "") {
             expr = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/;
@@ -58,7 +58,7 @@ function brn_guardar_pac(modo) {
         if (nombre == "") { $("#nombre").css({border: "1px solid red"}); }
         if (apellidos == "") { $("#apellidos").css({border: "1px solid red"}); }
         if (direccion == "") { $("#direccion").css({border: "1px solid red"}); }
-        if (dni == "") { $("#dni").css({border: "1px solid red"}); }
+//        if (dni == "") { $("#dni").css({border: "1px solid red"}); }
         if (distrito == "") { $("#distrito").css({border: "1px solid red"}); }
         if (sexo == "") { $("#sexo").css({border: "1px solid red"}); }
         if (fec_nac == "") { $("#fec_nac").css({border: "1px solid red"}); }
@@ -145,7 +145,7 @@ function fn_open_pac(){
             btn_ver_pac(Id);
         }
     });    
-    $("#div_pac_reg").dialog('open');    
+    $("#div_pac_reg").dialog('open');   
 //    $("#btn_consulta_pac").attr('disabled',true);   
 //    $("#btn_plan_trat_pac").attr('disabled',true);
     deshabilitar_ctrl('div_pac_reg','btn_consulta_pac*btn_plan_trat_pac*btn_evolucion',true);
@@ -188,8 +188,10 @@ function btn_rea_consulta(){
     $("#div_consulta").dialog({
         autoOpen: false, modal: true, height: 270, width: 500, show: {effect: "fade", duration: 500} 
     }).dialog('open'); 
+    $("#div_cons_fch").mask("99/99/9999");
     datepiker('div_cons_fch','-0D','+4M +10D');
     timepiker('div_cons_hora');
+    
     $("#div_cons_pac").val(nom_com);
     $("#pac_id_cons").val(ide_trb);
     pintar_verde_todo();
@@ -747,7 +749,7 @@ function OnMinuteShowCallback(hour, minute) {
     return true;  // valid
 }
 function fn_onblur(input) {
-    if (input.value == "") {
+    if (input.value == "" || !input.value) {
 //        mostraralertas('* campo requerido'); 
 //        $('body').animate({
 //            'background-color': '#00C000',
@@ -755,10 +757,10 @@ function fn_onblur(input) {
 //        }, 900);
 
         $("#" + input.id).css({border: "1px solid red"});
-        $("#registrar").attr("disabled", true);
+//        $("#registrar").attr("disabled", true);
     } else {
         $("#" + input.id).css({border: "1px solid #00C000"});
-        $("#registrar").attr("disabled", false);
+//        $("#registrar").attr("disabled", false);
     }
     if (input.id == "email" || input.id=="txt_divnuevousu_email") {
 //        expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -788,7 +790,7 @@ function fn_onblur(input) {
             $("#" + input.id).val("");
         }       
     }
-    if(input.id == "div_adm_nueva_esp_cos"){         
+    if(input.id == "div_adm_nueva_esp_cos" || input.id=="div_cons_cos"){         
         $("#" + input.id).val(formato_numero(input.value,2,'.',','));
     }
     

@@ -165,7 +165,7 @@ class Pacientes extends CI_Controller{
         {
             $Lista=new stdClass();
             $Lista->esp_tip=$Datos->esp_tip;
-            $Lista->esp_tip_des=  utf8_encode(trim($Datos->esp_tip_des));
+//            $Lista->esp_tip_des=  utf8_encode(trim($Datos->esp_tip_des));
             $Lista->value=$Datos->esp_cod;
             $Lista->label=  utf8_encode(trim($Datos->esp_des));
             $Lista->costo=$Datos->esp_cos_sol;
@@ -238,6 +238,7 @@ class Pacientes extends CI_Controller{
         }
         echo json_encode($trat);
     }
+    
     function get_ver_tratamiento(){
         header('Content-type: application/json');
         $page  = $_GET['page']; // get the requested page
@@ -280,7 +281,7 @@ class Pacientes extends CI_Controller{
 	   $Lista->rows[$Index]['cell']= array(
                 $Datos->trat_id,
                 $Datos->trat_num,
-                $Datos->trat_esp_des,                
+                trim($Datos->trat_esp_des),                
                 $Datos->trat_esp_cos,
                 $Datos->trat_fch,
                 $Datos->seguro,

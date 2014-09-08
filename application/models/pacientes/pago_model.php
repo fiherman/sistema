@@ -72,6 +72,8 @@ class Pago_model extends CI_Model{
             select * from vw_ver_historial_pagos where pag_pac_id= $pac_id and pag_trat_num=$trat_num order by $sidx $sord limit $limit offset $start
         ")->result();
     }
+    
+
 }
 
 

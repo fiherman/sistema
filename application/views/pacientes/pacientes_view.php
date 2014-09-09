@@ -409,7 +409,9 @@
         <p class="spanasis">ACTIVIDAD REALIZADA</p><br/> 
         <div class="ctrl_input" style="margin:-1%">
             <label class="ctrl_lavel_1" style="width:16%">Fecha</label>
-            <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_evol_fch_act" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha" value="">            
+            <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_evol_fch_act" onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha" value="">            
+            <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_hora_act" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm"> 
             <br>
             <label class="ctrl_lavel_1" style="width:16%">Descripcion</label>
             <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 78%;height: 42px;background-color: #EFFAEE" id="div_pac_evol_act_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>
@@ -419,7 +421,9 @@
         <p class="spanasis">PROXIMA ACTIVIDAD</p><br/>
         <div class="ctrl_input" style="margin:-1%">
             <label class="ctrl_lavel_1" style="width:16%">Fecha</label>
-            <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_evol_pro_acti_fch" onkeyup="mascara(this, '/', patron, true);" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);"  maxlength="10" placeholder="Fecha" value="">                          
+            <input type="text" class="ctrl_input_t" style="width: 28.5%;background-color: #EFFAEE"  id="div_pac_evol_pro_acti_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">                          
+            <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_pro_hora_act" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
             <br>
             <label class="ctrl_lavel_1" style="width:16%">Descripcion</label>
             <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 78%;height: 42px;background-color: #EFFAEE" id="div_pac_evol_pro_acti_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>

@@ -295,7 +295,7 @@ function btn_plan_tratamiento(){
     pintar_verde_todo();    
 }
 ver_trat_pac_id=0;
-function ver_tratamiento_pac(Id){
+function ver_tratamiento_pac(Id){    
     ver_trat_pac_id=Id;
     nom = $.trim($("#grid_con_pac").getCell(Id, "nombre"));
     ape = $.trim($("#grid_con_pac").getCell(Id, "apellido"));
@@ -313,7 +313,7 @@ function ver_tratamiento_pac(Id){
             $("#div_ver_trat_select").empty();
             
             $("#div_ver_tratamiento").dialog({
-                autoOpen: false, modal: true, height: 560, width: 850, show: {effect: "fade", duration: 500},close: function() { ver_trat_pac_id=0; }
+                autoOpen: false, modal: true, height: 520, width: 850, show: {effect: "fade", duration: 500},close: function() { ver_trat_pac_id=0; }
             }).dialog('open');
             for(i=1;i<=data;i++){//carga el combo para seleccionar el tratamiento desde la BD
                 $('#div_ver_trat_select').append('<option value='+i+'>'+'<b>nro: '+i+'</b></option>');
@@ -757,6 +757,7 @@ function fn_onblur(input) {
 //        }, 900);
 
         $("#" + input.id).css({border: "1px solid red"});
+        $("#" + input.id).focus();
 //        $("#registrar").attr("disabled", true);
     } else {
         $("#" + input.id).css({border: "1px solid #00C000"});

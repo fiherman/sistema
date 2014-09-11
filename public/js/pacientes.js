@@ -403,13 +403,14 @@ function btn_agregar_insertar(){
     //    llenararajaxtodo_doctor('doc_dina_'+(cont),'pacientes/pacientes/listartodo_doc',0); 
     //    <input type='hidden' id='hiddendoc_dina_"+(cont)+"' value=''/>\n\   
     //<label class='lbl_din'>Doctor</label><input style='width:23%;margin-left:1%;' type='text' value='' id='doc_dina_"+(cont)+"'>\n\
-        if(seg_id==1){
+        
+        if(seg_id==1){//solo agrega costo cuando NO TIENE SEGURO en los otros casos no suma costo 
             total=(total + tra_cos); 
         }        
            
         $("#div_trat_tip").val("");
         $("#div_trat_des").val("");
-        $("#div_trat_cos").val("");
+        $("#div_trat_cos").val("");        
         $("#div_trat_total").val(total.toFixed(2));
     }
 }

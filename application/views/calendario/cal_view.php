@@ -117,7 +117,7 @@
 //                $('#calendar').fullCalendar('refetchEvents');
 //            }
             function open_dlg_evento(){
-
+                
             }
             function Salir()
             {
@@ -129,7 +129,8 @@
                 margin: 0;
                 font-size: 12px;
                 font-family:Verdana,sans-serif;
-                background-image: url('public/images/bg.jpg');
+                
+                /*background-image: url('public/images/bg.jpg');*/
             }
             #external-events {
                 float: left;
@@ -178,10 +179,10 @@
             }
             .ContentCalendar{
                 float: right;
-                right: 8%;
+                right: 2.5%;
                 position: relative;
 /*                width: 780px;*/
-                width: 84%;                
+                width: 95%;                
             }
             .TituloDialogos{
                 font-weight: bold;

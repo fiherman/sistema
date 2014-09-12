@@ -50,6 +50,34 @@ class Calendario extends CI_Controller {
                 array(
 			'id' => 3,
 			'name' => "CONSULTORIO 3"
+		),
+                array(
+			'id' => 3,
+			'name' => "CONSULTORIO 4"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 5"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 6"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 7"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 8"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 9"
+		),
+            array(
+			'id' => 3,
+			'name' => "CONSULTORIO 10"
 		)
 	));
     }

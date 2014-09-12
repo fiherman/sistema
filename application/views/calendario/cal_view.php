@@ -179,10 +179,10 @@
             }
             .ContentCalendar{
                 float: right;
-                right: 2.5%;
+                right: 2%;
                 position: relative;
 /*                width: 780px;*/
-                width: 95%;                
+                width: 96%;                
             }
             .TituloDialogos{
                 font-weight: bold;

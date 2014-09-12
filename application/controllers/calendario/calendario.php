@@ -41,7 +41,7 @@ class Calendario extends CI_Controller {
 	echo json_encode(array(	
 		array(
 			'id' => 1,
-			'name' => "CONSULTORIO 1"
+			'name' => "CONSULTORIO  1"
 		),		
 		array(
 			'id' => 2,

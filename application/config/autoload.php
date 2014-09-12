@@ -110,6 +110,7 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array(
+    'calendario_model',
     'pacientes/evolucion_model',
     'pacientes/pago_model',
     'pacientes/administracion_model',

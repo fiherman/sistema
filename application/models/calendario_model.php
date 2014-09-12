@@ -8,9 +8,11 @@ class calendario_model extends CI_Model{
             on a.ide_not = b.ide_not 
             LEFT JOIN usuarios c 
             ON b.user_id = c.user_id 
-            where b.user_id =$ide_per  and a.ano_eje = '$ano_eje' and a.flg_pbl = 1
+            where b.user_id =$ide_per  and a.ano_eje = '$ano_eje' 
         ")->result();
     }
+    
+   
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.

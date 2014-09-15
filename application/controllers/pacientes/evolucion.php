@@ -13,7 +13,7 @@ class Evolucion extends CI_Controller{
         $evo_pro_acti_fch=$proxima[0]." ".$evo_pro_acti_fch_1;
         
         
-        $sql=$this->evolucion_model->insert_evol_pac($cam[0],$cam[1],$cam[2],$cam[3],$evo_act_fch,$evo_pro_acti_fch);
+        $sql=$this->evolucion_model->insert_evol_pac($cam[0],$cam[1],$cam[2],$cam[3],$evo_act_fch,$evo_pro_acti_fch,$cam[6]);
         if($sql){
             echo 'si';
         }else{

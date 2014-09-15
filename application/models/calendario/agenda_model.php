@@ -8,7 +8,7 @@ class agenda_model extends CI_Model
     function get_notas()//$ide_per
     {      
         return $this->db->query("
-            select a.ide_not,a.ide_age,a.fch_ini,a.fch_fin,a.fch_reg,b.des_not,b.ide_per,(c.nombre || ' ' || c.apellido) as nom_pac FROM agenda a 
+            select a.ide_not,a.ide_age,a.fch_ini,a.fch_fin,a.fch_reg,b.des_not,b.ide_per,(c.nombre || ' ' || c.apellido) as nom_pac,a.age_cons FROM agenda a 
             LEFT JOIN agenda_notas b 
             on a.ide_not = b.ide_not 
             LEFT JOIN pacientes c 
@@ -28,28 +28,28 @@ class agenda_model extends CI_Model
 //    {
 //        return $this->db->query("select ide_per,nom_tra from personal.vw_trabajador200 where ide_per in(147548)")->result();
 //    }
-    function save_agenda($ide_not,$fch_ini,$fch_fin,$fch_reg,$ano_eje,$flg_pbl)
-    {      
-        $this->db->query("INSERT INTO tramite.agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)VALUES($ide_not,'$fch_ini','$fch_fin','$fch_reg','$ano_eje',$flg_pbl)");
-    }
-    function save_agenda_arrastre($ide_not,$fch_ini,$fch_fin,$fch_reg,$ano_eje)
-    {      
-        $this->db->query("INSERT INTO tramite.agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)VALUES($ide_not,'$fch_ini','$fch_fin','$fch_reg','$ano_eje',0)");
-    }
+//    function save_agenda($ide_not,$fch_ini,$fch_fin,$fch_reg,$ano_eje,$flg_pbl)
+//    {      
+//        $this->db->query("INSERT INTO tramite.agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)VALUES($ide_not,'$fch_ini','$fch_fin','$fch_reg','$ano_eje',$flg_pbl)");
+//    }
+//    function save_agenda_arrastre($ide_not,$fch_ini,$fch_fin,$fch_reg,$ano_eje)
+//    {      
+//        $this->db->query("INSERT INTO tramite.agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)VALUES($ide_not,'$fch_ini','$fch_fin','$fch_reg','$ano_eje',0)");
+//    }
     function change_days($fch_ini,$fch_fin,$ide_age)
     {
-        $this->db->query("UPDATE tramite.agenda SET fch_ini = '$fch_ini', fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
+        $this->db->query("UPDATE agenda SET fch_ini = '$fch_ini', fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
     }
-    function change_hours_minutes($fch_fin,$ide_age)
-    {
-        $this->db->query("UPDATE tramite.agenda SET fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
-    }
-    function Delete($ide_age)
-    {
-        $this->db->query("DELETE FROM tramite.agenda WHERE ide_age = $ide_age");
-    }
-    function get_info_user_agenda($ide_per)
-    {
-        return $this->db->query("select nom_tra from personal.vw_trabajador200 where ide_per = $ide_per")->result();
-    }
+//    function change_hours_minutes($fch_fin,$ide_age)
+//    {
+//        $this->db->query("UPDATE agenda SET fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
+//    }
+//    function Delete($ide_age)
+//    {
+//        $this->db->query("DELETE FROM tramite.agenda WHERE ide_age = $ide_age");
+//    }
+//    function get_info_user_agenda($ide_per)
+//    {
+//        return $this->db->query("select nom_tra from personal.vw_trabajador200 where ide_per = $ide_per")->result();
+//    }
 }

@@ -4,14 +4,13 @@ class agenda extends CI_Controller
    function llenar_calendario()
    {
         header('Content-type: application/json');
-//        $ide_per = 4026;
         $notas = $this->agenda_model->get_notas();//$ide_per
         $Eventos = array();
-        $DateNow = date('d/m/Y H:i:s');
+        $DateNow= date('Y-m-d');
         
         foreach($notas as $Index => $Agenda)
         {
-            if(format_datetime($Agenda->fch_ini)>=$DateNow)//Editables
+            if(date('Y-m-d',strtotime($Agenda->fch_ini))>=$DateNow)//Editables
             {
                 $Eventos[$Index]['id'] = $Agenda->ide_age;
                 $Eventos[$Index]['title'] = character_limiter_calendar(utf8_string($Agenda->des_not),5);
@@ -19,12 +18,13 @@ class agenda extends CI_Controller
                 $Eventos[$Index]['end'] = $this->format_date_calendar($Agenda->fch_fin);
                 $Eventos[$Index]['allDay'] = false;  
                 $Eventos[$Index]['editable'] = true;
-                $Eventos[$Index]['fch_reg'] = $this->format_date_calendar($Agenda->fch_reg);
+                $Eventos[$Index]['fch_reg'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_reg));
                 $Eventos[$Index]['nom_pac'] = utf8_string($Agenda->nom_pac);
-                $Eventos[$Index]['fch_ini'] = $this->format_date_calendar($Agenda->fch_ini);
-                $Eventos[$Index]['fch_fin'] = $this->format_date_calendar($Agenda->fch_fin);
+                $Eventos[$Index]['fch_ini'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_ini));
+                $Eventos[$Index]['fch_fin'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_fin));
                 $Eventos[$Index]['des_not'] = utf8_string($Agenda->des_not); 
                 $Eventos[$Index]['ide_not'] = $Agenda->ide_not; 
+                $Eventos[$Index]['age_cons'] = $Agenda->age_cons; 
             }
             else//No seran editados por fecha pasada
             {
@@ -35,17 +35,70 @@ class agenda extends CI_Controller
                 $Eventos[$Index]['editable'] = false;
                 $Eventos[$Index]['color'] = 'gray';
                 $Eventos[$Index]['allDay'] = false;         
-                $Eventos[$Index]['fch_reg'] = $this->format_date_calendar($Agenda->fch_reg);
+                $Eventos[$Index]['fch_reg'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_reg));
                 $Eventos[$Index]['nom_pac'] = utf8_string($Agenda->nom_pac);
-                $Eventos[$Index]['fch_ini'] = $this->format_date_calendar($Agenda->fch_ini);
-                $Eventos[$Index]['fch_fin'] = $this->format_date_calendar($Agenda->fch_fin);
+                $Eventos[$Index]['fch_ini'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_ini));
+                $Eventos[$Index]['fch_fin'] = date('d/m/Y H:i:s',strtotime($Agenda->fch_fin));
                 $Eventos[$Index]['des_not'] = utf8_string($Agenda->des_not); 
                 $Eventos[$Index]['ide_not'] = $Agenda->ide_not;
+                $Eventos[$Index]['age_cons'] = $Agenda->age_cons; 
             }            
         }
         echo json_encode($Eventos);
     } 
-   function llenar_calendario_publico()
+  
+   function cambiar_de_fecha()
+   {
+       header('Content-type: application/json');
+       $fch_ini = $_GET['fch_ini'];
+       $fch_fin = $_GET['fch_fin'];
+       $ide_age = $_GET['ide_age'];
+       
+       $Lista = new stdClass();
+       if(date($fch_ini) >= date('d-m-Y H:i:s'))
+       {
+           $Lista->revert = 0;
+           $this->agenda_model->change_days($fch_ini,$fch_fin,$ide_age);
+       }
+       else
+       {
+           $Lista->revert = 1;
+       }   
+       echo json_encode($Lista);
+       
+       
+   }
+   function cambiar_de_hora()
+   {
+       $cam=  explode('*', $_GET['datos']);
+       $fch_fin = $cam[0];
+       $ide_age = $cam[1];
+              
+       $this->agenda_model->change_hours_minutes($fch_fin,$ide_age);
+   }
+   function index(){
+        if(!isset($_SESSION['username'])){
+            redirect(base_url());
+        }else{
+            $this->load->view('menu_top_view');  
+            $this->load->view("calendario/agenda_view");
+            $this->load->view('footer_view');
+        }       
+   }
+   function eliminar_agenda()
+   {
+       $this->agenda_model->Delete($_REQUEST['ide_age']);
+   }
+  
+   
+   public function __construct() {
+        session_start();
+        parent::__construct();        
+   }
+   
+   /////////////////////////
+   
+    function llenar_calendario_publico()
    {
         header('Content-type: application/json');
         $ide_per = @$this->session->userdata('logged_in')['ide_per'];
@@ -238,53 +291,8 @@ class agenda extends CI_Controller
    {
 
    }
-   function cambiar_de_fecha()
-   {
-       header('Content-type: application/json');
-       $fch_ini = @$_REQUEST['fch_ini'];
-       $fch_fin = @$_REQUEST['fch_fin'];
-       $ide_age = @$_REQUEST['ide_age'];
-       
-       $Lista = new stdClass();
-       if(date($fch_ini) >= date('d-m-Y H:i:s'))
-       {
-           $Lista->revert = 0;
-           $this->agenda_model->change_days($fch_ini,$fch_fin,$ide_age);
-       }
-       else
-       {
-           $Lista->revert = 1;
-       }   
-       echo json_encode($Lista);
-       
-       
-   }
-   function cambiar_de_hora()
-   {
-       $fch_fin = @$_REQUEST['FechaIniFin'];
-       $ide_age = @$_REQUEST['ide_age'];
-       $this->agenda_model->change_hours_minutes($fch_fin,$ide_age);
-   }
-   function index(){
-        if(!isset($_SESSION['username'])){
-            redirect(base_url());
-        }else{
-            $this->load->view('menu_top_view');  
-            $this->load->view("calendario/agenda_view");
-            $this->load->view('footer_view');
-        }       
-   }
-   function eliminar_agenda()
-   {
-       $this->agenda_model->Delete($_REQUEST['ide_age']);
-   }
-   function mostrar_nombre()
+    function mostrar_nombre()
    {
        echo $this->agenda_model->get_info_user_agenda($_REQUEST['ide_per'])[0]->nom_tra;
-   }
-   
-   public function __construct() {
-        session_start();
-        parent::__construct();        
    }
 }

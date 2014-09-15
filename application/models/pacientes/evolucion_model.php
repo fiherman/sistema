@@ -1,6 +1,6 @@
 <?php
 class Evolucion_model extends CI_Model{
-    function insert_evol_pac($evo_des,$evo_pro_des,$pac_id,$trat_num,$evo_act_fch,$evo_pro_acti_fch){
+    function insert_evol_pac($evo_des,$evo_pro_des,$pac_id,$trat_num,$evo_act_fch,$evo_pro_acti_fch,$age_cons){
         
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
@@ -33,8 +33,8 @@ class Evolucion_model extends CI_Model{
            date_default_timezone_set('America/Lima');
            if($agenda_notas && $ide_not){               
                 $agenda=$this->db->query("
-                    INSERT INTO agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)values
-                     ($ide_not,'$evo_pro_acti_fch','$date','".date("d-m-Y H:i:s")."','".date('Y')."',1)
+                    INSERT INTO agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl,age_cons)values
+                     ($ide_not,'$evo_pro_acti_fch','$date','".date("d-m-Y H:i:s")."','".date('Y')."',1,'$age_cons')
                 ");
                 if($agenda){
                     return true; 

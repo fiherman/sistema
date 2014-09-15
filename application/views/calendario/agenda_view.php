@@ -61,7 +61,7 @@
                     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
                         fch_ini = $.fullCalendar.formatDate(event.start,'dd-MM-yyyy HH:mm:ss');
                         fch_fin = $.fullCalendar.formatDate(event.end,'dd-MM-yyyy HH:mm:ss');
-                        $.ajax({url:'agenda/cambiar_de_fecha',type:'post',data:{fch_ini:fch_ini,fch_fin:fch_fin,ide_age:event.id},
+                        $.ajax({url:'agenda/cambiar_de_fecha',type:'get',data:{fch_ini:fch_ini,fch_fin:fch_fin,ide_age:event.id},
                             success:function(agenda){
                                 if(agenda.revert == 1)//La fecha a actualizar es menor a la actual
                                 {
@@ -135,6 +135,7 @@
                         $('#fch_ini').html(data.fch_ini);
                         $('#fch_fin').html(data.fch_fin);
                         $('#des_not').html(data.des_not);
+                        $('#consultorio').html(data.age_cons);
                         $('#DlgInfoCalendar').dialog('open');
                         get_ide_age = data.id;
                         get_ide_not = data.ide_not;
@@ -151,7 +152,10 @@
                     eventResize: function(event,dayDelta,minuteDelta,revertFunc)            
                     {                       
                         fch_ini = $.fullCalendar.formatDate(event.end,'dd-MM-yyyy HH:mm:ss');
-                        $.ajax({url:'agenda/cambiar_de_hora',type:'post',data:{FechaIniFin:fch_ini,ide_age:event.id}});
+                        var datos= fch_ini+'*'+event.id;
+                        $.ajax({
+                            url:'agenda/cambiar_de_hora?datos='+datos 
+                        });
                     }                  
                 });                
             });
@@ -218,6 +222,9 @@
                 DialogButtonDisabled('#BtnGuardarEditado');
                 $('#calendar').fullCalendar('refetchEvents');
             }
+            function open_informacion_cita(id){
+                
+            }
         </script>
         <style>
             body {
@@ -234,8 +241,10 @@
                 background: #eee;
                 text-align: left;
                 height: 650px;
-                width: 12%;
+                width: 13%;
                 margin-left: 16px;
+                font-size: 11px;
+                font-family: Verdana;
             }
 
             #external-events h4 {
@@ -248,17 +257,21 @@
             .external-event { /* try to mimick the look of a real event */
                 margin: 10px 0;
                 padding: 5px;
-                background: #3a87ad;
-                color: #fff;
+                background: #71A8D2;
+                color: white;
                 font-size: .85em;
                 cursor: pointer;
-                text-shadow: 0 1px 0 black;
-                border-radius: 5px;
+                /*text-shadow: 0 1px 0 black;*/
+                border-radius: 3px;
             }
-
+            .titulo_evento{
+                text-align: center; background: none repeat scroll 0% 0% rgb(65, 139, 195); margin: -3% -3% 1%; font-size: 11px; padding: 2px; border-radius: 3px 3px 0px 0px;
+            }
+            
+            
             #external-events p {
                 margin: 1.5em 0;
-                font-size: 11px;
+                font-size: 12px;
                 color: #666;
             }
 
@@ -330,10 +343,14 @@
     <p class="TitulosMenusPanel" style="margin-bottom: 17px;">CLINICA ODONTOLOGICA LA ROCCA</p>
     <section>
         <div id='external-events'>
-            <h4>ARRASTRE SUS CITAS</h4>
-
-            <?php foreach ($this->agenda_notas_model->get_by_ide_pac(date('Y'), 4026) as $pacientes): ?>
-            <div class='external-event' ide_not="<?php echo $pacientes->ide_not?>"><?php echo utf8_need($pacientes->nom_pac) ?></div>
+            <h4>CITAS DEL DIA</h4>
+            <?php foreach ($this->agenda_notas_model->get_by_ide_pac() as $pacientes): ?>
+            <div class='external-event' onclick="open_informacion_cita(<?php echo $pacientes->ide_not?>);" ide_not="<?php echo $pacientes->ide_not?>">
+                <div class='titulo_evento'>
+                    <?php echo utf8_need($pacientes->age_cons)?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo date('H:i',strtotime($pacientes->fch_reg));?>
+                </div>
+                <?php echo utf8_need($pacientes->nom_pac) ?>
+            </div>
             <?php endforeach; ?>                          
         </div>
         <div class="ContentCalendar">
@@ -375,8 +392,11 @@
         <div class="ctrl_input">
             <label style="width: 25%; text-align: left; margin-left: 7%;" for="fch_fin">FECHA DE FIN</label> : &nbsp;&nbsp;<span id="fch_fin"></span>
         </div><br>
+        <div class="ctrl_input">             
+            <label style="width: 25%; text-align: left; margin-left: 7%;" for="consultorio">CONSULTORIO</label> : &nbsp;&nbsp;<span id="consultorio"></span>            
+        </div><br>
         <label style="width: 90%; text-align: left; margin-left: 7%;" for="fch_fin">DESCRIPCION DEL EVENTO :</label><br></br>
-        <p style="margin-left: 4%; width: 92%;height: 130px; border: 1px solid rgb(65, 139, 195);" contenteditable="false" id="des_not"></p>
+        <p style="margin: 0% 0% -1% 4%; width: 92%;height: 110px; border: 1px solid rgb(65, 139, 195);" contenteditable="false" id="des_not"></p>
     </div>    
 </div>
 

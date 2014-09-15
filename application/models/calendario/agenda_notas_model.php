@@ -1,12 +1,13 @@
 <?php
 class agenda_notas_model extends CI_Model
 {
-    function get_by_ide_pac($ano_eje){//$ide_per    
+    function get_by_ide_pac(){//$ide_per    ano_eje
 //        return $this->db->query("select * from agenda_notas WHERE ano_eje = '$ano_eje' AND ide_per = $ide_per ORDER BY ide_not DESC")->result();
         return $this->db->query(" 
-            select a.*,(b.nombre || ' ' || b.apellido) as nom_pac from agenda_notas a 
+            select a.*,(b.nombre || ' ' || b.apellido) as nom_pac,c.age_cons from agenda_notas a 
             left join pacientes b on a.ide_per=b.id
-            WHERE ano_eje = '$ano_eje' 
+            left join agenda c on a.ide_not=c.ide_not 
+            WHERE c.fch_ini between '".date('Y-m-d')." 06:00:00' and '".date('Y-m-d')." 19:00:00' 
             ORDER BY ide_not DESC
         ")->result();
     }

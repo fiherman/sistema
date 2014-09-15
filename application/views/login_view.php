@@ -47,7 +47,7 @@
     </body>
     <script type="text/javascript">
     function showagenda(){
-        window.open('calendario/calendario/get_calendario', '_blank');
+        window.open('calendario/agenda', '_blank');
     }
     //function fn_login_usu(){
     //    usuario=$.trim($("#username").val().toUpperCase());    

@@ -31,6 +31,7 @@ function btn_evolucion() {
 }
 
 function btn_insert_evol() {
+    
     pac_id = $("#hiddendiv_evol_pac").val();
     trat_num = $("#div_pac_evol_trat_num").val();
     fch_act = $("#div_pac_evol_fch_act").val();
@@ -41,7 +42,14 @@ function btn_insert_evol() {
     pro_act_hora = $("#div_pac_evol_pro_hora_act").val();
 
     if (pac_id != "" && trat_num != "" && act_hora != "" && fch_act != "" && fch_des != "" && fch_pro_act != "" && fch_pro_des != "" && pro_act_hora != "") {
-        datos = pac_id + '*' + trat_num + '*' + fch_act + '*' + fch_des.toUpperCase() + '*' + fch_pro_act + '*' + fch_pro_des.toUpperCase() + '*' + act_hora + '*' + pro_act_hora;
+//        evo_act_fch=fch_act + " "+MilitaryTime(act_hora.split(':')).join(':');
+//        evo_pro_acti_fch=fch_pro_act+" " + MilitaryTime(pro_act_hora.split(':')).join(':');
+        evo_act_fch=fch_act+"."+act_hora;
+        evo_pro_acti_fch=fch_pro_act+"."+pro_act_hora;
+//        evo_act_fch=evo_act_fch.substring(0, evo_act_fch.length - 3)+":00";
+//        evo_pro_acti_fch=evo_pro_acti_fch.substring(0, evo_pro_acti_fch.length - 3)+":00";
+        
+        datos = fch_des.toUpperCase()+ '*'+ fch_pro_des.toUpperCase() + '*' + pac_id + '*' + trat_num + '*' + evo_act_fch + '*' + evo_pro_acti_fch;
         $.ajax({
             url: 'pacientes/Evolucion/insert_evolucion_pac?datos=' + datos,
             type: 'GET',
@@ -71,3 +79,25 @@ function btn_insert_evol() {
 
 }
 
+function convert_horas(hora){
+    ampm=hora.split(" "); 
+    if (ampm[1]=="PM"){
+        
+    }
+}
+
+function getTwentyFourHourTime(amPmString) { 
+    var d = new Date("01/01/2014 " + amPmString); 
+    return d.getHours() + ':' + d.getMinutes(); 
+}
+
+function MilitaryTime(time){
+    if(time[1].indexOf("AM")!=-1){    
+        return time;
+    }else if(time[0]!="12"){    
+        time[0]=String(parseInt(time[0])+12);
+        return time;
+    }else{
+        return time;
+    }
+}

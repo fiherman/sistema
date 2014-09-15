@@ -70,7 +70,8 @@
 <!--          <li><a href="<?php echo base_url('presupuestos');?>">PRESUPUESTOS</a></li>
           <li><a href="<?php echo base_url('evoluciones');?>">EVOLUCIONES</a></li>
           <li><a href="<?php echo base_url('pacientes');?>">PAGOS</a></li>-->
-          <li><a href="<?php echo base_url('mycal/display');?>"><b>CALENDARIO</b></a></li>
+          <!--<li><a href="<?php echo base_url('mycal/display');?>"><b>CALENDARIO</b></a></li>// ANTIGUO CALENDARIO-->
+            <li><a href="<?php echo base_url('calendario/agenda');?>"><b>CALENDARIO</b></a></li>
         </ul>                 
         <ul class="nav navbar-nav navbar-right">
           <li><a ><b><?php echo 'BIENVENIDO: '.$_SESSION['doctor'];?></b></a></li> 

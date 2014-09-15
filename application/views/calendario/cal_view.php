@@ -1,52 +1,63 @@
-<!DOCTYPE html>
+
+<!--<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8">        
         
-        <link href="<?php echo base_url('public/src/main.css');?>" type="text/css" rel="stylesheet"/>
-        <link href="<?php echo base_url('public/src/common/common.css');?>" type="text/css" rel="stylesheet"/>
-        <link href="<?php echo base_url('public/src/basic/basic.css');?>" type="text/css" rel="stylesheet"/>
-        <link href="<?php echo base_url('public/src/agenda/agenda.css');?>" type="text/css" rel="stylesheet"/>
-        <link media="print" href="<?php echo base_url('public/src/common/print.css');?>" type="text/css" rel="stylesheet"/>
+        <link href="<?php // echo base_url('public/src/main.css');?>" type="text/css" rel="stylesheet"/>
+        <link href="<?php // echo base_url('public/src/common/common.css');?>" type="text/css" rel="stylesheet"/>
+        <link href="<?php // echo base_url('public/src/basic/basic.css');?>" type="text/css" rel="stylesheet"/>
+        <link href="<?php // echo base_url('public/src/agenda/agenda.css');?>" type="text/css" rel="stylesheet"/>
+        <link media="print" href="<?php // echo base_url('public/src/common/print.css');?>" type="text/css" rel="stylesheet"/>
         
-        <script src="<?php echo base_url('public/src/lib/jquery-1.8.1.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/lib/jquery-ui-1.8.23.custom.min.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/defaults.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/main.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/Calendar.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/Header.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/EventManager.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/ResourceManager.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/date_util.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/util.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/basic/MonthView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/basic/BasicWeekView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/basic/BasicDayView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/basic/BasicView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/basic/BasicEventRenderer.js');?>" type="text/javascript"></script>        
-        <script src="<?php echo base_url('public/src/resource/ResourceDayView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/resource/ResourceView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/resource/ResourceEventRenderer.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/agenda/AgendaWeekView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/agenda/AgendaDayView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/agenda/AgendaView.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/agenda/AgendaEventRenderer.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/View.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/DayEventRenderer.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/SelectionManager.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/OverlayManager.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/CoordinateGrid.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/HoverListener.js');?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('public/src/common/HorizontalPositionCache.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/lib/jquery-1.8.1.min.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/lib/jquery-ui-1.8.23.custom.min.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/defaults.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/main.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/Calendar.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/Header.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/EventManager.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/ResourceManager.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/date_util.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/util.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/date_util.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/util.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/MonthView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicWeekView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicDayView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/basic/BasicEventRenderer.js');?>" type="text/javascript"></script>        
+        <script src="<?php // echo base_url('public/src/resource/ResourceDayView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/resource/ResourceView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/resource/ResourceEventRenderer.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaWeekView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaWeekView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaWeekView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaDayView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaDayView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaDayView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaView.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/agenda/AgendaEventRenderer.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/View.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/DayEventRenderer.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/SelectionManager.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/OverlayManager.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/CoordinateGrid.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/OverlayManager.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/CoordinateGrid.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/HoverListener.js');?>" type="text/javascript"></script>
+        <script src="<?php // echo base_url('public/src/common/HorizontalPositionCache.js');?>" type="text/javascript"></script>
         
         
-<!--        <link rel="stylesheet" type="text/css" media="screen" href="<?php // echo base_url('public/css/reset.css'); ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php // echo base_url('public/css/reset.css'); ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="<?php // echo base_url('public/css/temaazul/jquery-ui-1.10.3.custom.min.css') ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="<?php // echo base_url('public/js/fullcalendar/fullcalendar.css') ?>" />
         
         <script src="<?php // echo base_url('public/js/jquery-1.10.2.min.js');?>" type="text/javascript"></script>
         <script src="<?php // echo base_url('public/js/jquery-ui-1.10.3.custom.min.js') ?>" type="text/javascript"></script>
-        <script src="<?php // echo base_url('public/js/fullcalendar/fullcalendar.min.js') ?>" type="text/javascript"></script>-->
+        <script src="<?php // echo base_url('public/js/fullcalendar/fullcalendar.min.js') ?>" type="text/javascript"></script>
         
         <script>
             $(document).ready(function() {
@@ -254,7 +265,7 @@
             </div>                               
         </div>
         
-        <!-- Dialogo informacion -->
+         Dialogo informacion 
         <div id="div_" title=".:: Informacion del calendario, evento ::." style="display: none;padding: 20px;padding-bottom: 0px;">
             <p class="TituloDialogos">Informacion del evento...</p><hr style="margin-bottom: 5px;"/>
             <div>
@@ -273,4 +284,4 @@
         </div>
     </body>
 </html>
-
+-->

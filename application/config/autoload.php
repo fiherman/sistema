@@ -64,7 +64,7 @@ $autoload['libraries'] = array('layout','database','session','form_validation');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','form');
+$autoload['helper'] = array('url','tools_helper','form');
 
 
 /*
@@ -110,6 +110,8 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array(
+    'calendario/agenda_model',
+    'calendario/agenda_notas_model',
     'calendario_model',
     'pacientes/evolucion_model',
     'pacientes/pago_model',

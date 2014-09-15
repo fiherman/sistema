@@ -48,6 +48,8 @@ $route['pacientes/lista']='pacientes/pacientes/lista';
 
 $route['presupuestos']='presupuestos/presupuestos';
 $route['evoluciones']='evoluciones/evoluciones';
+//$route['agenda']='calendario/agenda/llenar_calendario';
+
 
 
 

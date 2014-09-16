@@ -4,12 +4,14 @@ class agenda extends CI_Controller
    function llenar_calendario()
    {
         header('Content-type: application/json');
+        date_default_timezone_set('America/Lima');
         $notas = $this->agenda_model->get_notas();//$ide_per
         $Eventos = array();
         $DateNow= date('Y-m-d');
         
         foreach($notas as $Index => $Agenda)
         {
+            
             if(date('Y-m-d',strtotime($Agenda->fch_ini))>=$DateNow)//Editables
             {
                 $Eventos[$Index]['id'] = $Agenda->ide_age;
@@ -42,7 +44,8 @@ class agenda extends CI_Controller
                 $Eventos[$Index]['des_not'] = utf8_string($Agenda->des_not); 
                 $Eventos[$Index]['ide_not'] = $Agenda->ide_not;
                 $Eventos[$Index]['age_cons'] = $Agenda->age_cons; 
-            }            
+            }  
+//            echo $DateNow." ".date('Y-m-d',strtotime($Agenda->fch_ini))."-----------";
         }
         echo json_encode($Eventos);
     } 

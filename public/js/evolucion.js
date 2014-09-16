@@ -50,7 +50,7 @@ function btn_insert_evol() {
 //        evo_act_fch=evo_act_fch.substring(0, evo_act_fch.length - 3)+":00";
 //        evo_pro_acti_fch=evo_pro_acti_fch.substring(0, evo_pro_acti_fch.length - 3)+":00";
         
-        datos = fch_des.toUpperCase()+ '*'+ fch_pro_des.toUpperCase() + '*' + pac_id + '*' + trat_num + '*' + evo_act_fch + '*' + evo_pro_acti_fch+ '*'+consult;
+        datos = fch_des.toUpperCase()+ '*'+ fch_pro_des.toUpperCase() + '*' + pac_id + '*' + trat_num + '*' + evo_act_fch + '*' + evo_pro_acti_fch+ '*'+ consult;
         $.ajax({
             url: 'pacientes/Evolucion/insert_evolucion_pac?datos=' + datos,
             type: 'GET',

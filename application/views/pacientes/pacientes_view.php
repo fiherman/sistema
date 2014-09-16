@@ -425,7 +425,7 @@
             <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
             <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_pro_hora_act" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
             <label class="ctrl_lavel_1">Consultorio</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 18%;" id="div_pac_evolucion_consult">
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 20%;" id="div_pac_evolucion_consult">
                 <option value="0">--Seleccione--</option>
                 <option value="C1">Consultorio 1</option>
                 <option value="C2">Consultorio 2</option>

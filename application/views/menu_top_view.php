@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html html lang="es-Es" xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>    
+    <title>LA ROCAA</title>
+   
    <style type="text/css">
       body {
         background-image:url('public/images/bg.jpg');

@@ -13,7 +13,7 @@ class Panel extends CI_Controller{
         }else{
             $this->load->view('menu_top_view');  
             $this->load->view('panel_view');            
-            $this->load->view('footer_view');  
+//            $this->load->view('footer_view');  
 //            echo '</body></html>';
         }
     }

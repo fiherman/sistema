@@ -17,6 +17,13 @@ class agenda_model extends CI_Model
         ")->result();
     }
     
+    function get_consultas(){
+        date_default_timezone_set('America/Lima');         
+        return $this->db->query(" 
+            select * from consulta where cons_fch like '%".date('m/Y')."' 
+        ")->result();
+    }
+    
     function change_days($fch_ini,$fch_fin,$ide_age){
         $this->db->query("UPDATE agenda SET fch_ini = '$fch_ini', fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
         

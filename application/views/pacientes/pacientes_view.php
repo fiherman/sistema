@@ -23,8 +23,8 @@
         background-color:#DFE8F6;                                  
         color:#0C509D;       
         font-weight:bold;
-        padding:1px 8px;
-        margin-left: 1%;
+        padding:1px 5px;
+        margin-left: 0;
         border: 1px solid #99BCE8;  
     }
     .btn_din:hover{
@@ -226,7 +226,7 @@
             <div id="div_tra_dinamico"  > 
 
             </div>
-            <div style="margin:1% 48%;border-top: 1px solid;width: 16%;">
+            <div style="margin:1% 44.5%;border-top: 1px solid;width: 16%;">
                 <label class="ctrl_lavel_1" style="width:40%;">TOTAL</label>
                 <input type="text" style="width:56%;border: 0 none;text-align: right;font-size:12px;font-weight:bold;width:50%;" id="div_trat_total" disabled/>                
             </div>

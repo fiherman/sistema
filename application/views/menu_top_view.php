@@ -48,6 +48,7 @@
     <script src="<?php echo base_url('public/js/metas.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jquery-ui/js/jquery-1.10.2.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jquery-ui/js/jquery-ui-1.10.4.custom.min.js');?>" type="text/javascript"></script>      
+    <script src="<?php echo base_url('public/js/jquery-ui/timepicker-addon.js');?>" type="text/javascript"></script>      
     <script src="<?php echo base_url('public/js/inicio.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jquery.blockUI.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jqgrid/js/jquery.jqGrid.src.js');?>" type="text/javascript"></script>

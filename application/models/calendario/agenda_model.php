@@ -16,6 +16,16 @@ class agenda_model extends CI_Model
             where a.ano_eje = '2014' and a.flg_pbl = 1
         ")->result();
     }
+    
+    function change_days($fch_ini,$fch_fin,$ide_age){
+        $this->db->query("UPDATE agenda SET fch_ini = '$fch_ini', fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
+        
+        $this->db->query("update evolucion set evo_pro_acti_fch='$fch_ini' where ide_age=$ide_age ");
+    }
+    
+    function change_hours_minutes($fch_fin,$ide_age){
+        $this->db->query("UPDATE agenda SET fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
+    }
 //    function get_notas_publicas($ano_eje)
 //    {      
 //        return $this->db->query("SELECT a.ide_not,a.ide_age,a.fch_ini,a.fch_fin,a.fch_reg,b.des_not,b.ide_per,c.nom_tra FROM tramite.agenda a LEFT JOIN tramite.agenda_notas b on a.ide_not = b.ide_not LEFT JOIN personal.vw_trabajador200 c ON b.ide_per = c.ide_per WHERE a.flg_pbl = 1 AND a.ano_eje = '$ano_eje'")->result();
@@ -36,14 +46,7 @@ class agenda_model extends CI_Model
 //    {      
 //        $this->db->query("INSERT INTO tramite.agenda(ide_not,fch_ini,fch_fin,fch_reg,ano_eje,flg_pbl)VALUES($ide_not,'$fch_ini','$fch_fin','$fch_reg','$ano_eje',0)");
 //    }
-    function change_days($fch_ini,$fch_fin,$ide_age)
-    {
-        $this->db->query("UPDATE agenda SET fch_ini = '$fch_ini', fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
-    }
-//    function change_hours_minutes($fch_fin,$ide_age)
-//    {
-//        $this->db->query("UPDATE agenda SET fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
-//    }
+    
 //    function Delete($ide_age)
 //    {
 //        $this->db->query("DELETE FROM tramite.agenda WHERE ide_age = $ide_age");

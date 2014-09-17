@@ -224,7 +224,8 @@
         font-size: 12px;
         font-family:Verdana,sans-serif;
         /*                background-image: url('../public/images/bgb.jpg');*/
-    }            
+    }   
+   
     #external-events {
         float: left;
         margin-top: 2%;
@@ -257,10 +258,22 @@
         /*text-shadow: 0 1px 0 black;*/
         border-radius: 3px;
     }
+    .external-event-consulta { /* try to mimick the look of a real event */
+        margin: 10px 0;
+        padding: 5px;
+        background: none repeat scroll 0 0 #9cae40;
+        color: white;
+        font-size: .85em;
+        cursor: pointer;
+        /*text-shadow: 0 1px 0 black;*/
+        border-radius: 3px;
+    }
     .titulo_evento{
         text-align: center; background: none repeat scroll 0% 0% rgb(65, 139, 195); margin: -3% -3% 1%; font-size: 11px; padding: 2px; border-radius: 3px 3px 0px 0px;
     }
-
+    .titulo_evento_consulta{
+        text-align: center; background: none repeat scroll 0 0 #7a9200 ;margin: -3% -3% 1%; font-size: 11px; padding: 2px; border-radius: 3px 3px 0px 0px;
+    }
 
     #external-events p {
         margin: 1.5em 0;
@@ -337,16 +350,26 @@
     <section style="margin-bottom: 17px;">
         <div id='external-events'>
             <h4><center>CITAS DEL DIA <?php date_default_timezone_set('America/Lima');echo date('d/m/Y');?></center></h4>
-            <?php $cc=1;foreach ($this->agenda_notas_model->get_by_ide_pac() as $pacientes): ?>
+            <?php $pp=1;foreach ($this->agenda_notas_model->get_by_ide_pac() as $pacientes): ?>
                 <div class='external-event' onclick="open_informacion_cita(<?php echo $pacientes->ide_not ?>);" ide_not="<?php echo $pacientes->ide_not ?>">
                     <div class='titulo_evento'>
-                        <?php    $cc++;                         
-                            echo utf8_need($pacientes->age_cons) ?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo date('H:i', strtotime($pacientes->fch_reg)); 
+                        <?php    $pp++;                         
+                            echo utf8_need($pacientes->age_cons) ?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo date('h:i A', strtotime($pacientes->fch_ini));                             
                         ?>                           
                     </div>
                     <?php echo utf8_need($pacientes->nom_pac) ?>
                 </div>
-            <?php endforeach; ?>       
+            <?php endforeach; ?>    
+            <?php $cc=1;foreach ($this->agenda_notas_model->get_consultas_dia() as $consultas): ?>
+                <div class='external-event-consulta' onclick="open_informacion_cita(<?php echo $consultas->cons_id ?>);" ide_cons="<?php echo $consultas->cons_id ?>">
+                    <div class='titulo_evento_consulta'>
+                        <?php    $cc++;                         
+                            echo 'Consulta'; ?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo $consultas->cons_hora;                             
+                        ?>                           
+                    </div>
+                    <?php echo utf8_need($consultas->pac_nom_com) ?>
+                </div>
+            <?php endforeach; ?> 
             <input type="hidden" id="total_eventos_del_dia" value="<?php echo $cc-1;?>">
         </div>
         <div class="ContentCalendar">

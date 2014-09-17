@@ -56,15 +56,12 @@ class agenda extends CI_Controller
        $fch_ini = $_GET['fch_ini'];
        $fch_fin = $_GET['fch_fin'];
        $ide_age = $_GET['ide_age'];
-       
+       date_default_timezone_set('America/Lima');
        $Lista = new stdClass();
-       if(date($fch_ini) >= date('d-m-Y H:i:s'))
-       {
+       if(date($fch_ini) >= date('d-m-Y')){
            $Lista->revert = 0;
            $this->agenda_model->change_days($fch_ini,$fch_fin,$ide_age);
-       }
-       else
-       {
+       }else{
            $Lista->revert = 1;
        }   
        echo json_encode($Lista);
@@ -99,7 +96,7 @@ class agenda extends CI_Controller
         parent::__construct();        
    }
    
-   /////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     function llenar_calendario_publico()
    {

@@ -188,6 +188,10 @@ function btn_rea_consulta(){
     $("#div_consulta").dialog({
         autoOpen: false, modal: true, height: 270, width: 500, show: {effect: "fade", duration: 500} 
     }).dialog('open'); 
+//    $('#div_cons_fch').datetimepicker({
+//        controlType: 'select',
+//        timeFormat: 'hh:mm tt'
+//    });
     $("#div_cons_fch").mask("99/99/9999");
     datepiker('div_cons_fch','-0D','+4M +10D');
     timepiker('div_cons_hora');
@@ -391,18 +395,26 @@ function btn_agregar_insertar(){
         newdiv.innerHTML=
         "<input type='hidden' id='hidden_dina_esp_tip_"+(cont)+"' value='"+tra_esp_tip+"'/>\n\
         <input type='hidden' id='hidden_dina_esp_cod_"+(cont)+"' value='"+tra_esp_cod+"'/>\n\
-        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:50%' disabled/>\n\
+        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:46.5%' disabled/>\n\
         <input class='cos_din' type='text' value='"+tra_cos.toFixed(2)+"' id='cos_dina_"+(cont)+"' disabled/>\n\
         <input type='hidden' id='hidden_seg_id_din_"+(cont)+"' value='"+seg_id+"'/>\n\
         <input type='text' id='seg_id_din_"+(cont)+"' value='"+seguro+"' style='width:12%' disabled />\n\
         <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:23%' disabled/>\n\
-        <input type='hidden' id='hidden_doc_id_din_"+(cont)+"' value='"+doc_id+"'/>";            
+        <input type='hidden' id='hidden_doc_id_din_"+(cont)+"' value='"+doc_id+"'/>\n\
+        <button onclick='btn_borrar_trat("+(cont)+","+seg_id+","+tra_cos+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:15px' ></img></button>";            
 //        <button onclick='btn_guardar_tratamiento("+(cont)+");' class='btn_din' id='btn_guardar_din_"+(cont)+"' title='Guardar'> <img src='public/images/gua.png' style='width:18px' >Guardar</img></button>\n\
 //        <button onclick='btn_guardar_tratamiento("+(cont)+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:18px' >Eliminar</img></button>";  
         document.getElementById('div_tra_dinamico').appendChild(newdiv);          
     //    llenararajaxtodo_doctor('doc_dina_'+(cont),'pacientes/pacientes/listartodo_doc',0); 
     //    <input type='hidden' id='hiddendoc_dina_"+(cont)+"' value=''/>\n\   
     //<label class='lbl_din'>Doctor</label><input style='width:23%;margin-left:1%;' type='text' value='' id='doc_dina_"+(cont)+"'>\n\
+        for(i=1; i<=cont; i++){ 
+            if (i==cont){                
+                $("#btn_eliminar_din_"+i).show();
+            }else{                
+                $("#btn_eliminar_din_"+i).hide();
+            }            
+        }
         
         if(seg_id==1){//solo agrega costo cuando NO TIENE SEGURO en los otros casos no suma costo 
             total=(total + tra_cos); 
@@ -413,6 +425,17 @@ function btn_agregar_insertar(){
         $("#div_trat_cos").val("");        
         $("#div_trat_total").val(total.toFixed(2));
     }
+}
+function btn_borrar_trat(num,seg_id,costo){///borrar los tratamientos 
+    var d = document.getElementById("div_tra_dinamico");
+    var d_borrar = document.getElementById("div_dina_"+num);
+    var throwawayNode = d.removeChild(d_borrar);
+    cont--;
+    if(seg_id==1){//resta el costo del tratamiento eliminado .. SOLO SIN SEGURO
+        total=(total - costo); 
+        $("#div_trat_total").val(total.toFixed(2));
+    }
+    $("#btn_eliminar_din_"+cont).show();
 }
 
 function btn_guardar_tratamiento(num){

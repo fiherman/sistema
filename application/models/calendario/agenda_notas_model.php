@@ -6,11 +6,18 @@ class agenda_notas_model extends CI_Model
       date_default_timezone_set('America/Lima');
 //        return $this->db->query("select * from agenda_notas WHERE ano_eje = '$ano_eje' AND ide_per = $ide_per ORDER BY ide_not DESC")->result();
         return $this->db->query(" 
-            select a.*,(b.nombre || ' ' || b.apellido) as nom_pac,c.age_cons from agenda_notas a 
+            select a.*,(b.nombre || ' ' || b.apellido) as nom_pac,c.age_cons,c.fch_ini from agenda_notas a 
             left join pacientes b on a.ide_per=b.id
             left join agenda c on a.ide_not=c.ide_not 
             WHERE c.fch_ini between '".date('Y-m-d')." 06:00:00' and '".date('Y-m-d')." 19:00:00' 
             ORDER BY ide_not DESC
+        ")->result();
+    }
+    
+    function get_consultas_dia(){
+        date_default_timezone_set('America/Lima');         
+        return $this->db->query(" 
+            select * from consulta where cons_fch='".date('d/m/Y')."' 
         ")->result();
     }
     function SaveNota($ide_per,$des_not,$ano_eje,$fch_reg)

@@ -16,12 +16,12 @@
         color: #418BC3;
         background-color: #FFFFFF;
     }
-    .btn_din{
+/*    .btn_din{
         background-color:#DFE8F6;                                  
         color:#0C509D;       
         font-weight:bold;
-        padding:1px 8px;
-        margin-left: 1%;
+        padding:1px 5px;
+        margin-left: 0;
         border: 1px solid #99BCE8;  
     }
     .btn_din:hover{
@@ -31,7 +31,7 @@
     .btn_din:active{ 
         color: #418BC3;
         background-color: #FFFFFF;
-    }
+    }*/
     .btn_full_act{
         background-color:#DFE8F6;                                  
         color:#0C509D;

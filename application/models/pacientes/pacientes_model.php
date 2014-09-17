@@ -128,7 +128,7 @@ class Pacientes_model extends CI_Model {
 
     //TRATAMIENTO
     function get_trat_tip($seg_id) {
-        return $this->db->query("SELECT esp_tip,(esp_tip_des || ' - ' || esp_des) as esp_des,esp_cod,esp_cos_sol FROM especialidad where seg_id=$seg_id")->result();
+        return $this->db->query("SELECT esp_tip,(esp_tip_des || ' - ' || esp_des) as esp_des,esp_cod,esp_cos_sol,esp_cos_dol FROM especialidad where seg_id=$seg_id")->result();
     }
 
     function get_doctores() {
@@ -155,14 +155,14 @@ class Pacientes_model extends CI_Model {
 
     function get_trat_ttotal($pac_id, $num_trat) {
         return $this->db->query("
-            select sum(trat_esp_cos) as total from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat
+            select sum(trat_esp_cos_sol) as total from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat
             ")->result()[0];
     }
 
     function insert_tratamiento_pac($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos,trat_doc_id,trat_fch)
+         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_fch)
          VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,'" . date('d/m/Y') . "')"
         );
 

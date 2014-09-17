@@ -67,7 +67,7 @@ class Pago extends CI_Controller{
         {
            $Lista->rows[$Index]['id'] = $Datos->pag_id;
 	   $Lista->rows[$Index]['cell']= array(trim($Datos->pag_id),
-                            trim($Datos->pag_monto),
+                            trim($Datos->pag_monto_sol),
                             trim($Datos->pag_fch),
                             trim($Datos->documento),
                             trim($Datos->pag_codigo),                                                      

@@ -17,7 +17,7 @@
                         <div class="panel-body">
 
                             <div class="col-xs-offset-1 col-xs-10 alert alert-success" style="padding:5px;">
-                                <center>INICIAR SESSION</center>
+                                <center>INICIAR SESSI&Oacute;N</center>
                                 <?php echo form_open('admin'); ?>
                             </div>
                             <div class="input-group">                
@@ -29,9 +29,7 @@
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" style="text-transform: uppercase;">
                             </div><br/>            
                             <center>
-                                <input class="btn btn-info btn-sm" type="submit" name="login" id="btn_login" onclick="" value="Acceder"/>
-                                <a href="#" onclick="showagenda();" class="list_group_item" style="opacity: 0.8;"><center><b>CALENDARIO</b></center>                                    
-                                </a>
+                                <input class="btn btn-info btn-sm" type="submit" name="login" id="btn_login" onclick="" value="Iniciar Sesi&oacute;n"/>                                
                             </center>
                             <p><?php echo validation_errors('<p class="alert-info">', '</p>'); ?></p>
 

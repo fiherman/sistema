@@ -11,7 +11,7 @@
         /*background:#049cdb;*/
         /*background-size: 1440px 800px;*/
         background-repeat:no-repeat; display: compact;
-        background-size: cover;
+        background-size: cover;        
       }     
       .fecha {
         color: #428BCA;
@@ -78,7 +78,7 @@
         </ul>                 
         <ul class="nav navbar-nav navbar-right">
           <li><a ><b><?php echo 'BIENVENIDO: '.$_SESSION['doctor'];?></b></a></li> 
-          <li><a href="<?php echo base_url('logout');?>"><span class="glyphicon glyphicon-log-out"></span><b>CERRAR SESSION</b></a></li>
+          <li><a href="<?php echo base_url('logout');?>"><span class="glyphicon glyphicon-log-out"></span><b>CERRAR SESSI&Oacute;N</b></a></li>
         </ul>
       </div>
     </div>

@@ -104,12 +104,10 @@ function ver_cita_pac(pad_id){
         success: function(data) {
             if(data.modo=='no'){
                 mensaje_sis('mensaje',' EL PACIENTE NO TIENE CITAS','MENSAJE DEL SISTEMA');
-            }else if(data[0].modo=='cita'){
-                alert('cita-loca');
-                vista_previa_cita('vista_previa_cita', ': '+pad_id + '<br>' + ': '+data[0].nom_com + '<br>' + ': '+data[0].fch_ini + '<br>' + ': '+data[0].des_not);                
-            }else if(data[0].modo=='primera'){
-                alert('primera');
-                vista_previa_cita('vista_previa_cita', ': '+pad_id + '<br>' + ': '+data[0].nom_com + '<br>' + ': '+data[0].fch_ini + '<br>' + ': '+data[0].des_not);                
+            }else if(data[0].modo=='cita'){                
+                vista_previa_cita('vista_previa_cita', ': '+pad_id + '<br>' + ': '+data[0].nom_com + '<br>' + ': '+data[0].fch_ini + '<br>' + ': '+data[0].fch_hora + '<br>' + ': '+data[0].des_not);                
+            }else if(data[0].modo=='primera'){                
+                vista_previa_cita('vista_previa_cita', ': '+pad_id + '<br>' + ': '+data[0].nom_com + '<br>' + ': '+data[0].fch_ini + '<br>' + ': '+data[0].fch_hora + '<br>' + ': '+data[0].des_not);                
             }
         }
     });

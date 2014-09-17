@@ -274,7 +274,7 @@ function btn_plan_tratamiento(){
     
     nom_com=nom+' '+ape;
     $("#div_plan_tratamiento").dialog({
-        autoOpen: false, modal: true, height: 510, width: 880, show: {effect: "fade", duration: 500},close: function(event, ui) { 
+        autoOpen: false, modal: true, height: 510, width: 920, show: {effect: "fade", duration: 500},close: function(event, ui) { 
 //            if(not_close_plan_trat==1){
                 fn_close_tratamiento('todo');
 //            }else if(not_close_plan_trat==0){
@@ -368,7 +368,7 @@ function grid_ver_tratamiento(pac_id,num_trat){
 }
 cont=0;
 total=0;
-
+total_dol=0;
 function btn_agregar_insertar(){  
     doc_id=$("#hiddendiv_trat_doctor").val();
     doctor=$("#div_trat_doctor").val();
@@ -383,7 +383,8 @@ function btn_agregar_insertar(){
         return false;
     }else{
         $("#btn_dscto_trat").attr('disabled',false);
-        tra_cos=parseFloat($("#div_trat_cos").val());
+        cos_sol=parseFloat($("#div_trat_cos_sol").val());
+        cos_dol=parseFloat($("#div_trat_cos_dol").val());
         tra_esp_tip=$("#hiddendiv_trat_tip").val();
         tra_esp_cod=$("#hiddendiv_trat_des").val();    
         cont++;   
@@ -396,13 +397,14 @@ function btn_agregar_insertar(){
         newdiv.innerHTML=
         "<input type='hidden' id='hidden_dina_esp_tip_"+(cont)+"' value='"+tra_esp_tip+"'/>\n\
         <input type='hidden' id='hidden_dina_esp_cod_"+(cont)+"' value='"+tra_esp_cod+"'/>\n\
-        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:46.5%' disabled/>\n\
-        <input class='cos_din' type='text' value='"+tra_cos.toFixed(2)+"' id='cos_dina_"+(cont)+"'/>\n\
+        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:45%' disabled/>\n\
+        <input class='cos_din' type='text' value='"+cos_sol.toFixed(2)+"' id='cos_sol_"+(cont)+"'/>\n\
+        <input class='cos_din' type='text' value='"+cos_dol.toFixed(2)+"' id='cos_dol_"+(cont)+"'/>\n\
         <input type='hidden' id='hidden_seg_id_din_"+(cont)+"' value='"+seg_id+"'/>\n\
         <input type='text' id='seg_id_din_"+(cont)+"' value='"+seguro+"' style='width:12%' disabled />\n\
-        <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:23%' disabled/>\n\
+        <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:20%' disabled/>\n\
         <input type='hidden' id='hidden_doc_id_din_"+(cont)+"' value='"+doc_id+"'/>\n\
-        <button onclick='btn_borrar_trat("+(cont)+","+seg_id+","+tra_cos+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:15px' ></img></button>";            
+        <button onclick='btn_borrar_trat("+(cont)+","+seg_id+","+cos_sol+","+cos_dol+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:15px' ></img></button>";            
 //        <button onclick='btn_guardar_tratamiento("+(cont)+");' class='btn_din' id='btn_guardar_din_"+(cont)+"' title='Guardar'> <img src='public/images/gua.png' style='width:18px' >Guardar</img></button>\n\
 //        <button onclick='btn_guardar_tratamiento("+(cont)+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:18px' >Eliminar</img></button>";  
         document.getElementById('div_tra_dinamico').appendChild(newdiv);          
@@ -417,26 +419,37 @@ function btn_agregar_insertar(){
             }            
         }
         
-        if(seg_id==1){//solo agrega costo cuando NO TIENE SEGURO en los otros casos no suma costo 
-            total=(total + tra_cos); 
+        if(seg_id==1){//solo agrega costo cuando NO TIENE SEGURO en los otros casos no suma costo             
+            total=(total + cos_sol); 
+            total_dol=(total_dol + cos_dol); 
         }        
            
         $("#div_trat_tip").val("");
         $("#div_trat_des").val("");
-        $("#div_trat_cos").val("");        
+        $("#div_trat_cos_sol").val("");        
+        $("#div_trat_cos_dol").val("");      
         $("#div_trat_total").val(total.toFixed(2));
+        $("#div_trat_total_dol").val(total_dol.toFixed(2));
     }
 }
-function btn_borrar_trat(num,seg_id,costo){///borrar los tratamientos 
+function btn_borrar_trat(num,seg_id,sol,dol){///borrar los tratamientos 
     var d = document.getElementById("div_tra_dinamico");
     var d_borrar = document.getElementById("div_dina_"+num);
     var throwawayNode = d.removeChild(d_borrar);
     cont--;
-    if(seg_id==1){//resta el costo del tratamiento eliminado .. SOLO SIN SEGURO
-        total=(total - costo); 
-        $("#div_trat_total").val(total.toFixed(2));
+     if(seg_id==1){//resta el costo del tratamiento eliminado .. SOLO SIN SEGURO         
+        if(dol=="0"){
+            total=(total - sol); 
+            $("#div_trat_total").val(total.toFixed(2));
+        }else{
+            total_dol=(total_dol - dol); 
+            $("#div_trat_total_dol").val(total_dol.toFixed(2));            
+        }
     }
     $("#btn_eliminar_din_"+cont).show();
+    
+    
+    
 }
 
 function btn_guardar_tratamiento(num){
@@ -565,7 +578,8 @@ function llenararajaxtodo_tip_trat(textbox,url,seg_id,val){
                              $("#"+textbox).val(ui.item.label);
                              $("#hidden"+textbox).val(ui.item.value);
                              $("#"+textbox).attr('maxlength', ui.item.label.length);
-                             $("#div_trat_cos").val(ui.item.costo);
+                             $("#div_trat_cos_sol").val(ui.item.sol);
+                             $("#div_trat_cos_dol").val(ui.item.dol);
                              $("#div_trat_tip").val(ui.item.esp_tip_des);
                              $("#hiddendiv_trat_tip").val(ui.item.esp_tip); 
                              return false;
@@ -573,8 +587,8 @@ function llenararajaxtodo_tip_trat(textbox,url,seg_id,val){
                       select: function(event, ui) {
                               $("#"+textbox).val(ui.item.label);
                               $("#hidden"+textbox).val(ui.item.value); 
-                              
-                              $("#div_trat_cos").val(ui.item.costo);
+                              $("#div_trat_cos_sol").val(ui.item.sol);
+                              $("#div_trat_cos_dol").val(ui.item.dol);                              
                               $("#div_trat_tip").val(ui.item.esp_tip_des);
                               $("#hiddendiv_trat_tip").val(ui.item.esp_tip);
                               return false;
@@ -618,8 +632,9 @@ function fn_close_tratamiento(tipo){
                 padre.removeChild(delete_div);
             }
         }
-        cont=0;total=0;
+        cont=0;total=0;total_dol=0;
         $("#div_trat_total").val("");
+        $("#div_trat_total_dol").val("");
     }else if(tipo=='unidad'){
         
     }    

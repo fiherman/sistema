@@ -1,9 +1,9 @@
-<style type="text/css">
+<style type="text/css">  
     .btn_full{
         background-color:#DFE8F6;                                  
         color:#0C509D;      
         font-weight:bold;
-        padding:3px 12px; 
+        padding:3px 10px; 
         border: 1px solid #99BCE8;  
     }
     .btn_full:hover{
@@ -69,12 +69,13 @@
     }
     .cos_din{
         margin-left: 0%;
-        width: 9%;
+        width: 7%;
         text-align: right;        
     }
     .lbl_din{
-        margin-left: 1%;
-        width: 1.5%;
+        margin-left: 0.6%;
+        width: 1.2%;
+        text-align: right;
     }
 </style>
 <script src="<?php echo base_url('public/js/pacientes.js'); ?>" type="text/javascript" charset="UTF-8"></script> 
@@ -96,7 +97,7 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_salir" onClick="btn_salir('div_pac_reg');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_nuevo_pac" onClick="btn_nuevo_pac('INSERTAR');"><img src="public/images/paciente.png" style="width:20px">Nuevo Paciente</img></button>
-    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Realizar Consulta</img></button>
+    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Primera Cita</img></button>
     <button class="btn_full_act" id="btn_actualizar_pac" onClick="btn_actualizar();"><img src="public/images/actualizar.png" style="width:20px">Actualizar</img></button>
     <button class="btn_full_act" id="btn_plan_trat_pac" onClick="btn_plan_tratamiento();"><img src="public/images/tratamiento.png" style="width:20px">Tratamiento</img></button>
 
@@ -219,16 +220,18 @@
         <div class="filtros" style="margin-top: -1%; padding:1% 0 0">
             <div style="margin:-1% 0 0;width: 100%; background-color: #CCDEF4; font-weight: bold">
                 <div style="margin-left: 18%; float: left">DESCRIPCION</div>
-                <div style="margin-left: 26.5%; float: left">COSTO</div>
+                <div style="margin-left: 21%; float: left">SOLES</div>
+                <div style="margin-left: 4%; float: left">DOL</div>
                 <div style="margin-left: 4%; float: left">SEGURO</div>
                 <div style="margin-left: 84%">DOCTOR</div>
             </div>
             <div id="div_tra_dinamico"  > 
 
             </div>
-            <div style="margin:1% 44.5%;border-top: 1px solid;width: 16%;">
-                <label class="ctrl_lavel_1" style="width:40%;">TOTAL</label>
-                <input type="text" style="width:56%;border: 0 none;text-align: right;font-size:12px;font-weight:bold;width:50%;" id="div_trat_total" disabled/>                
+            <div style="border-top: 1px solid; width: 25%; margin: 1% 40%;">
+                <label class="ctrl_lavel_1" style="float: left; width: 27%; margin-right: 1%;">TOTAL</label>
+                <input type="text" style="text-align: right; font-size: 12px; float: left; border: 0px none; width: 32%;" id="div_trat_total" disabled/>
+                <input type="text" style="text-align: right; font-size: 12px; border: 0px none; width: 32%; margin-left: 2%;" id="div_trat_total_dol" disabled/>                
             </div>
             <div style="margin:-3.5% 0% 0.5% 76%">
                 <button class="btn_full" id="btn_dscto_trat"  onClick="btn_dscto_trat();">Descuento</button>
@@ -241,11 +244,13 @@
         </div>
         <div class="ctrl_input"> 
             <input type="hidden" id="hiddendiv_trat_des" value="">
-            <label class="ctrl_lavel_1" style="width:12%">Descripcion</label>
-            <input type="text" class="ctrl_input_t" style="width: 50%;background-color: #EFFAEE" id="div_trat_des" onblur="fn_onblur(this);" placeholder="descripcion" >
-            <label class="ctrl_lavel_1" style="width:7%">Costo</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_trat_cos" disabled>
-            &nbsp;&nbsp;<button class="btn_full" id="btn_agregar_insertar" onClick="btn_agregar_insertar();">Agregar / Insertar</button>
+            <label class="ctrl_lavel_1" style="width:10%">Descripcion</label>
+            <input type="text" class="ctrl_input_t" style="width: 45%;background-color: #EFFAEE" id="div_trat_des" onblur="fn_onblur(this);" placeholder="descripcion" >
+            <label class="ctrl_lavel_1" style="width:3%">Sol</label>
+            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_trat_cos_sol" disabled>
+            <label class="ctrl_lavel_1" style="width:3%">Dol</label>
+            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_trat_cos_dol" disabled>
+            &nbsp;&nbsp;<button class="btn_full" id="btn_agregar_insertar" onClick="btn_agregar_insertar();">Agregar/Insertar</button>
         </div>
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">    
@@ -418,7 +423,7 @@
         </div>
     </div>
     <div class="filtros">
-        <p class="spanasis">PROXIMA ACTIVIDAD</p><br/>
+        <p class="spanasis">PROXIMA ACTIVIDAD - CITA</p><br/>
         <div class="ctrl_input" style="margin:-1%">
             <label class="ctrl_lavel_1" style="width:16%">Fecha</label>
             <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_pro_acti_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">                          

@@ -5,7 +5,7 @@
         /*    font-family:arial;
             font-size:13px;*/
         font-weight:bold;
-        padding:3px 12px; 
+        padding:3px 10px; 
         border: 1px solid #99BCE8;  
     }
     .btn_full:hover{

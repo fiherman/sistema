@@ -96,7 +96,7 @@ function vista_previa_pac(div, texto) {
 //    $("#ojo").html('<p><b>'+texto+'</b></p>'+'<button class="btn_alert_close" onclick="fn_close_alert(0);">Aceptar</button>');
 //        $("#"+type).html('<button onclick="">Aceptar</button>');
     $("#" + div).dialog({
-        autoOpen: false, modal: true, height: 390, width: 430, show: {effect: "fade", duration: 300},
+        autoOpen: false, modal: true, height: 390, width: 480, show: {effect: "fade", duration: 300},
         buttons: [
             {text: "Cerrar", click: function() {
                     $(this).dialog("close");
@@ -120,9 +120,11 @@ function vista_previa_cita(div, texto) {
     $("#" + div).dialog({
         autoOpen: false, modal: true, height: 250, width: 570, show: {effect: "fade", duration: 300},
         buttons: [
-            {text: "Cerrar", click: function() {
+            {
+                text: "Cerrar", click: function() {
                     $(this).dialog("close");
-                }}
+                }
+            }
         ]
     }).dialog('open');
     $("#texto_cita").html('<p>' + texto + '</p>');

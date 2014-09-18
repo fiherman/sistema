@@ -5,6 +5,7 @@ class agenda_notas_model extends CI_Model
     function get_by_ide_pac(){//$ide_per    ano_eje
       date_default_timezone_set('America/Lima');
 //        return $this->db->query("select * from agenda_notas WHERE ano_eje = '$ano_eje' AND ide_per = $ide_per ORDER BY ide_not DESC")->result();
+      $this->db->query("set names 'utf8';");
         return $this->db->query(" 
             select a.*,(b.nombre || ' ' || b.apellido) as nom_pac,c.age_cons,c.fch_ini from agenda_notas a 
             left join pacientes b on a.ide_per=b.id

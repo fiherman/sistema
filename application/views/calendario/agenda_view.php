@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <title>Calendario</title>
 
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
@@ -23,27 +24,73 @@
         $('#Dlg_Agenda').dialog({modal: true, autoOpen: false, width: 508, height: 242, buttons: [
                 {text: "Guardar", click: GuardarEvento},
                 {text: "Salir", click: Salir}
-            ]});
+        ]});
         $('#DlgInfoCalendar').dialog({modal: true, autoOpen: false, width: 550, height: 430, buttons: [
                 {id: 'BtnEditarEvento', text: "Editar", click: EditarEvento},
                 {id: 'BtnGuardarEditado', text: "Guardar", click: GuardarEditEvento, disabled: true},
                 {id: 'BtnEliminarEvento', text: "Eliminar", click: EliminarEvento},
                 {text: "Salir", click: Salir}
-            ]});
-//        $('#external-events div.external-event').each(function() {
-//            var eventObject = {
-//                title: $.trim($(this).text()),
-//                ide_not: $(this).attr('ide_not')
-//            };
-//            $(this).data('eventObject', eventObject);
-//            $(this).draggable({
-//                zIndex: 999,
-//                revert: true, // will cause the event to go back to its
-//                revertDuration: 0  //  original position after the drag
-//            });
-//        });
-
-        $('#calendar').fullCalendar({
+        ]});
+        $('#external-events div.external-event').each(function() {
+            var eventObject = {
+                title: $.trim($(this).text()),
+                ide_not: $(this).attr('ide_not')
+            };
+            $(this).data('eventObject', eventObject);
+            $(this).draggable({
+                zIndex: 999,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0  //  original position after the drag
+            });
+        }); 
+        
+        nom_pac=$("#calendar_buscar_pac").val();
+        ide_pac=$("#hiddencalendar_buscar_pac").val();
+        if(nom_pac!="" && ide_pac!=""){
+            cargar_calendario_1();
+        }else{
+            cargar_calendario_1();
+        }
+        
+    });
+    
+    function cargar_calendario_0(){
+         $('#calendar').fullCalendar({
+            editable: true,
+            theme: true,
+            events: "agenda/llenar_calendario",
+            allDaySlot: false,
+            height: 650,
+            droppable: true,
+            defaultView: "agendaWeek",
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+                fch_ini = $.fullCalendar.formatDate(event.start, 'dd-MM-yyyy HH:mm:ss');
+                fch_fin = $.fullCalendar.formatDate(event.end, 'dd-MM-yyyy HH:mm:ss');
+                $.ajax({url: 'agenda/cambiar_de_fecha', type: 'get', data: {fch_ini: fch_ini, fch_fin: fch_fin, ide_age: event.id},
+                    success: function(agenda) {
+                        if (agenda.revert == 1)//La fecha a actualizar es menor a la actual
+                        {
+                            revertFunc();
+                        }
+                    }
+                });
+            },        
+            eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+                fch_ini = $.fullCalendar.formatDate(event.end, 'dd-MM-yyyy HH:mm:ss');
+                var datos = fch_ini + '*' + event.id;
+                $.ajax({
+                    url: 'agenda/cambiar_de_hora?datos=' + datos
+                });
+            }
+        });
+    }
+    function cargar_calendario_1(){
+         $('#calendar').fullCalendar({
             editable: true,
             theme: true,
             events: "agenda/llenar_calendario",
@@ -104,7 +151,7 @@
 //                });
 //            },
             dayClick: function(date, allDay, jsEvent, view) {
-                alert(4);
+                //////////////////////////////alert(4);
                 FechaClick = date;
                 VistaAgenda = view.name;
                 allDayAgenda = allDay;
@@ -158,7 +205,7 @@
                 });
             }
         });
-    });
+    }
     function GuardarEvento(){
         var FechaIniFin = $.fullCalendar.formatDate(FechaClick, 'dd-MM-yyyy HH:mm:ss');
         MensajeDialogLoadAjax('#Dlg_Agenda', '.:: Guardando...');
@@ -214,9 +261,59 @@
         DialogButtonDisabled('#BtnGuardarEditado');
         $('#calendar').fullCalendar('refetchEvents');
     }
+    cont=0;
     function open_informacion_cita(id) {
+//        alert(10);
+//        $('#calendar').fullCalendar( 'gotoDate', 2014, 8, 29 );////ir a un dia especifico
+        cont++;
+        var newdiv = document.createElement('div');
+        newdiv.id='pac_dina_'+(cont);
+        newdiv.innerHTML=
+        "<input type='hidden' id='hidden_dina_esp_tip_"+(cont)+"' value='"+tra_esp_tip+"'/>\n\
+        <input type='hidden' id='hidden_dina_esp_cod_"+(cont)+"' value='"+tra_esp_cod+"'/>\n\
+        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:46.5%' disabled/>\n\
+        <input class='cos_din' type='text' value='"+tra_cos.toFixed(2)+"' id='cos_dina_"+(cont)+"'/>\n\
+        <input type='hidden' id='hidden_seg_id_din_"+(cont)+"' value='"+seg_id+"'/>\n\
+        <input type='text' id='seg_id_din_"+(cont)+"' value='"+seguro+"' style='width:12%' disabled />\n\
+        <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:23%' disabled/>\n\
+        <input type='hidden' id='hidden_doc_id_din_"+(cont)+"' value='"+doc_id+"'/>\n\
+        <button onclick='btn_borrar_trat("+(cont)+","+seg_id+","+tra_cos+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:15px' ></img></button>";            
 
+        document.getElementById('div_consul_dinamico').appendChild(newdiv);  
     }
+    letras_global=0;
+    function contar_letras_pac(){
+        nom_pac=$("#calendar_buscar_pac").val();
+        if(nom_pac.length>4 && letras_global==0){
+            letras_global=1;
+            llenararajaxtodo_paciente('calendar_buscar_pac','agenda/listartodo_paciente?pac='+nom_pac,0); 
+        }else if(nom_pac.length==0 && letras_global==1){
+            llenararajaxtodo_paciente('calendar_buscar_pac','agenda/listartodo_paciente?pac='+nom_pac,0); 
+        }
+    }
+    function llenararajaxtodo_paciente(textbox,url,val){
+    $.ajax({
+           type: 'GET',
+           url: url,
+           success: function(data){               
+                var $local_sourcedoctotodo=data;          
+                 $("#"+textbox).autocomplete({
+                      source: $local_sourcedoctotodo,
+                      focus: function(event, ui) {
+                             $("#"+textbox).val(ui.item.label);                             
+                             $("#hidden"+textbox).val(ui.item.value);
+                             $("#"+textbox).attr('maxlength', ui.item.label.length);
+                             return false;
+                      },
+                      select: function(event, ui) {
+                              $("#"+textbox).val(ui.item.label);
+                              $("#hidden"+textbox).val(ui.item.value); 
+                              return false;
+                      }   
+                  });             
+            }
+    });
+}
 </script>
 <style>
     body {
@@ -342,6 +439,30 @@
         padding-right: 20px;
         text-shadow: 0 1px 0 white;
     }
+    .btn_full_act{
+        background-color:#DFE8F6;                                  
+        color:#0C509D;
+        font-weight:bold;
+        font-size: 10px;
+        padding:2px 2px 1.5px 3px; 
+        border: 1px solid #99BCE8;  
+        margin-top: -2%;
+        float: right;
+        margin-right: 0px;
+    }
+    .btn_full_act:hover{
+        color: white;
+        background-color: #418BC3;
+    }
+    .btn_full_act:active{ 
+        color: #418BC3;
+        background-color: #FFFFFF;
+    }
+    .btn_full_act[disabled="disabled"]{
+        color: #99BCE8;
+        background-color: #d1e5f9;//#d1e5f9;
+        border: #99BCE8 solid 1px;
+    }
 </style>
 
 
@@ -349,28 +470,47 @@
     <p style="margin-bottom: 19px;">CLINICA ODONTOLOGICA LA ROCCA</p>
     <section style="margin-bottom: 17px;">
         <div id='external-events'>
-            <h4><center>CITAS DEL DIA <?php date_default_timezone_set('America/Lima');echo date('d/m/Y');?></center></h4>
+            
+            <h4>BUSCAR PACIENTE: 
+                <button class="btn_full_act" id="calendar_btn_buscar" onClick="open_informacion_cita(1);">
+                    <img src="../public/images/buscar.png" style="width:14px">
+                         Buscar
+                    </img>
+                </button>
+            <h4>
+            <input type="hidden" id="hiddencalendar_buscar_pac" value="" style="width: 100%; text-transform: uppercase; height: 18px; font-size: 10px;"/>
+            <input type="text" id="calendar_buscar_pac" onkeypress="contar_letras_pac();" value="" style="width: 100%; text-transform: uppercase; height: 18px; font-size: 10px;"/>
+            <!--CONSULTAS DINAMICAS-->
+            <div id="div_consul_dinamico"  > 
+
+            </div>
+            
+            <hr style="background-color: #418BC3; height: 1px; border: 0;"/>
+            <h4><center><label style="background: none repeat scroll 0% 0% rgb(204, 222, 244); border: 1px solid rgb(153, 188, 232); padding: 1% 5%; color: rgb(4, 64, 140); font-weight: bold;">CITAS DE HOY</label></center></h4>
+            
+            
             <?php $pp=1;foreach ($this->agenda_notas_model->get_by_ide_pac() as $pacientes): ?>
-                <div class='external-event' onclick="open_informacion_cita(<?php echo $pacientes->ide_not ?>);" ide_not="<?php echo $pacientes->ide_not ?>">
+                <div class='external-event' onclick="open_informacion_cita(<?php echo $pacientes->ide_not ?>);" ide_not="<?php echo $pacientes->ide_not ?>">                    
                     <div class='titulo_evento'>
                         <?php    $pp++;                         
                             echo utf8_need($pacientes->age_cons) ?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo date('h:i A', strtotime($pacientes->fch_ini));                             
                         ?>                           
                     </div>
-                    <?php echo utf8_need($pacientes->nom_pac) ?>
+                    <?php echo $pacientes->nom_pac ?>
                 </div>
-            <?php endforeach; ?>    
+            <?php endforeach; ?>  
+            
             <?php $cc=1;foreach ($this->agenda_notas_model->get_consultas_dia() as $consultas): ?>
                 <div class='external-event-consulta' onclick="open_informacion_cita(<?php echo $consultas->cons_id ?>);" ide_cons="<?php echo $consultas->cons_id ?>">
                     <div class='titulo_evento_consulta'>
-                        <?php    $cc++;                         
+                        <?php $cc++;                         
                             echo 'Consulta'; ?>&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;<?php echo $consultas->cons_hora;                             
                         ?>                           
                     </div>
                     <?php echo utf8_need($consultas->pac_nom_com) ?>
                 </div>
             <?php endforeach; ?> 
-            <input type="hidden" id="total_eventos_del_dia" value="<?php echo $cc-1;?>">
+            <input type="hidden" id="total_eventos_del_dia" value="<?php // echo $cc-1;?>">
         </div>
         <div class="ContentCalendar">
             <div id='calendar'></div>

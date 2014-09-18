@@ -6,7 +6,7 @@ class agenda extends CI_Controller {
         header('Content-type: application/json');
         date_default_timezone_set('America/Lima');
         $notas = $this->agenda_model->get_notas(); //$ide_per
-        $consultas = $this->agenda_model->get_consultas();
+//        $consultas = $this->agenda_model->get_consultas();
         $Eventos = array();
         $DateNow = date('Y-m-d');
 
@@ -43,49 +43,65 @@ class agenda extends CI_Controller {
             }
         }
 
-        date_default_timezone_set('America/Lima');
-        foreach ($consultas as $Index => $consul) {
-            $fchini = str_replace('/', '-', $consul->cons_fch . " " . $consul->cons_hora);
-            $timestamp_ini = strtotime($fchini);
-            $fch_ini = date('d/m/Y H:i:s', $timestamp_ini);
-
-            $fchfin = strtotime("+1 hour", $timestamp_ini);
-            $fch_fin = date('d/m/Y H:i:s', $fchfin);
-            if (date('Y-m-d', strtotime($consul->cons_fch)) >= $DateNow) {
-
-                $Eventos[$Index]['id'] = "C".$consul->cons_id;
-                $Eventos[$Index]['title'] = character_limiter_calendar(utf8_string($consul->pac_nom_com), 5);
-                $Eventos[$Index]['start'] = $fch_ini;
-                $Eventos[$Index]['end'] = $fch_fin;
-                $Eventos[$Index]['editable'] = true;
-                $Eventos[$Index]['color'] = '#9CAE40';
-                $Eventos[$Index]['allDay'] = false;
-                $Eventos[$Index]['fch_reg'] = "";
-                $Eventos[$Index]['nom_pac'] = "";
-                $Eventos[$Index]['fch_ini'] = "";
-                $Eventos[$Index]['fch_fin'] = "";
-                $Eventos[$Index]['des_not'] = "";
-                $Eventos[$Index]['ide_not'] = "";
-                $Eventos[$Index]['age_cons'] ="";
-            } else {
-                $Eventos[$Index]['id'] = "C".$consul->cons_id;
-                $Eventos[$Index]['title'] = character_limiter_calendar(utf8_string($consul->pac_nom_com), 5);
-                $Eventos[$Index]['start'] = $fch_ini;
-                $Eventos[$Index]['end'] = $fch_fin;
-                $Eventos[$Index]['editable'] = false;
-                $Eventos[$Index]['color'] = '#9CAE40';
-                $Eventos[$Index]['allDay'] = false;
-                $Eventos[$Index]['fch_reg'] = "";
-                $Eventos[$Index]['nom_pac'] = "";
-                $Eventos[$Index]['fch_ini'] = "";
-                $Eventos[$Index]['fch_fin'] = "";
-                $Eventos[$Index]['des_not'] = "";
-                $Eventos[$Index]['ide_not'] = "";
-                $Eventos[$Index]['age_cons'] ="";
-            }
-        }
+//        date_default_timezone_set('America/Lima');
+//        foreach ($consultas as $dex => $consul) {
+//            $fchini = str_replace('/', '-', $consul->cons_fch . " " . $consul->cons_hora);
+//            $timestamp_ini = strtotime($fchini);
+//            $fch_ini = date('d/m/Y H:i:s', $timestamp_ini);
+//
+//            $fchfin = strtotime("+1 hour", $timestamp_ini);
+//            $fch_fin = date('d/m/Y H:i:s', $fchfin);
+//            if (date('Y-m-d', strtotime($consul->cons_fch)) >= $DateNow) {
+//
+//                $Eventos[$dex]['id'] = "C".$consul->cons_id;
+//                $Eventos[$dex]['title'] = character_limiter_calendar(utf8_string($consul->pac_nom_com), 5);
+//                $Eventos[$dex]['start'] = $fch_ini;
+//                $Eventos[$dex]['end'] = $fch_fin;
+//                $Eventos[$dex]['editable'] = true;
+//                $Eventos[$dex]['color'] = '#9CAE40';
+//                $Eventos[$dex]['allDay'] = false;
+//                $Eventos[$dex]['fch_reg'] = "17/09/2014 11:30:00";
+//                $Eventos[$dex]['nom_pac'] = "VLADY";
+//                $Eventos[$dex]['fch_ini'] = "17/09/2014 11:30:00";
+//                $Eventos[$dex]['fch_fin'] = "17/09/2014 13:00:00";
+//                $Eventos[$dex]['des_not'] = "hola";
+//                $Eventos[$dex]['ide_not'] = "12";
+//                $Eventos[$dex]['age_cons'] ="C2";
+//            } else {
+//                $Eventos[$dex]['id'] = "C".$consul->cons_id;
+//                $Eventos[$dex]['title'] = character_limiter_calendar(utf8_string($consul->pac_nom_com), 5);
+//                $Eventos[$dex]['start'] = $fch_ini;
+//                $Eventos[$dex]['end'] = $fch_fin;
+//                $Eventos[$dex]['editable'] = false;
+//                $Eventos[$dex]['color'] = '#9CAE40';
+//                $Eventos[$dex]['allDay'] = false;
+//                $Eventos[$dex]['fch_reg'] = "17/09/2014 11:30:00";
+//                $Eventos[$dex]['nom_pac'] = "VLADY";
+//                $Eventos[$dex]['fch_ini'] = "17/09/2014 11:30:00";
+//                $Eventos[$dex]['fch_fin'] = "17/09/2014 13:00:00";
+//                $Eventos[$dex]['des_not'] = "hola";
+//                $Eventos[$dex]['ide_not'] = "23";
+//                $Eventos[$dex]['age_cons'] ="C1";
+//            }
+//        }
 
         echo json_encode($Eventos);
+    }
+    
+     function listartodo_paciente(){
+        $pac=$_GET['pac'];
+        header("Content-Type: application/json");       
+        $Consulta= $this->agenda_model->get_paciente(strtoupper($pac));       
+               
+        $todo=array();
+        foreach($Consulta as $Datos)
+        {
+            $Lista=new stdClass();           
+            $Lista->value=$Datos->id;
+            $Lista->label=  trim($Datos->nombre);
+            array_push($todo,$Lista);
+        }
+        echo @json_encode($todo);
     }
 
     function cambiar_de_fecha() {

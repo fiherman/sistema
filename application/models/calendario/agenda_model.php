@@ -33,6 +33,13 @@ class agenda_model extends CI_Model
     function change_hours_minutes($fch_fin,$ide_age){
         $this->db->query("UPDATE agenda SET fch_fin = '$fch_fin' WHERE ide_age = '$ide_age'");
     }
+    
+    function get_paciente($paciente) {
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select id,(nombre || ' ' || apellido)as nombre from pacientes where cad_lar like'%$paciente%'")->result();
+    }
+    
+    
 //    function get_notas_publicas($ano_eje)
 //    {      
 //        return $this->db->query("SELECT a.ide_not,a.ide_age,a.fch_ini,a.fch_fin,a.fch_reg,b.des_not,b.ide_per,c.nom_tra FROM tramite.agenda a LEFT JOIN tramite.agenda_notas b on a.ide_not = b.ide_not LEFT JOIN personal.vw_trabajador200 c ON b.ide_per = c.ide_per WHERE a.flg_pbl = 1 AND a.ano_eje = '$ano_eje'")->result();

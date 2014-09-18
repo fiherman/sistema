@@ -265,21 +265,7 @@
     function open_informacion_cita(id) {
 //        alert(10);
 //        $('#calendar').fullCalendar( 'gotoDate', 2014, 8, 29 );////ir a un dia especifico
-        cont++;
-        var newdiv = document.createElement('div');
-        newdiv.id='pac_dina_'+(cont);
-        newdiv.innerHTML=
-        "<input type='hidden' id='hidden_dina_esp_tip_"+(cont)+"' value='"+tra_esp_tip+"'/>\n\
-        <input type='hidden' id='hidden_dina_esp_cod_"+(cont)+"' value='"+tra_esp_cod+"'/>\n\
-        <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:46.5%' disabled/>\n\
-        <input class='cos_din' type='text' value='"+tra_cos.toFixed(2)+"' id='cos_dina_"+(cont)+"'/>\n\
-        <input type='hidden' id='hidden_seg_id_din_"+(cont)+"' value='"+seg_id+"'/>\n\
-        <input type='text' id='seg_id_din_"+(cont)+"' value='"+seguro+"' style='width:12%' disabled />\n\
-        <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:23%' disabled/>\n\
-        <input type='hidden' id='hidden_doc_id_din_"+(cont)+"' value='"+doc_id+"'/>\n\
-        <button onclick='btn_borrar_trat("+(cont)+","+seg_id+","+tra_cos+");' class='btn_din' id='btn_eliminar_din_"+(cont)+"' title='Eliminar'> <img src='public/images/x.png' style='width:15px' ></img></button>";            
-
-        document.getElementById('div_consul_dinamico').appendChild(newdiv);  
+        
     }
     letras_global=0;
     function contar_letras_pac(){
@@ -480,11 +466,7 @@
             <h4>
             <input type="hidden" id="hiddencalendar_buscar_pac" value="" style="width: 100%; text-transform: uppercase; height: 18px; font-size: 10px;"/>
             <input type="text" id="calendar_buscar_pac" onkeypress="contar_letras_pac();" value="" style="width: 100%; text-transform: uppercase; height: 18px; font-size: 10px;"/>
-            <!--CONSULTAS DINAMICAS-->
-            <div id="div_consul_dinamico"  > 
-
-            </div>
-            
+                       
             <hr style="background-color: #418BC3; height: 1px; border: 0;"/>
             <h4><center><label style="background: none repeat scroll 0% 0% rgb(204, 222, 244); border: 1px solid rgb(153, 188, 232); padding: 1% 5%; color: rgb(4, 64, 140); font-weight: bold;">CITAS DE HOY</label></center></h4>
             
@@ -558,4 +540,28 @@
         <p style="margin: 0% 0% -1% 4%; width: 92%;height: 110px; border: 1px solid rgb(65, 139, 195);" contenteditable="false" id="des_not"></p>
     </div>    
 </div>
+
+<!--vista previa de consulta-->
+<!--<div id="div_vista_cita" style="display: none; font-size: 12px" title="SEPARAR CONSULTA">
+    <div class="filtros">
+        <p class="spanasis">CITA</p><br/>       
+        <div class="ctrl_input">               
+            <input type="hidden" id="pac_id_cons" value="">
+            <label class="ctrl_lavel_1">Paciente:</label>
+            <input type="text" class="ctrl_input_t" style="width: 85%;background-color: #EFFAEE" id="div_cons_pac" onblur="fn_onblur(this);" disabled >             
+        </div>       
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1">Costo</label>
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."maxlength="2">
+        </div>
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1">Fecha</label>
+            <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_fch" onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de consulta">              
+            <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
+            <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm"> 
+        </div>       
+    </div>     
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_vista_cita_salir" onClick="btn_salir('div_consulta');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>    
+</div>-->
 

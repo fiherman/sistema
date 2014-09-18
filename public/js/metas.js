@@ -116,6 +116,17 @@ function vista_previa_doc(div, texto) {
     }).dialog('open');
     $("#texto_doctor").html('<p>' + texto + '</p>');
 }
+function vista_previa_cita(div, texto) {
+    $("#" + div).dialog({
+        autoOpen: false, modal: true, height: 250, width: 570, show: {effect: "fade", duration: 300},
+        buttons: [
+            {text: "Cerrar", click: function() {
+                    $(this).dialog("close");
+                }}
+        ]
+    }).dialog('open');
+    $("#texto_cita").html('<p>' + texto + '</p>');
+}
 function confirmar() {
 
     $("#confirmar").show();

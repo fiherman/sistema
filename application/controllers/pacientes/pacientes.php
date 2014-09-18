@@ -77,23 +77,24 @@ class Pacientes extends CI_Controller{
         {
            $Lista->rows[$Index]['id'] = $Datos->id;
 	   $Lista->rows[$Index]['cell']= array($Datos->id,
-                            $Datos->nombre,
-                            $Datos->apellido,
-                            $Datos->direccion,
-                            $Datos->dni,
-                            $Datos->distrito,
-                            $Datos->email,
+                            trim($Datos->nombre),
+                            trim($Datos->apellido),
+                            trim($Datos->direccion),
+                            trim($Datos->dni),
+                            trim($Datos->distrito),
+                            trim($Datos->email),
                             '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Paciente" src="'.base_url('public/images/editar.png').'" onClick="btn_editar_pac('.$Datos->id.');"/>',
                             '<input id="btn_image_ver_pac" type="image" width="17px" height="15px" title="Ver Tratamiento" src="'.base_url('public/images/pago2.png').'" onClick="ver_tratamiento_pac('.$Datos->id.');"/>',
-                            $Datos->sexo,
-                            $Datos->telefono,
-                            $Datos->movistar,
-                            $Datos->claro,
-                            $Datos->fec_nac,
-                            $Datos->dependiente,
-                            $Datos->seg_id,
-                            $Datos->estado,
-                            $Datos->seguro);
+                            '<input id="btn_image_ver_cita" type="image" width="18px" height="18px" title="Ver Cita" src="'.base_url('public/images/vista_previa.png').'" onClick="ver_cita_pac('.$Datos->id.');"/>',
+                            trim($Datos->sexo),
+                            trim($Datos->telefono),
+                            trim($Datos->movistar),
+                            trim($Datos->claro),
+                            trim($Datos->fec_nac),
+                            trim($Datos->dependiente),
+                            trim($Datos->seg_id),
+                            trim($Datos->estado),
+                            trim($Datos->seguro));
 	      
         }
         echo json_encode($Lista);
@@ -304,6 +305,52 @@ class Pacientes extends CI_Controller{
         }
     } 
     
- 
+    function get_cita_pac(){
+        header('Content-type: application/json');
+        $pac_id=$_GET['ide'];
+        
+        $sql=$this->agenda_model->get_cita_paciente($pac_id);
+        
+        $Eventos = array();          
+        
+        if($sql){            
+             
+            foreach ($sql as $Index => $cita) {  
+                date_default_timezone_set('America/Lima');     
+                $timestamp = str_replace('/', '-',$cita->fch_ini);
+                $fch_cita=strftime("%A %d de %B del %Y",strtotime($timestamp));
+                $hora=date('h:i a',$timestamp);
+                $Eventos[$Index]['modo'] = "cita";
+                $Eventos[$Index]['ide_not'] = $cita->ide_not;
+                setlocale(LC_ALL,"es_ES");
+                $Eventos[$Index]['fch_ini'] = $fch_cita." ".$hora;                
+                $Eventos[$Index]['fch_fin'] = $cita->fch_fin;
+                $Eventos[$Index]['nom_com'] = $cita->nom_com;
+                $Eventos[$Index]['des_not'] = trim($cita->des_not);                                    
+            }                   
+            
+        }else{
+            $primera_cita=$this->agenda_model->get_primera_cita($pac_id);
+            if($primera_cita){
+                
+                foreach ($primera_cita as $Index => $pri_cita) {
+                    date_default_timezone_set('America/Lima');     
+                    $timestamp= str_replace('/', '-',$pri_cita->cons_fch." ".trim($pri_cita->cons_hora));
+                  
+                    $Eventos[$Index]['modo'] = "primera";
+                    $Eventos[$Index]['cons_id'] = $pri_cita->cons_id;
+                    setlocale(LC_ALL,"es_ES");
+                    $Eventos[$Index]['fch_ini'] = strftime("%A %d de %B del %Y",strtotime($timestamp))." ".date('h:i a',$timestamp);                    
+                    $Eventos[$Index]['des_not'] = "PRIMERA CITA";
+                    $Eventos[$Index]['nom_com'] = $pri_cita->pac_nom_com;                    
+                  
+                }
+            }else{
+                $Eventos['modo'] = "no";
+            }
+        }
+        
+        echo json_encode($Eventos);
+    }
    
 }

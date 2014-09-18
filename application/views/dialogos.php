@@ -141,6 +141,17 @@ function fn_close_alert(tipo){
     </div>
     <div id="texto_doctor" style="width: 62%;margin-top: 3%;margin-right: 4%;font-size: 14px;float: left"></div>
 </div>
+<div  id="vista_previa_cita" title="INFORMACION DE LA CITA" style="display: none;">
+    <div style="width: 21%; margin-left: 5%; margin-top: 3%;margin-right: 2%;font-size: 14px;float: left">
+        <p><b>
+            CODIGO<br>
+            PACIENTE<br>
+            FECHA<br>
+            DESCRIPCION<br> 
+        </b></p>        
+    </div>
+    <div id="texto_cita" style="width: 68%;margin-top: 3%;margin-right: 4%;font-size: 14px;float: left"></div>
+</div>
 <div  id="confirmar" style="display: none;height: 13%; width: 30%; position: absolute; left: 34.9%; top: 35%;text-align: center"></div>
 <!--<div  id="error" style="display: none;width: 30%; position: absolute; left: 34.9%; top: 35%;"></div>-->
 

@@ -111,18 +111,19 @@ function fn_open_pac(){
     jQuery("#grid_con_pac").jqGrid({
         url: 'pacientes/pacientes/get_all',
         datatype: 'json', mtype: 'GET',
-        colNames: ['CODIGO', 'NOMBRE', 'APELLIDOS', 'DIRECCION', 'DNI', 'dis', 'EMAIL', 'EDITAR','TTO.', 'sex', 'tel', 'mov', 'cla', 'fnac', 'dep', 'seg', 'est','seguro'],
+        colNames: ['CODIGO', 'NOMBRE', 'APELLIDOS', 'DIRECCION', 'DNI', 'dis', 'EMAIL', 'EDITAR','TTO.','CITA', 'sex', 'tel', 'mov', 'cla', 'fnac', 'dep', 'seg', 'est','seguro'],
         rowNum: 13, sortname: 'id', sortorder: 'desc', viewrecords: true, caption: 'LISTADO DE PACIENTES', width: '100%', height: '297', align: "center",
         colModel: [
             {name: 'id', index: 'id', width: 60, resizable: true, align: "center"},
-            {name: 'nombre', index: 'nombre', width: 230, resizable: true, align: "left"},
-            {name: 'apellido', index: 'apellido', width: 230, resizable: true, align: "left"},
+            {name: 'nombre', index: 'nombre', width: 210, resizable: true, align: "left"},
+            {name: 'apellido', index: 'apellido', width: 210, resizable: true, align: "left"},
             {name: 'direccion', index: 'direccion', width: 210, resizable: true, align: "left"},
-            {name: 'dni', index: 'dni', width: 100, resizable: true, align: "center"},
+            {name: 'dni', index: 'dni', width: 90, resizable: true, align: "center"},
             {name: 'distrito', index: 'distrito', hidden: true},
             {name: 'email', index: 'email',  hidden: true},
             {name: 'Editar', index: 'Editar', width: 70, resizable: true, align: "center"},
-            {name: 'Trat', index: 'Trat', width: 60, resizable: true, align: "center"},
+            {name: 'Trat', index: 'Trat', width: 55, resizable: true, align: "center"},
+            {name: 'cita', index: 'cita', width: 55, resizable: true, align: "center"},
             {name: 'sexo', index: 'sexo', hidden: true},
             {name: 'telefono', index: 'telefono', hidden: true},
             {name: 'movistar', index: 'movistar', hidden: true},
@@ -131,7 +132,7 @@ function fn_open_pac(){
             {name: 'dependiente', index: 'dependiente', hidden: true},
             {name: 'seg_id', index: 'seg_des', hidden: true},
             {name: 'estado', index: 'estado', hidden: true},
-            {name: 'seguro', index: 'estado', hidden: true}
+            {name: 'seguro', index: 'seguro', hidden: true}
         ],
         rowList: [13, 26, 35],
         pager: '#pager_con_pac',

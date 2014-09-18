@@ -39,6 +39,26 @@ class agenda_model extends CI_Model
         return $this->db->query("select id,(nombre || ' ' || apellido)as nombre from pacientes where cad_lar like'%$paciente%'")->result();
     }
     
+    function get_cita_paciente($pac_id){
+        $this->db->query("set names 'utf8';");
+        $citas= $this->db->query("
+            select a.*,(c.nombre || ' ' || c.apellido) as nom_com,b.des_not from agenda a left join agenda_notas b on a.ide_not=b.ide_not 
+            left join pacientes c on b.ide_per=c.id
+            where b.ide_per=$pac_id
+            order by a.fch_ini desc limit 1
+        ")->result();
+        if($citas){
+            return $citas;            
+        }
+    }
+    function get_primera_cita($pac_id){
+        $this->db->query("set names 'utf8';");       
+       
+        $primera_cita = $this->db->query("select * from consulta where pac_id=$pac_id")->result();
+        if($primera_cita){
+            return $primera_cita;
+        }
+    }
     
 //    function get_notas_publicas($ano_eje)
 //    {      

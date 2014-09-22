@@ -176,8 +176,8 @@ class Pacientes_model extends CI_Model {
     function insert_dscto_trat($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO descuento(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des,dscto_tip)
-         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des','0')"
+         INSERT INTO descuento(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des)
+         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des')"
         );
 
         if ($insert) {
@@ -190,8 +190,8 @@ class Pacientes_model extends CI_Model {
     function insert_dscto_trat_dol($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO descuento(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des,dscto_tip)
-         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des','1')"
+         INSERT INTO descuento_dol(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des)
+         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des')"
         );
 
         if ($insert) {

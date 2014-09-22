@@ -230,8 +230,8 @@
             </div>
             <div style="border-top: 1px solid; width: 25%; margin: 1% 40%;">
                 <label class="ctrl_lavel_1" style="float: left; width: 27%; margin-right: 1%;">TOTAL</label>
-                <input type="text" style="text-align: right; font-size: 12px; float: left; border: 0px none; width: 32%;" id="div_trat_total" disabled/>
-                <input type="text" style="text-align: right; font-size: 12px; border: 0px none; width: 32%; margin-left: 2%;" id="div_trat_total_dol" disabled/>                
+                <input type="text" style="text-align: right;color: white; font-size: 12px; float: left; border: 0px none; width: 32%;background: #6FADD9" onclick="calc(0);" value="0.00" id="div_trat_total" title="click para calcular" readonly/>
+                <input type="text" style="text-align: right;color: white; font-size: 12px; border: 0px none; width: 32%; margin-left: 2%;background: #85AA84" onclick="calc(1);" value="0.00" id="div_trat_total_dol" title="click para calcular" readonly/>                
             </div>
             <div style="margin:-3.5% 0% 0.5% 76%">
                 <button class="btn_full" id="btn_dscto_trat"  onClick="btn_dscto_trat();">Dscto S/.</button>
@@ -310,7 +310,7 @@
     <button class="btn_full_act" id="btn_ver_trat_salir" onClick="btn_salir('div_ver_tratamiento');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_ver_trat_dscto" onClick="btn_ver_vista_previa_dscto();"><img src="public/images/dscto.png" style="width:20px">Ver Descuento</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago" onClick="btn_pago_pac('s');"><img src="public/images/sol.png" style="width:20px">Pagar Soles</img></button>
-    <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac_dol('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
+    <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
 
@@ -375,7 +375,7 @@
     <button class="btn_full_act" id="btn_dscto_guardar" onClick="btn_insert_dscto_dol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
 
 </div>
-<!--REALIZAR PAGO SOLES-->
+<!--REALIZAR PAGO SOLES  = 0--> 
 <div id="div_pac_realizar_pago" style="display: none; font-size: 12px" title="PAGO EN SOLES">
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
@@ -431,11 +431,11 @@
 
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_pac_realizar_pago_salir" onClick="btn_salir('div_pac_realizar_pago');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago();"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago(0);"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
 
 </div>
-<!--REALIZAR PAGO DOLARES-->
-<div id="div_pac_realizar_pago_dol" style="display: none; font-size: 12px" title="PAGO EN SOLES">
+<!--REALIZAR PAGO DOLARES   = 1-->
+<div id="div_pac_realizar_pago_dol" style="display: none; font-size: 12px" title="PAGO EN DOLARES">
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
         <div class="ctrl_input" style="margin:-1%">
@@ -460,13 +460,13 @@
         <p class="spanasis">REALIZAR PAGO</p><br/>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Doc. de Facturacion</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;"  id="div_pac_rea_pago_doc_fac">
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;"  id="div_pac_rea_pago_dol_fac">
                 <option value="1">BOLETA</option>
                 <option value="2">RECIBO</option>
                 <option value="3">FACTURA</option>
             </select> 
             <label class="ctrl_lavel_1" style="width:15%">Forma de Pago</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;" id="div_pac_rea_pago_for_pago">
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;" id="div_pac_rea_pago_dol_for_pago">
                 <option value="1">EFECTIVO</option>
                 <option value="2">TARJ. CREDITO</option>
             </select>                       
@@ -474,23 +474,23 @@
 
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Fecha de emision</label>
-            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago">              
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_rea_pago_dol_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago">              
             <label class="ctrl_lavel_1" style="width:15%">Monto</label>
-            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/." maxlength="8">            
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE" id="div_pac_rea_pago_dol_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/." maxlength="8">            
         </div>
         <div class="ctrl_input">             
             <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
-            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
+            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_dol_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Observacion</label>
-            <textarea rows="2" class="ctrl_input_t" style="width: 66%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_obs" placeholder="Observacion"></textarea>
+            <textarea rows="2" class="ctrl_input_t" style="width: 66%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_dol_obs" placeholder="Observacion"></textarea>
         </div>        
     </div>
 
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
-    <button class="btn_full_act" id="div_pac_realizar_pago_salir" onClick="btn_salir('div_pac_realizar_pago');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago();"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_salir" onClick="btn_salir('div_pac_realizar_pago_dol');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago(1);"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
 
 </div>
 
@@ -552,7 +552,7 @@
 </div>
 
 <!--HISTORIAL DE PAGOS-->
-<div id="div_historial_pagos" style="display: none; font-size: 12px" title="HISTORIAL DE PAGOS">
+<div id="div_historial_pagos" style="display: none; font-size: 12px;" title="HISTORIAL DE PAGOS">
     <div class="filtros" style="">
         <p class="spanasis">DATOS DE PACIENTE</p><br/>       
         <div style="margin:-1%">
@@ -565,16 +565,18 @@
             </select>           
         </div>        
     </div>
-    <div style="position: absolute; z-index: 1; top: 20%; width: 68%; left: 29%;">
+    <div style="position: absolute; z-index: 1; top: 18.5%; width: 68%; left: 27%;">
         <label class="ctrl_lavel_1" style="width:47%; color: white">Saldo S/.</label>
         <input type="text" class="conta_deudas_pagos" style="width: 18%;" id="div_historial_pagos_saldo" disabled/> 
         <label class="ctrl_lavel_1" style="width:13%; color: white">Saldo $.</label>
         <input type="text" class="conta_deudas_pagos_dol" style="width: 18%;" id="div_historial_pagos_saldo_dol" disabled/> 
     </div> 
     <div style="margin: 0% 1.5%;position: relative">        
-        <table id="grid_ver_historial_pagos">
-
-        </table>
+        <table id="grid_ver_historial_pagos"></table>
+        <div id="grid_ver_historial_pagos_pager"></div>
+        <br>
+        <table id="grid_ver_historial_pagos_dol"></table>
+        <div id="grid_ver_historial_pagos_dol_pager"></div>
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_historial_pagos_salir" onClick="btn_salir('div_historial_pagos');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>

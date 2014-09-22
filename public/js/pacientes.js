@@ -287,7 +287,7 @@ function btn_plan_tratamiento(){
         }
     }).dialog('open');
     
-    deshabilitar_ctrl('div_plan_tratamiento','btn_dscto_trat',true);
+    deshabilitar_ctrl('div_plan_tratamiento','btn_dscto_trat*btn_dscto_trat_dol',true);
     deshabilitar_ctrl('div_plan_tratamiento','btn_guardar_trat*btn_salir_trat*btn_agregar_insertar',false);
     limpiar_ctrl('div_plan_tratamiento');
     llenararajaxtodo_tip_trat('div_trat_des','pacientes/pacientes/listartodo_trat',seg_id,0);
@@ -427,6 +427,11 @@ function btn_agregar_insertar(){
         if(seg_id==1){//solo agrega costo cuando NO TIENE SEGURO en los otros casos no suma costo             
             total=(total + cos_sol); 
             total_dol=(total_dol + cos_dol); 
+            $("#cos_sol_"+cont).css({ background: "#E0F2FF", border: "1px solid #83CBFF"});
+            $("#cos_dol_"+cont).css({ background: "#DEE8DE", border: "1px solid #85AA84"});
+        }else{
+            $("#cos_sol_"+cont).css({ background: "#FFD0D0"});
+            $("#cos_dol_"+cont).css({ background: "#FFD0D0"});
         }        
            
         $("#div_trat_tip").val("");
@@ -435,6 +440,7 @@ function btn_agregar_insertar(){
         $("#div_trat_cos_dol").val("");      
         $("#div_trat_total").val(total.toFixed(2));
         $("#div_trat_total_dol").val(total_dol.toFixed(2));
+        $("#div_trat_des").focus();
     }
 }
 function btn_borrar_trat(num,seg_id,sol,dol){///borrar los tratamientos 
@@ -452,9 +458,6 @@ function btn_borrar_trat(num,seg_id,sol,dol){///borrar los tratamientos
         }
     }
     $("#btn_eliminar_din_"+cont).show();
-    
-    
-    
 }
 
 function btn_guardar_tratamiento(num){
@@ -510,17 +513,17 @@ function btn_guardar_trat_tot(){
     }    
 }
 function btn_dscto_trat_dol(){
-    alert(4);
+    
     nom = $.trim($("#grid_con_pac").getCell(ide_trb, "nombre"));
     ape = $.trim($("#grid_con_pac").getCell(ide_trb, "apellido"));
     nom_com=nom+' '+ape;
     trat_num=$("#div_trat_numero").val();
-     subtot =$("#div_trat_total_dol").val();
-     alert(nom_com+trat_num+subtot);
+    subtot =$("#div_trat_total_dol").val();
+     
         $("#div_pac_dscto_dol").dialog({
             autoOpen: false, modal: true, height: 340, width: 550, show: {effect: "fade", duration: 500} 
         }).dialog('open');
-        limpiar_ctrl_c_u('div_trat_total_dol','div_dscto_des_dol*div_dscto_dscto_dol*div_dscto_tot_dol');
+        limpiar_ctrl_c_u('div_pac_dscto_dol','div_dscto_des_dol*div_dscto_dscto_dol*div_dscto_tot_dol');
         $("#div_dscto_pac_dol").val(nom_com);
         $("#hiddendiv_dscto_pac_dol").val(ide_trb);
         $("#div_dscto_trat_num_dol").val(trat_num);
@@ -588,11 +591,11 @@ function btn_insert_dscto_dol(){
             success: function(data){ 
                  if(data=='si'){ 
                      deshabilitar_ctrl('div_plan_tratamiento','btn_dscto_trat*btn_limpiar_trat*btn_salir_trat*btn_agregar_insertar',true);
-                     deshabilitar_ctrl('div_plan_tratamiento','btn_guardar_trat',false);
+                     deshabilitar_ctrl('div_plan_tratamiento','btn_dscto_trat_dol',false);
                      not_close_plan_trat=0;
                      $("#div_plan_tratamiento").closest('.ui-dialog').find('.ui-dialog-titlebar-close').hide();
 //                     mensaje_sis('mensaje',' DESCUENTO GUARDADO <br> AHORA GUARDE EL TRATAMIENTO','MENSAJE DEL SISTEMA'); 
-                     btn_salir('div_pac_dscto');   
+                     btn_salir('div_pac_dscto_dol');   
                      parpadear('btn_guardar_trat');}                     
             },
             error: function (data) {
@@ -729,6 +732,10 @@ function pintar_verde_todo(){
     $("#div_pac_rea_pago_cos").css({ border: "1px solid #7DCE73"});
     $("#div_pac_rea_pago_fch").css({ border: "1px solid #7DCE73"});
     $("#div_pac_rea_pago_num_fac_bol").css({ border: "1px solid #7DCE73"});
+    ///realizar pago en dolares
+    $("#div_pac_rea_pago_dol_cos").css({ border: "1px solid #7DCE73"});
+    $("#div_pac_rea_pago_dol_fch").css({ border: "1px solid #7DCE73"});
+    $("#div_pac_rea_pago_dol_num_fac_bol").css({ border: "1px solid #7DCE73"});
     /// evaluacion
     $("#div_pac_evol_fch_act").css({ border: "1px solid #7DCE73"});
     $("#div_pac_evol_act_des").css({ border: "1px solid #7DCE73"});
@@ -867,27 +874,45 @@ function fn_onblur(input) {
     }
     if(input.id == "div_dscto_dscto"){       
         subtot =$("#div_trat_total").val();
-        dscto = formato_numero(input.value,2,'.',',');
+        dscto = parseFloat(input.value);
         total = (subtot-dscto).toFixed(2);
-        $("#" + input.id).val(dscto);
+        $("#" + input.id).val(dscto.toFixed(2));
         $("#div_dscto_tot").val(total);
     }
     if(input.id == "div_dscto_dscto_dol"){       
         subtot =$("#div_trat_total_dol").val();
-        dscto = formato_numero(input.value,2,'.',',');
+        dscto = parseFloat(input.value);
         total = (subtot-dscto).toFixed(2);
-        $("#" + input.id).val(dscto);
+        $("#" + input.id).val(dscto.toFixed(2));
         $("#div_dscto_tot_dol").val(total);
     }
     if(input.id == "div_pac_rea_pago_cos"){ 
-        saldo=parseFloat($("#div_realizar_pago_saldo").val());          
+        var a = $("#div_realizar_pago_saldo").val();
+        var b = a.replace(',','');
+        
+        saldo=parseFloat(b);          
         monto=parseFloat(input.value).toFixed(2);
 
         if(monto <= saldo){
             pag_monto = formato_numero(input.value,2,'.',',');        
             $("#" + input.id).val(pag_monto);
         }else{
-            mostraralertas('informe','* monto excedido <br>* El saldo es de '+saldo+' soles','INFORMACION');
+            mostraralertas('informe','* monto excedido <br>* El saldo es de '+formato_numero(saldo,2,'.',',')+' soles','INFORMACION');
+            $("#" + input.id).val("");
+        }       
+    }
+    if(input.id == "div_pac_rea_pago_dol_cos"){ 
+        var a = $("#div_realizar_pago_saldo_dol").val();
+        var b = a.replace(',','');
+        
+        saldo=parseFloat(b);          
+        monto=parseFloat(input.value).toFixed(2);
+
+        if(monto <= saldo){
+            pag_monto = formato_numero(input.value,2,'.',',');        
+            $("#" + input.id).val(pag_monto);
+        }else{
+            mostraralertas('informe','* monto excedido <br>* El saldo es de '+formato_numero(saldo,2,'.',',')+' soles','INFORMACION');
             $("#" + input.id).val("");
         }       
     }
@@ -896,6 +921,7 @@ function fn_onblur(input) {
     }
     
 }
+
 function fn_load_seguro(seg_id){
     llenararajaxtodo_tip_trat('div_trat_des','pacientes/pacientes/listartodo_trat',seg_id,0);
 }
@@ -936,6 +962,32 @@ function get_dscto_all(pac_id,num_trat,num_type){
             }                       
         }
     });
+}
+
+function calc(tip){
+    
+    sum_sol=0;sum_dol=0;
+    if(tip==0){
+        
+        for(i=1; i<=cont; i++){   
+            seg = $("#hidden_seg_id_din_"+i).val();//calcula la suma SOLES solo de SIN SEGURO
+            if(seg==1){
+                sum_sol+= parseFloat($("#cos_sol_"+i).val());
+            }
+            
+            
+        }
+        $("#div_trat_total").val(sum_sol.toFixed(2));
+    }else{
+        
+        for(i=1; i<=cont; i++){                                     
+            seg = $("#hidden_seg_id_din_"+i).val();// calcula la suma DOLARES solo de SIN SEGURO
+            if(seg==1){
+                sum_dol+=parseFloat($("#cos_dol_"+i).val());
+            }
+        }
+        $("#div_trat_total_dol").val(sum_dol.toFixed(2));
+    }
 }
 
 

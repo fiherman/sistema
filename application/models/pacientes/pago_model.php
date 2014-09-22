@@ -14,9 +14,23 @@ class Pago_model extends CI_Model{
        }
     }
     
+     function insert_pago_dol_pac($pac_id,$trat_num,$pag_cod,$monto,$fch,$form_pag,$doc_fac,$obs = null,$usuario){
+        $this->db->query("set names 'utf8';");
+        $insert = $this->db->query("
+                INSERT INTO pagos_dol(pag_pac_id, pag_trat_num,pag_codigo, pag_monto, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu)
+                VALUES ($pac_id, $trat_num,$pag_cod, $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
+                ");
+
+       if($insert){           
+           return true; 
+       }else{
+           return FALSE;
+       }
+    }
+    
     function get_saldo($pac_id,$trat_num){
-$ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
-$dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num and dscto_tip='0'")->result()[0];
+        $ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+        $dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result()[0];
        
         $lista=array();
         $lista[0]['ttotal']= number_format($ttotal->ttotal,2,'.',',');
@@ -42,11 +56,11 @@ $dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento
                 $lista[0]['pagado']=number_format($pagado,2,'.',',');//3
             } 
         
-        $lista[0]['saldo']=$saldo;
+        $lista[0]['saldo']=  number_format($saldo,2);
         /////////////////////////////////////////DOLARES//////////////////////////////////////////////////////////////////////////////////////////
         
-$ttotaldol = $this->db->query("select sum(trat_esp_cos_dol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
-$dsctodol  = $this->db->query("select sum(dscto_trat_dscto_dol) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num and dscto_tip='1'")->result()[0];
+        $ttotaldol = $this->db->query("select sum(trat_esp_cos_dol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+        $dsctodol  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result()[0];
        
         
         $lista[1]['ttotal']= number_format($ttotaldol->ttotal,2,'.',',');//1
@@ -62,7 +76,7 @@ $dsctodol  = $this->db->query("select sum(dscto_trat_dscto_dol) as dscto from de
             }
         $lista[1]['pago_total']=number_format($pago_total_dol,2,'.',',');//3
         $saldo_dol=0;
-        $pagadodol = $this->db->query("select sum(pag_monto_dol)as pagado from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num")->result()[0];
+        $pagadodol = $this->db->query("select sum(pag_monto)as pagado from pagos_dol where pag_pac_id=$pac_id and pag_trat_num=$trat_num")->result()[0];
             if($pagadodol->pagado!=""){  
                 $saldo_dol=$pago_total_dol-$pagadodol->pagado;
                 $lista[1]['pagado']=number_format($pagadodol->pagado,2,'.',',');//4
@@ -72,11 +86,11 @@ $dsctodol  = $this->db->query("select sum(dscto_trat_dscto_dol) as dscto from de
                 $lista[1]['pagado']=number_format($pagadodol,2,'.',',');//4
             } 
         
-        $lista[1]['saldo']=  number_format($saldo_dol,2,'.',',');//5       
+        $lista[1]['saldo']= number_format($saldo_dol,2);//5       
         
         return $lista;
     }
-    ////////////////////HISTORIAL DE PAGOS ////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////HISTORIAL DE PAGOS SOLES ////////////////////////////////////////////////////////////////////////////////////////
     function get_cont_historial_pagos($pac_id,$trat_num){
         $this->db->query("set names 'utf8';");
         return $this->db->query("
@@ -91,7 +105,21 @@ $dsctodol  = $this->db->query("select sum(dscto_trat_dscto_dol) as dscto from de
         ")->result();
     }
     
-
+    //////////////////HISTORIAL DE PAGOS DOLARES///////////////////////
+    
+    function get_cont_historial_pagos_dol($pac_id,$trat_num){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select * from vw_ver_historial_pagos_dol where pag_pac_id= $pac_id and pag_trat_num=$trat_num
+        ")->result();
+    }
+    
+    function get_all_historial_pagos_dol($pac_id,$trat_num,$sidx,$sord,$start,$limit){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select * from vw_ver_historial_pagos_dol where pag_pac_id= $pac_id and pag_trat_num=$trat_num order by $sidx $sord limit $limit offset $start
+        ")->result();
+    }
 }
 
 

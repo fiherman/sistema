@@ -398,23 +398,7 @@
         text-shadow: 0 1px 0 white;
         font-family: verdana;
         color: rgb(4, 45, 173);
-    }
-    /*            #DlgInfoCalendar div {
-                    margin: 23px 1px;
-                }
-                #DlgInfoCalendar div label {
-                    width: 108px;
-                    float: left;
-                    font-family: Verdana;
-                    font-size: 11px;
-                    font-weight: bold;
-                    text-shadow: 0 1px 0 white;
-                }
-                #DlgInfoCalendar div span {
-                    font-family: Verdana;
-                    font-size: 11px;
-                    text-shadow: 0 1px 0 white;
-                }*/
+    }   
     #des_not{
         position: relative;
         border: solid 1px gray;

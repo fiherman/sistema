@@ -15,8 +15,8 @@ class Pago_model extends CI_Model{
     }
     
     function get_saldo($pac_id,$trat_num){
-        $ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
-        $dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result()[0];
+$ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+$dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num and dscto_tip='0'")->result()[0];
        
         $lista=array();
         $lista[0]['ttotal']= number_format($ttotal->ttotal,2,'.',',');
@@ -43,20 +43,38 @@ class Pago_model extends CI_Model{
             } 
         
         $lista[0]['saldo']=$saldo;
+        /////////////////////////////////////////DOLARES//////////////////////////////////////////////////////////////////////////////////////////
+        
+$ttotaldol = $this->db->query("select sum(trat_esp_cos_dol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+$dsctodol  = $this->db->query("select sum(dscto_trat_dscto_dol) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num and dscto_tip='1'")->result()[0];
+       
+        
+        $lista[1]['ttotal']= number_format($ttotaldol->ttotal,2,'.',',');//1
+        
+        $pago_total_dol=0;
+            if($dsctodol->dscto!=""){
+                $pago_total_dol=($ttotaldol->ttotal-$dsctodol->dscto);
+                $lista[1]['dscto']=number_format($dsctodol->dscto,2,'.',',');//2
+            }else{
+                $pago_total_dol=$ttotaldol->ttotal;
+                $dsctodol='0.00';
+                $lista[1]['dscto']=number_format($dsctodol,2,'.',',');//2
+            }
+        $lista[1]['pago_total']=number_format($pago_total_dol,2,'.',',');//3
+        $saldo_dol=0;
+        $pagadodol = $this->db->query("select sum(pag_monto_dol)as pagado from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num")->result()[0];
+            if($pagadodol->pagado!=""){  
+                $saldo_dol=$pago_total_dol-$pagadodol->pagado;
+                $lista[1]['pagado']=number_format($pagadodol->pagado,2,'.',',');//4
+            }else{
+                $pagadodol='0.00';
+                $saldo_dol=$pago_total_dol;
+                $lista[1]['pagado']=number_format($pagadodol,2,'.',',');//4
+            } 
+        
+        $lista[1]['saldo']=  number_format($saldo_dol,2,'.',',');//5       
         
         return $lista;
-        
-//        return $this->db->query("
-//                 select 
-//                a.trat_pac_id,
-//                a.trat_num,
-//                sum(a.trat_esp_cos)as total,
-//                (select sum(pag_monto) from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num)as pagado,
-//                (sum(a.trat_esp_cos)-(select sum(pag_monto) from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num))as saldo
-//                from tratamiento a
-//                where trat_pac_id=$pac_id and trat_num=$trat_num
-//                group by a.trat_pac_id,a.trat_num
-//        ")->result();
     }
     ////////////////////HISTORIAL DE PAGOS ////////////////////////////////////////////////////////////////////////////////////////
     function get_cont_historial_pagos($pac_id,$trat_num){

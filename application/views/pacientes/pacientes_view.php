@@ -63,19 +63,19 @@
         margin: 10px;
     }
     .des_din{
-        margin-top: 0.3%;
-        margin-left: 1%;
-        width: 55%;//38
+        margin-top: 0%;margin-left: 1%;
     }
     .cos_din{
-        margin-left: 0%;
-        width: 7%;
-        text-align: right;        
+        margin-left: 0%; width: 7%; text-align: right; height: 21px;
     }
     .lbl_din{
-        margin-left: 0.6%;
-        width: 1.2%;
-        text-align: right;
+        margin-left: 0.6%; width: 1.2%; text-align: right;        
+    }
+    .conta_deudas_pagos{
+        background-color: rgb(224, 242, 255); border: 1px solid rgb(131, 203, 255); width: 52%; height: 20px; text-align: right; font-size: 13px; color: rgb(55, 118, 166);
+    }
+    .conta_deudas_pagos_dol{
+        background-color: #DEE8DE; border: 1px solid #85AA84; width: 52%; height: 20px; text-align: right; font-size: 13px; color: #648063;
     }
 </style>
 <script src="<?php echo base_url('public/js/pacientes.js'); ?>" type="text/javascript" charset="UTF-8"></script> 
@@ -218,7 +218,7 @@
             <input type="text" id="div_trat_numero"  style="width:10%;border:0px;background: #D9E6F7;font-weight: bold" disabled/>
         </div>
         <div class="filtros" style="margin-top: -1%; padding:1% 0 0">
-            <div style="margin:-1% 0 0;width: 100%; background-color: #CCDEF4; font-weight: bold">
+            <div style="margin:-1% 0 3px;width: 100%; background-color: #CCDEF4; font-weight: bold">
                 <div style="margin-left: 18%; float: left">DESCRIPCION</div>
                 <div style="margin-left: 21%; float: left">SOLES</div>
                 <div style="margin-left: 4%; float: left">DOL</div>
@@ -234,7 +234,8 @@
                 <input type="text" style="text-align: right; font-size: 12px; border: 0px none; width: 32%; margin-left: 2%;" id="div_trat_total_dol" disabled/>                
             </div>
             <div style="margin:-3.5% 0% 0.5% 76%">
-                <button class="btn_full" id="btn_dscto_trat"  onClick="btn_dscto_trat();">Descuento</button>
+                <button class="btn_full" id="btn_dscto_trat"  onClick="btn_dscto_trat();">Dscto S/.</button>
+                <button class="btn_full" id="btn_dscto_trat_dol"  onClick="btn_dscto_trat_dol();">Dscto $.</button>
             </div>
         </div>        
         <div class="ctrl_input"> 
@@ -271,18 +272,27 @@
 
             </select>           
         </div>
-        <div class="ctrl_input" style="margin:2% 0 -1.5% 2%">
-            <label class="ctrl_lavel_1" style="width:10.5%">Costo Total</label>
-            <input type="text" class="ctrl_input_t" style="width: 11%;background-color: #EFFAEE" id="div_ver_trat_ttotal" disabled/>
-            <label class="ctrl_lavel_1" style="width:5%">Dscto</label>
-            <input type="text" class="ctrl_input_t" style="width: 11%;background-color: #EFFAEE" id="div_ver_trat_dscto"  disabled/> 
-            <label class="ctrl_lavel_1" style="width:9%">Total pago</label>
-            <input type="text" class="ctrl_input_t" style="width: 11%;background-color: #EFFAEE" id="div_ver_trat_tot_pag"  disabled/>
-            <label class="ctrl_lavel_1" style="width:7%">Pagado</label>
-            <input type="text" class="ctrl_input_t" style="width: 11%;background-color: #EFFAEE" id="div_ver_trat_pagado"  disabled/>
-            <label class="ctrl_lavel_1" style="width:5%">Saldo</label>
-            <input type="text" class="ctrl_input_t" style="width: 11%;background-color: #EFFAEE" id="div_ver_trat_saldo"  disabled/>
+        <div class="ctrl_input" style="margin: 2% 0px -1.5% 1%;">
+            <div style="float: left; background: #6FADD9; color: white; text-align: center; width: 9.5%;height: 21px;">Soles</div>
+            <div style=" margin-left: 10%; margin-right: 1%;">                
+                &nbsp;Costo Total <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_ttotal" disabled/>
+                &nbsp;Dscto <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_dscto"  disabled/> 
+                &nbsp;Total pago <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_tot_pag"  disabled/>
+                &nbsp;Pagado <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_pagado"  disabled/>
+                &nbsp;Saldo <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_saldo"  disabled/>
+            </div>            
         </div>
+        <div class="ctrl_input" style="margin: 2% 0px -1.5% 1%;">
+            <div style="float: left; background: #85AA84; color: white; text-align: center; width: 9.5%;height: 21px;">Dolares</div>
+            <div style="margin-left: 10%; margin-right: 1%;">                
+                &nbsp;Costo Total <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_ttotal_dol" disabled/>
+                &nbsp;Dscto <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_dscto_dol" disabled/> 
+                &nbsp;Total pago <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_tot_pag_dol"  disabled/>
+                &nbsp;Pagado <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_pagado_dol"  disabled/>
+                &nbsp;Saldo <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_saldo_dol"  disabled/>
+            </div>            
+        </div>
+            
     </div>
     <!--<div class="filtros" style="">-->
         <!--<p class="spanasis">DOCTOR</p><br/>--> 
@@ -299,13 +309,14 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_ver_trat_salir" onClick="btn_salir('div_ver_tratamiento');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_ver_trat_dscto" onClick="btn_ver_vista_previa_dscto();"><img src="public/images/dscto.png" style="width:20px">Ver Descuento</img></button>
-    <button class="btn_full_act" id="btn_ver_trat_pago" onClick="btn_pago_pac();"><img src="public/images/pago2.png" style="width:20px">Realizar Pago</img></button>
+    <button class="btn_full_act" id="btn_ver_trat_pago" onClick="btn_pago_pac('s');"><img src="public/images/sol.png" style="width:20px">Pagar Soles</img></button>
+    <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac_dol('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
 
 </div>
-<!--DESCUENTO-->
-<div id="div_pac_dscto" style="display: none; font-size: 12px" title="DESCUENTO">
+<!--DESCUENTO SOLES-->
+<div id="div_pac_dscto" style="display: none; font-size: 12px" title="DESCUENTO SOLES">
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
         <div class="ctrl_input">
@@ -334,9 +345,38 @@
     <button class="btn_full_act" id="btn_dscto_guardar" onClick="btn_insert_dscto();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
 
 </div>
+<!--DESCUENTO DOLARES-->
+<div id="div_pac_dscto_dol" style="display: none; font-size: 12px" title="DESCUENTO DOLARES">
+    <div class="filtros">
+        <p class="spanasis">PACIENTE</p><br/>                
+        <div class="ctrl_input">
+            <input type="hidden" id="hiddendiv_dscto_pac_dol" value="">
+            <label class="ctrl_lavel_1" style="width:16%">Paciente</label>
+            <input type="text" class="ctrl_input_t" style="width: 55.5%;background-color: #EFFAEE" id="div_dscto_pac_dol"  disabled/>           
+            <label class="ctrl_lavel_1" style="width:16%">Tratamiento</label>
+            <input type="text" class="ctrl_input_t" style="width: 8%;background-color: #EFFAEE" id="div_dscto_trat_num_dol"  disabled/> 
+        </div> 
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style="width:16%">Descripcion</label>
+            <textarea rows="2" class="ctrl_input_t" style="width: 81%;height: 42px;background-color: #EFFAEE" id="div_dscto_des_dol" onblur="fn_onblur(this);" placeholder="motivo de descuento"></textarea>
+        </div>
+        <div class="ctrl_input">            
+            <label class="ctrl_lavel_1" style="width:60%">Subtotal:</label>
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot_dol"  disabled/>           
+            <label class="ctrl_lavel_1" style="width:60%">Descuento:</label>
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto_dol" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/. 0.00" /> 
+            <label class="ctrl_lavel_1" style="width:60%">Total:</label>
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot_dol"  placeholder="S/. 0.00" disabled/>           
+        </div> 
+    </div>
 
-<!--REALIZAR PAGO-->
-<div id="div_pac_realizar_pago" style="display: none; font-size: 12px" title="PAGO DE TRATAMIENTO">
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="btn_dscto_salir" onClick="btn_salir('div_pac_dscto_dol');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="btn_dscto_guardar" onClick="btn_insert_dscto_dol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
+
+</div>
+<!--REALIZAR PAGO SOLES-->
+<div id="div_pac_realizar_pago" style="display: none; font-size: 12px" title="PAGO EN SOLES">
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
         <div class="ctrl_input" style="margin:-1%">
@@ -347,17 +387,73 @@
             <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>
             <input type="text" class="ctrl_input_t" style="width: 8%;background-color: #EFFAEE" id="div_realizar_pago_trat_num"  disabled/> 
         </div>
-        <div class="ctrl_input" style="margin:2% 0 -1.5% 2%">           
-            <label class="ctrl_lavel_1" style="width:12%">Costo Total</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_realizar_pago_cos_tot"  disabled/>
-            <label class="ctrl_lavel_1" style="width:5%">Dscto</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_realizar_pago_dscto"  disabled/> 
-            <label class="ctrl_lavel_1" style="width:10%">Total pago</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_realizar_pago_tot_pago"  disabled/>
-            <label class="ctrl_lavel_1" style="width:7%">Pagado</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_realizar_pago_pagado"  disabled/> 
-            <label class="ctrl_lavel_1" style="width:6%">Saldo</label>
-            <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="div_realizar_pago_saldo"  disabled/> 
+        <div class="ctrl_input" style="margin: 2% 0px -1.5% 0%;">            
+            <div style="margin-right: 1%;">                
+                &nbsp;Costo Total <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_realizar_pago_cos_tot" disabled/>
+                &nbsp;Dscto <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_realizar_pago_dscto"  disabled/> 
+                &nbsp;Total pago <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_realizar_pago_tot_pago"  disabled/>
+                &nbsp;Pagado <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_realizar_pago_pagado"  disabled/>
+                &nbsp;Saldo <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_realizar_pago_saldo"  disabled/>
+            </div>            
+        </div>
+    </div>
+    <div class="filtros">
+        <p class="spanasis">REALIZAR PAGO</p><br/>
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1" style="width:25%">Doc. de Facturacion</label>
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;"  id="div_pac_rea_pago_doc_fac">
+                <option value="1">BOLETA</option>
+                <option value="2">RECIBO</option>
+                <option value="3">FACTURA</option>
+            </select> 
+            <label class="ctrl_lavel_1" style="width:15%">Forma de Pago</label>
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 25%;" id="div_pac_rea_pago_for_pago">
+                <option value="1">EFECTIVO</option>
+                <option value="2">TARJ. CREDITO</option>
+            </select>                       
+        </div>
+
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1" style="width:25%">Fecha de emision</label>
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_rea_pago_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago">              
+            <label class="ctrl_lavel_1" style="width:15%">Monto</label>
+            <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE" id="div_pac_rea_pago_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/." maxlength="8">            
+        </div>
+        <div class="ctrl_input">             
+            <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
+            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
+        </div>
+        <div class="ctrl_input"> 
+            <label class="ctrl_lavel_1" style="width:25%">Observacion</label>
+            <textarea rows="2" class="ctrl_input_t" style="width: 66%;height: 42px;background-color: #EFFAEE"  id="div_pac_rea_pago_obs" placeholder="Observacion"></textarea>
+        </div>        
+    </div>
+
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_pac_realizar_pago_salir" onClick="btn_salir('div_pac_realizar_pago');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_guardar" onClick="btn_guardar_pago();"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
+
+</div>
+<!--REALIZAR PAGO DOLARES-->
+<div id="div_pac_realizar_pago_dol" style="display: none; font-size: 12px" title="PAGO EN SOLES">
+    <div class="filtros">
+        <p class="spanasis">PACIENTE</p><br/>                
+        <div class="ctrl_input" style="margin:-1%">
+            <input type="hidden" id="hiddendiv_usuario_dol" value="<?php echo trim($_SESSION['doctor']); ?>">
+            <input type="hidden" id="hiddendiv_pac_realizar_pago_dol" value="">
+            <label class="ctrl_lavel_1" style="width:14.5%">Paciente</label>
+            <input type="text" class="ctrl_input_t" style="width: 58%;background-color: #EFFAEE" id="div_realizar_pago_pac_dol"  disabled/>
+            <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>
+            <input type="text" class="ctrl_input_t" style="width: 8%;background-color: #EFFAEE" id="div_realizar_pago_trat_num_dol"  disabled/> 
+        </div>
+        <div class="ctrl_input" style="margin: 2% 0px -1.5% 0%;">            
+            <div style="margin-right: 1%;">                
+                &nbsp;Costo Total <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_realizar_pago_cos_tot_dol" disabled/>
+                &nbsp;Dscto <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_realizar_pago_dscto_dol" disabled/> 
+                &nbsp;Total pago <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_realizar_pago_tot_pago_dol"  disabled/>
+                &nbsp;Pagado <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_realizar_pago_pagado_dol"  disabled/>
+                &nbsp;Saldo <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_realizar_pago_saldo_dol"  disabled/>
+            </div>            
         </div>
     </div>
     <div class="filtros">
@@ -469,9 +565,11 @@
             </select>           
         </div>        
     </div>
-    <div style="position: absolute; z-index: 1; left: 77%; top: 20%;">
-        <label class="ctrl_lavel_1" style="width:26%; color: white">SALDO</label>
-        <input type="text" style="background-color: rgb(224, 242, 255); border: 1px solid rgb(131, 203, 255); width: 52%; height: 18px; text-align: right; font-size: 13px; color: rgb(55, 118, 166);" id="div_historial_pagos_saldo" /> 
+    <div style="position: absolute; z-index: 1; top: 20%; width: 68%; left: 29%;">
+        <label class="ctrl_lavel_1" style="width:47%; color: white">Saldo S/.</label>
+        <input type="text" class="conta_deudas_pagos" style="width: 18%;" id="div_historial_pagos_saldo" disabled/> 
+        <label class="ctrl_lavel_1" style="width:13%; color: white">Saldo $.</label>
+        <input type="text" class="conta_deudas_pagos_dol" style="width: 18%;" id="div_historial_pagos_saldo_dol" disabled/> 
     </div> 
     <div style="margin: 0% 1.5%;position: relative">        
         <table id="grid_ver_historial_pagos">

@@ -1,32 +1,61 @@
 
-function btn_pago_pac() {
+function btn_pago_pac(tip) {
 //    pac_id=$("#hiddendiv_ver_trat_pac").val();
-    saldo = $("#div_ver_trat_saldo").val();
 
-    if (saldo == 0.00) {
-        mensaje_sis('mensaje', ' EL TRATAMIENTO YA ESTA CANCELADO', 'MENSAJE DEL SISTEMA');
-    } else {
-        pac = $("#div_ver_trat_pac").val();
+    if(tip=='s'){
+        saldo = $("#div_ver_trat_saldo").val();
 
-        trat = $("#div_ver_trat_select").val();
+        if (saldo == 0.00) {
+            mensaje_sis('mensaje', ' EL PAGO EN SOLES ESTA CANCELADO', 'MENSAJE DEL SISTEMA');
+        } else {
+            pac = $("#div_ver_trat_pac").val();
+            trat = $("#div_ver_trat_select").val();
 
-        $("#div_pac_realizar_pago").dialog({
-            autoOpen: false, modal: true, height: 430, width: 750, show: {effect: "fade", duration: 500}, close: function() {
-            }
-        }).dialog('open');
-        limpiar_ctrl('div_pac_realizar_pago');
-        $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
-        datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
-        $("#hiddendiv_pac_realizar_pago").val($("#hiddendiv_ver_trat_pac").val());
-        $("#div_realizar_pago_pac").val(pac);
-        $("#div_realizar_pago_trat_num").val(trat);
-        $("#div_realizar_pago_cos_tot").val($("#div_ver_trat_ttotal").val());
-        $("#div_realizar_pago_dscto").val($("#div_ver_trat_dscto").val());
-        $("#div_realizar_pago_tot_pago").val($("#div_ver_trat_tot_pag").val());
-        $("#div_realizar_pago_pagado").val($("#div_ver_trat_pagado").val());
-        $("#div_realizar_pago_saldo").val($("#div_ver_trat_saldo").val());
-        pintar_verde_todo();
+            $("#div_pac_realizar_pago").dialog({
+                autoOpen: false, modal: true, height: 430, width: 750, show: {effect: "fade", duration: 500}, close: function() {
+                }
+            }).dialog('open');
+            limpiar_ctrl('div_pac_realizar_pago');
+            $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
+            datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
+            $("#hiddendiv_pac_realizar_pago").val($("#hiddendiv_ver_trat_pac").val());
+            $("#div_realizar_pago_pac").val(pac);
+            $("#div_realizar_pago_trat_num").val(trat);
+            $("#div_realizar_pago_cos_tot").val($("#div_ver_trat_ttotal").val());
+            $("#div_realizar_pago_dscto").val($("#div_ver_trat_dscto").val());
+            $("#div_realizar_pago_tot_pago").val($("#div_ver_trat_tot_pag").val());
+            $("#div_realizar_pago_pagado").val($("#div_ver_trat_pagado").val());
+            $("#div_realizar_pago_saldo").val($("#div_ver_trat_saldo").val());
+            pintar_verde_todo();
+        }
+    }else if(tip=='d'){
+        saldo = $("#div_ver_trat_saldo_dol").val();
+
+        if (saldo == 0.00) {
+            mensaje_sis('mensaje', ' EL PAGO EN DOLARES ESTA CANCELADO', 'MENSAJE DEL SISTEMA');
+        } else {
+            pac = $("#div_ver_trat_pac").val();
+            trat = $("#div_ver_trat_select").val();
+
+            $("#div_pac_realizar_pago").dialog({
+                autoOpen: false, modal: true, height: 430, width: 750, show: {effect: "fade", duration: 500}, close: function() {
+                }
+            }).dialog('open');
+            limpiar_ctrl('div_pac_realizar_pago_dol');
+            $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
+            datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
+            $("#hiddendiv_pac_realizar_pago_dol").val($("#hiddendiv_ver_trat_pac").val());
+            $("#div_realizar_pago_pac_dol").val(pac);
+            $("#div_realizar_pago_trat_num_dol").val(trat);
+            $("#div_realizar_pago_cos_tot_dol").val($("#div_ver_trat_ttotal").val());
+            $("#div_realizar_pago_dscto_dol").val($("#div_ver_trat_dscto").val());
+            $("#div_realizar_pago_tot_pago_dol").val($("#div_ver_trat_tot_pag").val());
+            $("#div_realizar_pago_pagado_dol").val($("#div_ver_trat_pagado").val());
+            $("#div_realizar_pago_saldo_dol").val($("#div_ver_trat_saldo").val());
+            pintar_verde_todo();
+        }
     }
+    
 
 
 }
@@ -83,13 +112,22 @@ function trat_saldo(Id, trat_num, flag) {
         url: 'pacientes/Pago/get_saldo?datos=' + datos,
         type: 'GET',
         success: function(data) {
-            $("#div_ver_trat_ttotal").val(data[0].ttotal);
-            $("#div_ver_trat_dscto").val(data[0].dscto);
-            $("#div_ver_trat_tot_pag").val(data[0].pago_total);
-            $("#div_ver_trat_pagado").val(data[0].pagado);
-            $("#div_ver_trat_saldo").val(data[0].saldo);
+            
             if (flag===1){
                 $("#div_historial_pagos_saldo").val("S/. " + formato_numero(data[0].saldo,2,'.','.'));
+                $("#div_historial_pagos_saldo_dol").val("$. " + formato_numero(data[1].saldo,2,'.','.'));
+            }else{
+                $("#div_ver_trat_ttotal").val(data[0].ttotal);
+                $("#div_ver_trat_dscto").val(data[0].dscto);
+                $("#div_ver_trat_tot_pag").val(data[0].pago_total);
+                $("#div_ver_trat_pagado").val(data[0].pagado);
+                $("#div_ver_trat_saldo").val(data[0].saldo);
+                ////////dolares
+                $("#div_ver_trat_ttotal_dol").val(data[1].ttotal);
+                $("#div_ver_trat_dscto_dol").val(data[1].dscto);
+                $("#div_ver_trat_tot_pag_dol").val(data[1].pago_total);
+                $("#div_ver_trat_pagado_dol").val(data[1].pagado);
+                $("#div_ver_trat_saldo_dol").val(data[1].saldo); 
             }
         },
         error: function(data) {

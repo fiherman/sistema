@@ -195,7 +195,7 @@ class Pacientes extends CI_Controller{
     //TRATAMIENTO
     function insert_tratamiento_pac(){
         $cam=  explode('*', $_GET['datos']);
-        $sql=$this->pacientes_model->insert_tratamiento_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7]);
+        $sql=$this->pacientes_model->insert_tratamiento_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8]);
         if($sql){
             echo 'si';
         }else{
@@ -286,6 +286,7 @@ class Pacientes extends CI_Controller{
                 $Datos->trat_num,
                 trim($Datos->trat_esp_des),                
                 $Datos->trat_esp_cos_sol,
+                $Datos->trat_esp_cos_dol,
                 $Datos->trat_fch,
                 $Datos->seguro,
                 $Datos->trat_seg_id,
@@ -300,6 +301,17 @@ class Pacientes extends CI_Controller{
         $cam=  explode('*', $_GET['datos']);        
 //        echo $cam[0].'<br>';
         $sql=$this->pacientes_model->insert_dscto_trat($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    } 
+    
+     function insert_dscto_trat_dol(){
+        $cam=  explode('*', $_GET['datos']);        
+//        echo $cam[0].'<br>';
+        $sql=$this->pacientes_model->insert_dscto_trat_dol($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
         if($sql){
             echo 'si';
         }else{

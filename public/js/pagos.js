@@ -255,8 +255,7 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
             {name: 'pag_obs', index: 'pag_obs', width: 295, resizable: true, align: "left"}
         ],
         rowList: [9, 25],
-        pager: '#grid_ver_historial_pagos_pager',
-        hiddengrid: true
+        pager: '#grid_ver_historial_pagos_pager'        
     });
     ///////////////////GRID   DOLARES ///////////////////////////////////////////////
     jQuery("#grid_ver_historial_pagos_dol").jqGrid({
@@ -278,6 +277,7 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
     });
     
 //    $("#grid_ver_historial_pagos").jqGrid('setGridState', 'hidden');
+//    $(".ui-jqgrid-titlebar-close",$("list")[0].grid.cDiv).click();
     
 }
 function select_ver_historial_pagos(cbo_trat) {
@@ -298,4 +298,8 @@ function select_ver_historial_pagos(cbo_trat) {
 //    get_dscto_all(ver_trat_pac_id,cbo_trat,0);
 //    trat_saldo(ver_trat_pac_id,$('#div_ver_trat_select').val());
 }
+//$(".ui-jqgrid-titlebar").click(function() {
+////     $(".ui-jqgrid-titlebar-close", this).click();
+//alert(4);
+//});
 

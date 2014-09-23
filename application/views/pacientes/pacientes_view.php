@@ -173,12 +173,14 @@
         <p class="spanasis">CITA</p><br/>       
         <div class="ctrl_input">               
             <input type="hidden" id="pac_id_cons" value="">
-            <label class="ctrl_lavel_1">Paciente:</label>
-            <input type="text" class="ctrl_input_t" style="width: 85%;background-color: #EFFAEE" id="div_cons_pac" onblur="fn_onblur(this);" disabled >             
+            <label class="ctrl_lavel_1">Paciente</label>
+            <input type="text" class="ctrl_input_t" style="width: 85%;background-color: #EFFAEE" id="div_cons_pac" disabled >             
         </div>       
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1">Costo</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."maxlength="2">
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."maxlength="5">
+            <label style="margin-left:12.7%">Tratamiento</label>
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_trat_num" value="">
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1">Fecha</label>
@@ -220,13 +222,28 @@
         <div class="filtros" style="margin-top: -1%; padding:1% 0 0">
             <div style="margin:-1% 0 3px;width: 100%; background-color: #CCDEF4; font-weight: bold">
                 <div style="margin-left: 18%; float: left">DESCRIPCION</div>
-                <div style="margin-left: 21%; float: left">SOLES</div>
-                <div style="margin-left: 4%; float: left">DOL</div>
-                <div style="margin-left: 4%; float: left">SEGURO</div>
-                <div style="margin-left: 84%">DOCTOR</div>
-            </div>
-            <div id="div_tra_dinamico"  > 
-
+                <div style="margin-left: 15.5%; float: left">Cant</div>
+                <div style="margin-left: 2%; float: left">Soles</div>
+                <div style="margin-left: 4%; float: left">Dol</div>
+                <div style="margin-left: 5%; float: left">SEGURO</div>
+                <div style="margin-left: 83%">DOCTOR</div>
+            </div>            
+            <div id="div_tra_dinamico">
+                <!--div de la consulta por defecto-->
+                <div id="div_dina_1">
+                    <input type="hidden" value=" " id="hidden_dina_esp_tip_1">
+                    <input type="hidden" value=" " id="hidden_dina_esp_cod_1">
+                    <label class="lbl_din">1</label><input type="text" disabled="" style="width:42%;height: 20px;font-size: 11px;" id="des_dina_1" value="CONSULTA" class="des_din">
+                    <input type="text" value=" " style="width: 2.5%;height: 20px;font-size: 11px;text-align:right" id="cant_1" disabled="">
+                    <input type="text" style="font-size: 11px; background: none repeat scroll 0% 0% rgb(224, 242, 255); border: 1px solid rgb(131, 203, 255);" id="cos_sol_1" value="" class="cos_din" disabled="">
+                    <input type="text" style="font-size: 11px; background: none repeat scroll 0% 0% rgb(222, 232, 222); border: 1px solid rgb(133, 170, 132);" id="cos_dol_1" value="0.00" class="cos_din" disabled="disabled">
+                    <input type="hidden" value="1" id="hidden_seg_id_din_1">                    
+                    <input type="text" disabled="" style="width:12%;height: 20px;font-size: 11px;" value=" " id="seg_id_din_1">
+                    <input type="text" disabled="" style="width:20%;height: 20px;font-size: 11px;" value=" " id="doc_id_din_1">                    
+                    <input type="hidden" value="15" id="hidden_doc_id_din_1">                   
+                    
+                </div>
+                
             </div>
             <div style="border-top: 1px solid; width: 25%; margin: 1% 40%;">
                 <label class="ctrl_lavel_1" style="float: left; width: 27%; margin-right: 1%;">TOTAL</label>
@@ -334,7 +351,7 @@
             <label class="ctrl_lavel_1" style="width:60%">Subtotal:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot"  disabled/>           
             <label class="ctrl_lavel_1" style="width:60%">Descuento:</label>
-            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/. 0.00" /> 
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Total:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot"  placeholder="S/. 0.00" disabled/>           
         </div> 
@@ -364,7 +381,7 @@
             <label class="ctrl_lavel_1" style="width:60%">Subtotal:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot_dol"  disabled/>           
             <label class="ctrl_lavel_1" style="width:60%">Descuento:</label>
-            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto_dol" onblur="fn_onblur(this);" onkeypress="return justNumbers(event);" placeholder="S/. 0.00" /> 
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto_dol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Total:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot_dol"  placeholder="S/. 0.00" disabled/>           
         </div> 

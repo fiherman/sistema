@@ -36,7 +36,7 @@ class Pacientes extends CI_Controller{
     
     function insert_consulta_pac(){
         $cam=  explode('*', $_GET['datos']);
-        $sql=$this->pacientes_model->insert_consulta_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4]);
+        $sql=$this->pacientes_model->insert_consulta_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
         if($sql){
             echo 'si';
         }else{
@@ -195,7 +195,7 @@ class Pacientes extends CI_Controller{
     //TRATAMIENTO
     function insert_tratamiento_pac(){
         $cam=  explode('*', $_GET['datos']);
-        $sql=$this->pacientes_model->insert_tratamiento_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8]);
+        $sql=$this->pacientes_model->insert_tratamiento_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8],$cam[9]);
         if($sql){
             echo 'si';
         }else{
@@ -229,6 +229,17 @@ class Pacientes extends CI_Controller{
         }
         echo @json_encode($todo);
     }
+    function get_consulta_costo(){
+        header("Content-Type: application/json");       
+        $Consulta= $this->pacientes_model->get_consulta_costo($_GET['ide_trb'],$_GET['trat_num']);  
+        $trat=array();
+//        $Lista=new stdClass(); 
+        $trat['costo']=$Consulta->cons_cos;                      
+        $trat['fecha']=$Consulta->cons_fch;
+       
+        echo @json_encode($trat);
+    }
+    
     //VER TRATAMIENTO / TRAER NUMERO DE TRATAMIENTOS POR PACIENTE
     function get_ver_trat_select(){
         header("Content-Type: application/json");       
@@ -361,7 +372,7 @@ class Pacientes extends CI_Controller{
                     setlocale(LC_ALL,"es_ES");
                     $Eventos[$Index]['fch_ini'] = $fch_cita;                
                     $Eventos[$Index]['fch_hora'] = $hora;
-                    $Eventos[$Index]['des_not'] = "PRIMERA CITA";
+                    $Eventos[$Index]['des_not'] = "CONSULTA";
                     $Eventos[$Index]['nom_com'] = $pri_cita->pac_nom_com;                    
                   
                 }

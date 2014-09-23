@@ -114,10 +114,10 @@ class Pacientes_model extends CI_Model {
                 ")->result();
     }
 
-    function insert_consulta_pac($cons_cos, $cons_fch, $cons_hora, $pac_id, $pac_con_com) {
+    function insert_consulta_pac($cons_cos, $cons_fch, $cons_hora, $pac_id, $pac_con_com,$trat_num) {
         $this->db->query("set names 'utf8';");
-        $insert = $this->db->query("insert into consulta(cons_cos, cons_fch,cons_hora, pac_id, pac_nom_com) values"
-                . "($cons_cos,'$cons_fch','$cons_hora',$pac_id,'$pac_con_com')");
+        $insert = $this->db->query("insert into consulta(cons_cos, cons_fch,cons_hora, pac_id, pac_nom_com,cons_trat_num) values"
+                . "($cons_cos,'$cons_fch','$cons_hora',$pac_id,'$pac_con_com',$trat_num)");
 
         if ($insert) {
             return true;
@@ -137,6 +137,9 @@ class Pacientes_model extends CI_Model {
 
     function get_num_trat($pac_id) {
         return $this->db->query("select COUNT(distinct trat_num) as trat_tot from tratamiento where trat_pac_id=$pac_id")->result()[0];
+    }
+    function get_consulta_costo($pac_id,$trat_num) {
+        return $this->db->query("select * from consulta where pac_id=$pac_id and cons_trat_num=$trat_num")->result()[0];
     }
 
     function get_ver_trat_select($pac_id) {
@@ -159,11 +162,11 @@ class Pacientes_model extends CI_Model {
             ")->result()[0];
     }
 
-    function insert_tratamiento_pac($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol) {
+    function insert_tratamiento_pac($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol,$cant) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch)
-         VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,$esp_cos_dol,'" . date('d/m/Y') . "')"
+         INSERTa INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch,trat_cant)
+         VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,$esp_cos_dol,'" . date('d/m/Y') . "',$cant)"
         );
 
         if ($insert) {

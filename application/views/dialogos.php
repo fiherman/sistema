@@ -106,6 +106,7 @@ function fn_close_alert(tipo){
 <!--<div  id="ojo" style="display: none;"></div>-->
 <div  id="informe" title="INFORMACION" style="display: none;"></div>
 <div  id="mensaje" title="MENSAJE DEL SISTEMA" style="display: none;"></div>
+<div  id="eliminar" title="" style="display: none;"></div>
 <div  id="vista_previa_pac" title="VISTA PREVIA DEL PACIENTE" style="display: none;">
     <div style="width: 25%; margin-left: 4%; margin-top: 3%;margin-right: 2%;font-size: 14px;float: left">
         <p><b>

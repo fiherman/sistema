@@ -188,6 +188,54 @@ function trat_saldo(Id, trat_num, flag) {
     });
 }
 
+function del_trat(){//boton eliminar .. muestra el mensaje antes de eliminar el tratamiento
+    pac_id=$("#hiddendiv_ver_trat_pac").val();
+    trat_num=$("#div_ver_trat_select").val();
+    
+    mensaje_eliminar_trat('eliminar', '* Esta seguro de eliminar el tratamiento<br>* Los cambios no se podran revertir', 'ELIMINAR TRATAMIENTO',pac_id,trat_num);
+}
+function eliminar_tratatamiento(pac_id,trat_num){
+    
+    $.ajax({
+        url: 'pacientes/Pago/eliminar_tratamiento?pac_id=' + pac_id+'&trat_num='+trat_num,
+        type: 'GET',
+        success: function(date) {
+            if (date == 'si') {
+                mensaje_sis('mensaje', ' TRATAMIENTO ELIMINADO', 'MENSAJE DEL SISTEMA');  
+                $.ajax({                   
+                    url: 'pacientes/pacientes/get_num_trat?ide_trb='+pac_id,
+                    type: 'GET',
+                    success: function(data){
+                        if(data==0){
+                            mensaje_sis('mensaje','EL PACIENTE NO TIENE TRATAMIENTOS','MENSAJE DEL SISTEMA');
+                            return false; 
+                        }else{
+                            $("#div_ver_trat_select").empty();
+                        
+                            for(i=0;i<=data.length-1;i++){//carga el combo para seleccionar el tratamiento desde la BD
+                                $('#div_ver_trat_select').append('<option value='+data[i].trat+'>'+'<b>nro: '+data[i].trat+'</b></option>');
+                            }
+                            if(trat_global==0){//carga por primera ves el grid
+                                trat_global=1;                
+                                grid_ver_tratamiento(pac_id,data[0].trat); 
+                                trat_saldo(pac_id,$('#div_ver_trat_select').val());
+                            }else if(trat_global==1){//solo actualiza el grid 
+                                select_ver_trat(data[0].trat);                 
+                            }
+                        }
+                    },
+                    error:function(data){
+                        alert('error');
+                    }
+                }); 
+                
+            } else {
+                mensaje_sis('mensaje', ' ERROR AL ELIMINAR EL TRATAMIENTO', 'MENSAJE DEL SISTEMA');
+            }
+        }
+    });
+    
+}
 //////////////////HISTORIAL DE PAGOS //////////////////////////////////////////////////////////////////////
 cargar_his_pagos=0;
 function open_historial_pagos() {
@@ -215,8 +263,8 @@ function open_historial_pagos() {
                 }
             }).dialog('open');
 
-            for (i = 1; i <= data; i++) {//carga el combo para seleccionar el tratamiento desde la BD
-                $('#div_historial_pagos_select').append('<option value=' + i + '>' + '<b>nro: ' + i + '</b></option>');
+            for (i = 0; i <= data.length-1; i++) {//carga el combo para seleccionar el tratamiento desde la BD
+                $('#div_historial_pagos_select').append('<option value=' + data[i].trat + '>' + '<b>nro: ' + data[i].trat + '</b></option>');
             }
             $("#div_historial_pagos_nom_pac").val(nom_pac);
             $("#hiddendiv_historial_pagos_nom_pac").val(Id);

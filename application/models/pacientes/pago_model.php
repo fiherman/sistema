@@ -120,6 +120,31 @@ class Pago_model extends CI_Model{
             select * from vw_ver_historial_pagos_dol where pag_pac_id= $pac_id and pag_trat_num=$trat_num order by $sidx $sord limit $limit offset $start
         ")->result();
     }
+    
+    
+    ///////////////////////TRATAMIENTO DELETE/////////////////////////////////////////////////////
+    
+    function eliminar_tratamiento($pac_id,$trat_num){
+//        $this->db->query("set names 'utf8';");
+        $del_trat= $this->db->query(" delete from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num");
+        
+        if($del_trat)
+        {
+//            $del_dscto=
+                    $this->db->query("delete from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num");
+//            $del_pago=
+                    $this->db->query("delete from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num");
+//            if($del_dscto)
+//            {
+//                
+//                if($del_pago){
+            return true;
+//                }
+//            }
+        }else{
+            return false;
+        }
+    }
 }
 
 

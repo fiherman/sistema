@@ -41,7 +41,17 @@ class Pago extends CI_Controller{
         echo @json_encode($Consulta);//$todo
     }
     
-
+    function eliminar_tratamiento(){
+        $pac_id=$_GET['pac_id'];
+        $trat_num=$_GET['trat_num'];
+        
+        $sql=$this->pago_model->eliminar_tratamiento($pac_id,$trat_num);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
     
     function get_historial_pagos(){
         header('Content-type: application/json');

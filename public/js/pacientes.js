@@ -203,7 +203,8 @@ function btn_rea_consulta(){
         url: 'pacientes/pacientes/get_num_trat?ide_trb='+ide_trb,
         type: 'GET',
         success: function(data){
-            $("#div_cons_trat_num").val(data+1);
+            var pos=data.pop().trat;
+            $("#div_cons_trat_num").val(parseInt(pos)+1);
         }
     });
     pintar_verde_todo();
@@ -279,9 +280,10 @@ function btn_plan_tratamiento(){
         url: 'pacientes/pacientes/get_num_trat?ide_trb='+ide_trb,
         type: 'GET',
         success: function(data){
-            $("#div_trat_numero").val(data+1);
+            var pos=data.pop().trat;
+            $("#div_trat_numero").val(parseInt(pos)+1);
             $.ajax({                   
-                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+(data+1),
+                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+(data.length+1),
                 type: 'GET',
                 success: function(dato){            
                     ///abre el dialogo de crear tratamiento             
@@ -342,17 +344,17 @@ function ver_tratamiento_pac(Id){
             $("#div_ver_tratamiento").dialog({
                 autoOpen: false, modal: true, height: 540, width: 880, show: {effect: "fade", duration: 500},close: function() { ver_trat_pac_id=0; }
             }).dialog('open');
-            for(i=1;i<=data;i++){//carga el combo para seleccionar el tratamiento desde la BD
-                $('#div_ver_trat_select').append('<option value='+i+'>'+'<b>nro: '+i+'</b></option>');
+            for(i=0;i<=data.length-1;i++){//carga el combo para seleccionar el tratamiento desde la BD
+                $('#div_ver_trat_select').append('<option value='+data[i].trat+'>'+'<b>nro: '+data[i].trat+'</b></option>');
             }
             if(trat_global==0){//carga por primera ves el grid
                 trat_global=1;                
-                grid_ver_tratamiento(Id,1); 
+                grid_ver_tratamiento(Id,data[0].trat); 
                 trat_saldo(Id,$('#div_ver_trat_select').val());
             }else if(trat_global==1){//solo actualiza el grid 
-                select_ver_trat(1);                 
+                select_ver_trat(data[0].trat);                 
             }
-            $("#btn_ver_trat_dscto").hide();
+            $("#btn_ver_trat_dscto").hide();////////boton de descuento.........
             $("#hiddendiv_ver_trat_pac").val(Id);
             $("#div_ver_trat_pac").val(nom_com);            
             

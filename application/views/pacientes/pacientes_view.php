@@ -141,7 +141,7 @@
             <label class="ctrl_lavel_0">Direccion</label>
             <input type="text" class="ctrl_input_t" style="width: 60%;background-color: #EFFAEE" id="direccion" onblur="fn_onblur(this);" tabindex="3" placeholder="Ingrese Direccion">                                      
             <label class="ctrl_lavel_0">Dni</label>
-            <input type="text" class="ctrl_input_t" style="width: 19%" id="dni"  onkeypress="return soloNumeroTab(event);" tabindex="4" maxlength="8" placeholder="Ingrese DNI">               
+            <input type="text" class="ctrl_input_t" style="width: 19%" id="dni"  onkeypress="return soloDNI(event);" tabindex="4" maxlength="8" placeholder="Ingrese DNI">               
         </div>           
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Distrito</label>
@@ -200,7 +200,7 @@
             <label class="ctrl_lavel_1">Costo</label>
             <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_cos" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."maxlength="5">
             <label style="margin-left:12.7%">Tratamiento</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_trat_num" value="">
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_cons_trat_num" value="" disabled>
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1">Fecha</label>
@@ -314,7 +314,7 @@
             <div style=" margin-left: 10%; margin-right: 1%;">                
                 &nbsp;Costo Total <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_ttotal" disabled/>
                 &nbsp;Dscto <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_dscto"  disabled/> 
-                &nbsp;Total pago <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_tot_pag"  disabled/>
+                &nbsp;Total a pagar <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_tot_pag"  disabled/>
                 &nbsp;Pagado <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_pagado"  disabled/>
                 &nbsp;Saldo <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_saldo"  disabled/>
             </div>            
@@ -324,7 +324,7 @@
             <div style="margin-left: 10%; margin-right: 1%;">                
                 &nbsp;Costo Total <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_ttotal_dol" disabled/>
                 &nbsp;Dscto <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_dscto_dol" disabled/> 
-                &nbsp;Total pago <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_tot_pag_dol"  disabled/>
+                &nbsp;Total a pagar <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_tot_pag_dol"  disabled/>
                 &nbsp;Pagado <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_pagado_dol"  disabled/>
                 &nbsp;Saldo <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_saldo_dol"  disabled/>
             </div>            
@@ -350,6 +350,7 @@
     <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
+    <button class="btn_full_act" id="btn_evolucion" onClick="del_trat();"><img src="public/images/delete.png" style="width:20px">Eliminar este Tratamiento</img></button><!--pagos.js -->
 
 </div>
 <!--DESCUENTO SOLES-->

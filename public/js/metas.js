@@ -51,14 +51,35 @@ function justNumbers(e)
     return /\d/.test(String.fromCharCode(keynum));
 }
 
-
+function soloDNI(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if((charCode > 45 && charCode < 58) || (charCode > 36 && charCode < 41) || charCode == 9 || charCode == 8 || charCode == 116){       
+        if(charCode == 110 || charCode == 190 || charCode == 191){
+            return false;
+        }else{
+            return true;
+        }        
+    }else{
+        return false;
+    }
+}
 
 function soloNumeroTab(evt) {
+   
     var charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57) &&  charCode == 190 && charCode == 110 &&  charCode != 123 &&  charCode != 116)
+    if((charCode > 45 && charCode < 58) || (charCode > 36 && charCode < 41) || charCode == 9 || charCode == 8 || charCode == 110 ||  charCode == 123 ||  charCode == 116){       
+        return true;
+    }else{
         return false;
+    }
+//    
+//    if (charCode > 31 && (charCode < 48 || charCode > 57) ||  charCode == 9 || charCode == 110 ||  charCode != 123 ||  charCode != 116)
+//        return false;
+//    
+//    return true;
+        
 
-    return true;
+    
 }
 function mostraralertas(div, texto, tit) {
 
@@ -90,6 +111,18 @@ function mensaje_sis(div, texto, tit) {
     }).dialog('open');
     $("#" + div).html('<p class="info"><b>' + texto + '</b></p>');
 }
+
+function mensaje_eliminar_trat(div, texto, tit,pac_id,trat_num) {
+    $("#" + div).dialog({
+        autoOpen: false, modal: true, title: tit, height: 150, width: 350, show: {effect: "fade", duration: 300},
+        buttons: [
+            { text: "Aceptar", click: function() {  $(this).dialog("close"); eliminar_tratatamiento(pac_id,trat_num);} },
+            { text: "Cancelar", click: function() { $(this).dialog("close"); } }
+        ]
+    }).dialog('open');
+    $("#" + div).html('<p class="info"><b>' + texto + '</b></p>');
+}
+
 function vista_previa_pac(div, texto) {
 
 //    $("#ojo").show();

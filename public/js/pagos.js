@@ -278,7 +278,7 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
     
 //    $("#grid_ver_historial_pagos").jqGrid('setGridState', 'hidden');
 //    $(".ui-jqgrid-titlebar-close",$("list")[0].grid.cDiv).click();
-    
+//        $("#grid_ver_historial_pagos").jqGrid("GridUnload"); //oculta toda la grilla    
 }
 function select_ver_historial_pagos(cbo_trat) {
     Id = $("#hiddendiv_historial_pagos_nom_pac").val();
@@ -297,6 +297,42 @@ function select_ver_historial_pagos(cbo_trat) {
 
 //    get_dscto_all(ver_trat_pac_id,cbo_trat,0);
 //    trat_saldo(ver_trat_pac_id,$('#div_ver_trat_select').val());
+}
+
+sol=1;dol=0;flag=0;
+function navegacion(tip){    
+    if(tip==0)
+    { 
+        $(".HeaderButton", $('#grid_ver_historial_pagos_dol')[0].grid.cDiv).trigger("click");
+        $(".HeaderButton", $('#grid_ver_historial_pagos')[0].grid.cDiv).trigger("click");
+        if(flag==0){
+//            sol=0;dol=1;
+            flag=1;
+            $("#div_his_pagos_mov").css({ top: "26.5%"});
+        }else{
+//            sol=1;dol=0;
+            flag=0;
+            $("#div_his_pagos_mov").css({ top: "80%"});
+        }
+        
+    }
+    else
+    {
+        $(".HeaderButton", $('#grid_ver_historial_pagos_dol')[0].grid.cDiv).trigger("click");
+        $(".HeaderButton", $('#grid_ver_historial_pagos')[0].grid.cDiv).trigger("click");
+        if(flag==0){
+//            sol=0;dol=1;
+            flag=1;
+            $("#div_his_pagos_mov").css({ top: "26.5%", transition:'all 0.2s'});
+//            element.style['-webkit-transition'] = 'opacity 1s';
+            
+        }else{
+//            sol=1;dol=0;
+            flag=0;
+            $("#div_his_pagos_mov").css({ top: "80%", transition:'all 0.2s'});
+            
+        }
+    }
 }
 //$(".ui-jqgrid-titlebar").click(function() {
 ////     $(".ui-jqgrid-titlebar-close", this).click();

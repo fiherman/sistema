@@ -295,7 +295,8 @@ class Pacientes extends CI_Controller{
 	   $Lista->rows[$Index]['cell']= array(
                 $Datos->trat_id,
                 $Datos->trat_num,
-                trim($Datos->trat_esp_des),                
+                trim($Datos->trat_esp_des),
+                $Datos->trat_cant,
                 $Datos->trat_esp_cos_sol,
                 $Datos->trat_esp_cos_dol,
                 $Datos->trat_fch,

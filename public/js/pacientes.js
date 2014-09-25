@@ -225,9 +225,11 @@ function btn_guardar_consuta(){
             success: function(data){
                 if(data=='si'){
                     mensaje_sis('mensaje',' CONSULTA CREADA CORRECTAMENTE','MENSAJE DEL SISTEMA');
-                    btn_salir('div_consulta');   
-                    btn_actualizar();
+                    btn_salir('div_consulta');                       
                 }else{mensaje_sis('mensaje',' ERROR AL CREAR CONSULTA','MENSAJE DEL SISTEMA');}
+            },
+            error: function(data){
+                mensaje_sis('mensaje',' ERROR AL CREAR CONSULTA','MENSAJE DEL SISTEMA');
             }
         });
     }else {
@@ -285,7 +287,8 @@ function btn_plan_tratamiento(){
                     ///abre el dialogo de crear tratamiento             
                     $("#div_plan_tratamiento").dialog({
                         autoOpen: false, modal: true, height: 510, width: 920, show: {effect: "fade", duration: 500},close: function(event, ui) {         
-                            fn_close_tratamiento('todo');        
+                            fn_close_tratamiento('todo');
+                            cont=1;
                         }
                     }).dialog('open');
                     nom_com=nom+' '+ape;
@@ -367,12 +370,13 @@ function grid_ver_tratamiento(pac_id,num_trat){
     jQuery("#grid_ver_trat_pac").jqGrid({
             url: 'pacientes/pacientes/get_ver_tratamiento?pac_id='+pac_id+'&num_trat='+num_trat,
             datatype: 'json', mtype: 'GET',
-            colNames: ['CODIGO','NºTRAT', 'DESCRIPCION','Costo S/.','Costo $.', 'FECHA','SEGURO','seg_id','DOCTOR','tot'],
-            rowNum: 10, sortname: 'trat_id', sortorder: 'asc', viewrecords: true, caption: 'LISTADO DE TRATAMIENTOS', width: '100%', height: '230', align: "center",
+            colNames: ['CODIGO','NºTRAT', 'DESCRIPCION','Cant.','Costo S/.','Costo $.', 'FECHA','SEGURO','seg_id','DOCTOR','tot'],
+            rowNum: 10, sortname: 'trat_esp_tip', sortorder: 'asc', viewrecords: true, caption: 'LISTADO DE TRATAMIENTOS', width: '100%', height: '230', align: "center",
             colModel: [
                 {name: 'trat_id', index: 'trat_id', width: 57, resizable: true, align: "center"},
-                {name: 'trat_num', index: 'trat_num', width: 57, resizable: true, align: "center"},
+                {name: 'trat_num', index: 'trat_num',hidden:true},
                 {name: 'trat_esp_des', index: 'trat_esp_des', width: 300, resizable: true, align: "left"},           
+                {name: 'trat_cant', index: 'trat_cant', width: 57, resizable: true, align: "center"},
                 {name: 'trat_esp_cos_sol', index: 'trat_esp_cos_sol', width: 70, resizable: true, align: "right"},
                 {name: 'trat_esp_cos_dol', index: 'trat_esp_cos_dol', width: 70, resizable: true, align: "right"},
                 {name: 'trat_fch', index: 'trat_fch', width: 90, resizable: true, align: "center"}, 
@@ -446,8 +450,8 @@ function btn_agregar_insertar(){
                 $("#btn_eliminar_din_"+i).hide();
             }            
         }
-        alert(total +' + '+ cos_sol+ ' = '+(total + cos_sol));
-        alert(total_dol +' + '+ cos_dol+ ' = '+(total_dol + cos_dol));
+//        alert(total +' + '+ cos_sol+ ' = '+(total + cos_sol));
+//        alert(total_dol +' + '+ cos_dol+ ' = '+(total_dol + cos_dol));
         
         total=(total + cos_sol); 
         total_dol=(total_dol + cos_dol); 
@@ -500,15 +504,14 @@ function btn_guardar_tratamiento(num){
     doc_id=$.trim($("#hidden_doc_id_din_"+num).val());
     cant=$.trim($("#cant_"+num).val());
     
+    
     if(pac_id != "" && seg_id != "" && doc_id != "" && esp_des != "" && esp_cos != "" && esp_cos_dol != "" && cant != ""){
         datos=trat_num+'*'+pac_id+'*'+seg_id+'*'+esp_tip+'*'+esp_cod+'*'+esp_des+'*'+esp_cos+'*'+doc_id+'*'+esp_cos_dol+'*'+cant;
-        alert(datos);
+        
         $.ajax({                   
             url: 'pacientes/pacientes/insert_tratamiento_pac?datos='+datos,
             type: 'GET',
-            success: function(data){
-
-            },
+            success: function(data){  },
             error: function (data) {
                 mensaje_sis('mensaje',' ERROR AL GUARDAR TRATAMIENTO','MENSAJE DEL SISTEMA');
             }

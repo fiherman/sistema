@@ -165,7 +165,7 @@ class Pacientes_model extends CI_Model {
     function insert_tratamiento_pac($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol,$cant) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERTa INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch,trat_cant)
+         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch,trat_cant)
          VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,$esp_cos_dol,'" . date('d/m/Y') . "',$cant)"
         );
 

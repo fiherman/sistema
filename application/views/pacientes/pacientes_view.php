@@ -77,6 +77,26 @@
     .conta_deudas_pagos_dol{
         background-color: #DEE8DE; border: 1px solid #85AA84; width: 52%; height: 20px; text-align: right; font-size: 13px; color: #648063;
     }
+    .btn_navi{
+        background-color: #418bc3;
+        border: 0 none;
+        border-radius: 5px;
+        float: left;
+        margin-left: 3%;
+        padding: 0;       
+    }
+    .btn_navi:hover{        
+        background-color:#DFE8F6;
+    }
+/*    .btn_navi:active{ 
+        color: #418BC3;
+        background-color: #FFFFFF;
+    }
+    .btn_navi[disabled="disabled"]{
+        color: #99BCE8;
+        background-color: #d1e5f9;//#d1e5f9;
+        border: #99BCE8 solid 1px;
+    }*/
 </style>
 <script src="<?php echo base_url('public/js/pacientes.js'); ?>" type="text/javascript" charset="UTF-8"></script> 
 <script src="<?php echo base_url('public/js/pagos.js'); ?>" type="text/javascript" charset="UTF-8"></script>
@@ -231,16 +251,16 @@
             <div id="div_tra_dinamico">
                 <!--div de la consulta por defecto-->
                 <div id="div_dina_1">
-                    <input type="hidden" value=" " id="hidden_dina_esp_tip_1">
-                    <input type="hidden" value=" " id="hidden_dina_esp_cod_1">
+                    <input type="hidden" value="0" id="hidden_dina_esp_tip_1">
+                    <input type="hidden" value="0" id="hidden_dina_esp_cod_1">
                     <label class="lbl_din">1</label><input type="text" disabled="" style="width:42%;height: 20px;font-size: 11px;" id="des_dina_1" value="CONSULTA" class="des_din">
-                    <input type="text" value=" " style="width: 2.5%;height: 20px;font-size: 11px;text-align:right" id="cant_1" disabled="">
+                    <input type="text" value="1" style="width: 2.5%;height: 20px;font-size: 11px;text-align:right" id="cant_1" disabled="">
                     <input type="text" style="font-size: 11px; background: none repeat scroll 0% 0% rgb(224, 242, 255); border: 1px solid rgb(131, 203, 255);" id="cos_sol_1" value="" class="cos_din" disabled="">
                     <input type="text" style="font-size: 11px; background: none repeat scroll 0% 0% rgb(222, 232, 222); border: 1px solid rgb(133, 170, 132);" id="cos_dol_1" value="0.00" class="cos_din" disabled="disabled">
                     <input type="hidden" value="1" id="hidden_seg_id_din_1">                    
-                    <input type="text" disabled="" style="width:12%;height: 20px;font-size: 11px;" value=" " id="seg_id_din_1">
-                    <input type="text" disabled="" style="width:20%;height: 20px;font-size: 11px;" value=" " id="doc_id_din_1">                    
-                    <input type="hidden" value="15" id="hidden_doc_id_din_1">                   
+                    <input type="text" disabled="" style="width:12%;height: 20px;font-size: 11px;" value="0" id="seg_id_din_1">
+                    <input type="text" disabled="" style="width:20%;height: 20px;font-size: 11px;" value="0" id="doc_id_din_1">                    
+                    <input type="hidden" value="0" id="hidden_doc_id_din_1">                   
                     
                 </div>
                 
@@ -582,12 +602,22 @@
             </select>           
         </div>        
     </div>
-    <div style="position: absolute; z-index: 1; top: 18.5%; width: 68%; left: 27%;">
-        <label class="ctrl_lavel_1" style="width:47%; color: white">Saldo S/.</label>
-        <input type="text" class="conta_deudas_pagos" style="width: 18%;" id="div_historial_pagos_saldo" disabled/> 
-        <label class="ctrl_lavel_1" style="width:13%; color: white">Saldo $.</label>
-        <input type="text" class="conta_deudas_pagos_dol" style="width: 18%;" id="div_historial_pagos_saldo_dol" disabled/> 
-    </div> 
+    <div style="position: absolute; top: 18.4%; z-index: 1; left: 71.5%;">
+        <label class="ctrl_lavel_1" style="color: white; float: left; width: 37%;">Saldo S/.</label>
+        <input type="text" class="conta_deudas_pagos" style="float: left; width: 48%; margin-left: 2%;" id="div_historial_pagos_saldo" disabled/> 
+        <!--javascript pagos-->
+        <button class="btn_navi" id="btn_historial_pagos_sol" onClick="navegacion(0);">
+            <img src="public/images/mm.png" style="width:20px"></img>
+        </button>
+    </div>
+    <div style="position: absolute; top: 80%; z-index: 1; left: 72.5%;" id="div_his_pagos_mov">
+        <label class="ctrl_lavel_1" style="color: white; float: left; width: 37%;">Saldo $.</label>
+        <input type="text" class="conta_deudas_pagos_dol" style="float: left; width: 48%; margin-left: 2%;" id="div_historial_pagos_saldo_dol" disabled/> 
+        <!--javascript pagos-->
+        <button class="btn_navi" id="btn_historial_pagos_dol" onClick="navegacion(1);">
+            <img src="public/images/mm.png" style="width:20px;transform: scaleY(-1);"></img>
+        </button>
+    </div>
     <div style="margin: 0% 1.5%;position: relative">        
         <table id="grid_ver_historial_pagos"></table>
         <div id="grid_ver_historial_pagos_pager"></div>

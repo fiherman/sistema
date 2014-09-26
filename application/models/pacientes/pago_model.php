@@ -136,7 +136,8 @@ class Pago_model extends CI_Model{
                     $this->db->query("delete from pagos where pag_pac_id=$pac_id and pag_trat_num=$trat_num");
 //            if($del_dscto)
 //            {
-//                
+                    $this->db->query("delete from consulta where pac_id=$pac_id and cons_trat_num=$trat_num");
+                
 //                if($del_pago){
             return true;
 //                }

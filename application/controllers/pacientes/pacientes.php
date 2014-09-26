@@ -203,16 +203,23 @@ class Pacientes extends CI_Controller{
         }
     }
     function get_num_trat(){
-        header("Content-Type: application/json");       
+            
         $Consulta= $this->pacientes_model->get_num_trat($_GET['ide_trb']);  
 //        $trat=$Consulta->trat_tot;
-        $trat=array();
-        foreach($Consulta as $Datos){
-            $Lista=new stdClass();           
-            $Lista->trat=$Datos->trat_tot;                      
-            array_push($trat,$Lista);
+        if($Consulta){
+            header("Content-Type: application/json");   
+            $trat=array();
+            foreach($Consulta as $Datos){
+                $Lista=new stdClass();           
+                $Lista->trat=$Datos->trat_tot;                      
+                array_push($trat,$Lista);
+            }
+            echo @json_encode($trat);
+        }else{
+            echo 'no';
         }
-        echo @json_encode($trat);
+        
+        
     }
     function get_ver_dscto(){
         header("Content-Type: application/json");   

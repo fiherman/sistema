@@ -137,6 +137,7 @@ class Pacientes_model extends CI_Model {
 
     function get_num_trat($pac_id) {
         return $this->db->query("select distinct trat_num as trat_tot from tratamiento where trat_pac_id=$pac_id order by 1")->result();
+        
     }
     function get_consulta_costo($pac_id,$trat_num) {
         return $this->db->query("select * from consulta where pac_id=$pac_id and cons_trat_num=$trat_num")->result()[0];

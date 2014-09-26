@@ -203,8 +203,13 @@ function btn_rea_consulta(){
         url: 'pacientes/pacientes/get_num_trat?ide_trb='+ide_trb,
         type: 'GET',
         success: function(data){
-            var pos=data.pop().trat;
-            $("#div_cons_trat_num").val(parseInt(pos)+1);
+            if(data=='no'){                
+                $("#div_cons_trat_num").val(1);
+            }else{
+                var pos=data.pop().trat;
+                $("#div_cons_trat_num").val(parseInt(pos)+1);                
+            }
+            
         }
     });
     pintar_verde_todo();
@@ -280,10 +285,16 @@ function btn_plan_tratamiento(){
         url: 'pacientes/pacientes/get_num_trat?ide_trb='+ide_trb,
         type: 'GET',
         success: function(data){
-            var pos=data.pop().trat;
-            $("#div_trat_numero").val(parseInt(pos)+1);
+            var trat=0;
+            if(data=='no'){                
+                trat=1;
+            }else{
+                var pos=data.pop().trat;
+                trat = parseInt(pos)+1;                
+            }   
+            $("#div_trat_numero").val(trat);
             $.ajax({                   
-                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+(parseInt(pos)+1),
+                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+trat,
                 type: 'GET',
                 success: function(dato){            
                     ///abre el dialogo de crear tratamiento             
@@ -315,8 +326,7 @@ function btn_plan_tratamiento(){
                 error:function(dato){            
                     mensaje_sis('mensaje','NECESITA CREAR UNA CONSULTA NUEVA AL PACIENTE','MENSAJE DEL SISTEMA');            
                 }
-            }); 
-
+            });       
         }
     });
     //verifica si el paciente tiene una consulta con el codigo y numero de tratamiento
@@ -335,7 +345,7 @@ function ver_tratamiento_pac(Id){
         url: 'pacientes/pacientes/get_num_trat?ide_trb='+Id,
         type: 'GET',
         success: function(data){
-            if(data==0){
+            if(data=='no'){
                 mensaje_sis('mensaje','EL PACIENTE NO TIENE TRATAMIENTOS','MENSAJE DEL SISTEMA');
                 return false; 
             }            
@@ -361,7 +371,7 @@ function ver_tratamiento_pac(Id){
 //            get_dscto_all(Id,1,0);
         },
         error:function(data){
-            alert('error');
+            mensaje_sis('mensaje','EL PACIENTE NO TIENE TRATAMIENTOS','MENSAJE DEL SISTEMA');
         }
     });  
 }

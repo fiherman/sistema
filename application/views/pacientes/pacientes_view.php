@@ -314,7 +314,7 @@
             <div style=" margin-left: 10%; margin-right: 1%;">                
                 &nbsp;Costo Total <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_ttotal" disabled/>
                 &nbsp;Dscto <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_dscto"  disabled/> 
-                &nbsp;Total a pagar <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_tot_pag"  disabled/>
+                &nbsp;Pago total <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_tot_pag"  disabled/>
                 &nbsp;Pagado <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_pagado"  disabled/>
                 &nbsp;Saldo <input type="text" class="conta_deudas_pagos" style="width: 11%;" id="div_ver_trat_saldo"  disabled/>
             </div>            
@@ -324,7 +324,7 @@
             <div style="margin-left: 10%; margin-right: 1%;">                
                 &nbsp;Costo Total <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_ttotal_dol" disabled/>
                 &nbsp;Dscto <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_dscto_dol" disabled/> 
-                &nbsp;Total a pagar <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_tot_pag_dol"  disabled/>
+                &nbsp;Pago total <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_tot_pag_dol"  disabled/>
                 &nbsp;Pagado <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_pagado_dol"  disabled/>
                 &nbsp;Saldo <input type="text" class="conta_deudas_pagos_dol" style="width: 11%;" id="div_ver_trat_saldo_dol"  disabled/>
             </div>            

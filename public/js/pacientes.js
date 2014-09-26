@@ -283,7 +283,7 @@ function btn_plan_tratamiento(){
             var pos=data.pop().trat;
             $("#div_trat_numero").val(parseInt(pos)+1);
             $.ajax({                   
-                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+(data.length+1),
+                url: 'pacientes/pacientes/get_consulta_costo?ide_trb='+ide_trb+'&trat_num='+(parseInt(pos)+1),
                 type: 'GET',
                 success: function(dato){            
                     ///abre el dialogo de crear tratamiento             

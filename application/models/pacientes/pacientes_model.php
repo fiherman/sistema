@@ -214,16 +214,16 @@ class Pacientes_model extends CI_Model {
     ///////REPORTE///////////////////////////////////////////////////////////////////////////
     function get_cabecera_report($pac_id, $num_trat) {
         $this->db->query("set names 'utf8';");
-        return $this->db->query("selecta * from vw_cabecera_reporte where id=$pac_id and trat_num=$num_trat")->result()[0];
+        return $this->db->query("select * from consulta where pac_id=$pac_id and cons_trat_num=$num_trat")->result()[0];
     }
     
     function get_trat_report($pac_id, $num_trat) {
         $this->db->query("set names 'utf8';");        
-        return $this->db->query("select * from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat")->result();
+        return $this->db->query("select * from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat  order by 5")->result();
     }
     
     function get_dscto_sol($pac_id, $num_trat) { 
-        $dscto=$this->db->query("select dscto_trat_dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result();
+        $dscto=$this->db->query("select dscto_trat_dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
         if($dscto){
             return $dscto;
         }else{
@@ -233,7 +233,7 @@ class Pacientes_model extends CI_Model {
          
     }
     function get_dscto_dol($pac_id, $num_trat) {           
-        $dscto=$this->db->query("select dscto_trat_dscto from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result();
+        $dscto=$this->db->query("select dscto_trat_dscto from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
         if($dscto){
             return $dscto;
         }else{

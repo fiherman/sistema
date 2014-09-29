@@ -612,7 +612,7 @@
         </button>
     </div>
     <div style="position: absolute; top: 80%; z-index: 1; left: 72.5%;" id="div_his_pagos_mov">
-        <label class="ctrl_lavel_1" style="color: white; float: left; width: 37%;">Saldo $.</label>
+        <label class="ctrl_lavel_1" style="color: white; float: left; width: 36%;">Saldo $.</label>
         <input type="text" class="conta_deudas_pagos_dol" style="float: left; width: 48%; margin-left: 2%;" id="div_historial_pagos_saldo_dol" disabled/> 
         <!--javascript pagos-->
         <button class="btn_navi" id="btn_historial_pagos_dol" onClick="navegacion(1);">

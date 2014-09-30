@@ -12,7 +12,7 @@ class reportes extends CI_Controller
          $Html.="<style>
                     .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
                     .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
-                    #table_trat{ font-size: 12px;margin-left:10px}
+                    .table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
                     #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
@@ -59,7 +59,7 @@ class reportes extends CI_Controller
                         <td align=center width=10%>Costo S/.</td>
                         <td align=center width=10%>Costo US$. </td>
                     </tr></table>
-                    <table id='table_trat' width=100%>";
+                    <table class='table_trat' width=100%>";
          foreach($trat as $Index => $Datos){
 	    $c+=1;$tot_sol+=$Datos->trat_esp_cos_sol;$tot_dol+=$Datos->trat_esp_cos_dol;
 	     $Html.="<tr>";
@@ -70,10 +70,10 @@ class reportes extends CI_Controller
 		  $Html.="<td width=10% align=right>".number_format($Datos->trat_esp_cos_dol,2)."</td>";
 	     $Html.="</tr>";
 	 }
-        
+         $Html.="</table>";
          $ttotal_s = $tot_sol-$dscto_sol->dscto_trat_dscto;
          $ttotal_d = $tot_dol-$dscto_dol->dscto_trat_dscto;
-         $Html.="<div style='margin-left:60%'><table width=100% style='margin-left:10px'>
+         $Html.="<div style='margin-left:60%'><table width=100% class='table_trat' style='margin-left:10px'>
                     <tr>
                         <td width=50% >SUB TOTAL</td>
                         <td width=25% align=right style='border-top: 1px solid black;'>".number_format($tot_sol,2)."</td>
@@ -87,34 +87,54 @@ class reportes extends CI_Controller
                         <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_s,2)."</td>
                         <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
                     </tr>
-                 </table><br>";
+                   </table>
+                 </div><br>";
          
-         $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
+         $Html.="<table class='table_cab' width=100% style='margin-left:10px;'>
+                    <tr><td colspan=5 align=center> PAGOS </td></tr>
                     <tr>
-                        <td width=50% >Pagos Realizados</td>
-                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ttotal_s,2)."</td>
-                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
+                        <td width=4% align=center>N</td>
+                        <td width=38% align=center>SOLES</td>
+                        <td width=10% align=right >".number_format($ttotal_s,2)."</td>
+                        <td width=38% align=center>DOLARES</td>
+                        <td width=10% align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
                     </tr>
                  </table>
-                 <table id='table_trat' width=100%>"; 
+                 <table class='table_trat' width=100%>"; 
          $ssaldo_s=$ttotal_s;
          $ssaldo_d=$ttotal_d;
          for($i=0; $i<$max;$i++){
 	    $ssaldo_s-=$pagos[0][$i]->pag_monto_sol;$ssaldo_d-=$pagos[1][$i]->pag_monto;
 	     $Html.="<tr>";
-		  $Html.="<td width=50% align=center>pago ".($i+1)."</td>";  
-		  $Html.="<td width=25% align=right>-".number_format($pagos[0][$i]->pag_monto_sol,2)."</td>";
-		  $Html.="<td width=25% align=right>-".number_format($pagos[1][$i]->pag_monto,2)."</td>";
+		  $Html.="<td width=4% align=center>".($i+1)."</td>"; 
+                  if($pagos[0][$i]->pag_fch && $pagos[0][$i]->pag_codigo){
+                      $fch_s= strtotime(str_replace('/', '-', trim($pagos[0][$i]->pag_fch)));
+                      $fecha_s=date('d',$fch_s)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s); 
+                      $fff="  (".$fecha_s.") Doc. ".$pagos[0][$i]->pag_codigo;
+                  }else{ $fff="  ---";  }
+                  
+                  
+                  $Html.="<td width=38%>".$fff."</td>";
+		  $Html.="<td width=10% align=right>-".number_format($pagos[0][$i]->pag_monto_sol,2)."</td>";
+                  
+                  if($pagos[1][$i]->pag_fch && $pagos[1][$i]->pag_codigo){
+                      $fch_d= strtotime(str_replace('/', '-', trim($pagos[1][$i]->pag_fch)));
+                      $fecha_d=date('d',$fch_d)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s);
+                      $ddd="  (".$fecha_d.") Doc. ".$pagos[1][$i]->pag_codigo;
+                  }else{ $ddd="  ---";  }
+                                   
+                  $Html.="<td width=38%>".$ddd."</td>";
+		  $Html.="<td width=10% align=right>-".number_format($pagos[1][$i]->pag_monto,2)."</td>";
 	     $Html.="</tr>";
 	 }
          $Html.="</table>";
-          $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
-                    <tr>
-                        <td width=50% >SALDO</td>
-                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_s,2)."</td>
-                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_d,2)."</td>
-                    </tr>
-                 </table></div>";
+//          $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
+//                    <tr>
+//                        <td width=50% >SALDO</td>
+//                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_s,2)."</td>
+//                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_d,2)."</td>
+//                    </tr>
+//                 </table>";
          $Html.="
                  <div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
 //        echo $Html;

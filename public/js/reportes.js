@@ -78,8 +78,9 @@ function btn_rep_trat(Id){
 function ver_rep_resumen_pag(){
     pac_id=$("#hiddenrep_nombre").val();
     trat_num=$("#div_rep_trat_select").val();
-    var iframe = $('<div><iframe src="pacientes/reportes/saludo/'+pac_id+'/'+trat_num+'" style="width:100%;height:100%" /></div>');
-    crearframe(iframe);
+    window.open("pacientes/reportes/saludo/"+pac_id+"/"+trat_num);
+//    var iframe = $('<div><iframe src="pacientes/reportes/saludo/'+pac_id+'/'+trat_num+'" style="width:100%;height:100%" /></div>');
+//    crearframe(iframe);
 }
 function crearframe(iframe)
 {
@@ -89,7 +90,7 @@ function crearframe(iframe)
       css:{border: 'none', padding: '15px',   backgroundColor: '#000',  'border-radius': '10px',  opacity: .5,   color: '#fff' }
     });
     iframe.dialog(
-    {   autoOpen: false, modal: true, title: "Reporte -  Resumen de Pagos", resizable: false, width: '95%', height: 700,
+    {   autoOpen: false, modal: true, title: "Reporte -  Resumen de Pagos", resizable: false, width: '95%',height: 650,
         show: {effect: "blind", duration: 300},
         hide: {effect: "blind", duration: 200},
         close: function (e) {

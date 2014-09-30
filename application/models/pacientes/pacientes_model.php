@@ -240,6 +240,30 @@ class Pacientes_model extends CI_Model {
             return 0.00;
         }
     }
+    function get_pago_sol_dol($pac_id, $num_trat) { 
+        
+        $pag=$this->db->query("select pag_monto_sol from pagos where pag_pac_id=$pac_id and pag_trat_num=$num_trat")->result();
+        $pag_dol=$this->db->query("select pag_monto from pagos_dol where pag_pac_id=$pac_id and pag_trat_num=$num_trat")->result();
+        
+        $Lista=array();
+//        if($pag && $pag_dol){
+            array_push($Lista, $pag);
+            array_push($Lista, $pag_dol);
+            return $Lista;
+//        }else{
+//            return 0.00;
+//        }
+        
+         
+    }
+    function get_pago_dol($pac_id, $num_trat) {           
+        $dscto_d=$this->db->query("select * from pagos_dol where pag_pac_id=$pac_id and pag_trat_num=$num_trat")->result();
+        if($dscto){
+            return $dscto;
+        }else{
+            return 0.00;
+        }
+    }
 
 
 }

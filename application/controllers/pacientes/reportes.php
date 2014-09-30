@@ -3,19 +3,20 @@ class reportes extends CI_Controller
 {
     function saludo($pac_id,$trat_num)
     {        error_reporting(0);
+//    header('Content-type: application/json');
          $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
          $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
          $c=0;$tot_sol=0;$tot_dol=0;
          
          $Html="";         
          $Html.="<style>
-                    #table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden }
-                    #table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
-                    #table_trat{ font-size: 12px;}
+                    .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
+                    .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
+                    #table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
-                    #header { position: fixed; left: 0px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
-                    #footer { position: fixed; left: 0px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
+                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
                     @page {margin-top: 80px; margin-left: 2.0em;}
                     #header .page:after { content: counter(page, arial); }
                  </style>";         
@@ -26,27 +27,34 @@ class reportes extends CI_Controller
                             <td width=80px><span class='page'>".date('d/M/Y')."<br>N&deg;Pag: </span><td></tr>
                     </table>                                 
                  </div>                 
-                 <hr style='background-color: black; height: 1px; border: 0;margin-top:40px'><br>";
+                 <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>";
          
          $cabesera=$this->pacientes_model->get_cabecera_report($pac_id,$trat_num);
          $trat=$this->pacientes_model->get_trat_report($pac_id,$trat_num);
          $dscto_sol=$this->pacientes_model->get_dscto_sol($pac_id,$trat_num);
          $dscto_dol=$this->pacientes_model->get_dscto_dol($pac_id,$trat_num);
+         $pagos=$this->pacientes_model->get_pago_sol_dol($pac_id,$trat_num);
+         $max= count($pagos[0]);
+         if(count($pagos[1])>$max){
+             $max=count($pagos[1]);
+         }
+                
+//         $pag_dol=$this->pacientes_model->get_pago_dol($pac_id,$trat_num);         
          
-         $Html.="<div style='font-size: 14px;' >Codigo&nbsp;&nbsp;&nbsp;  : ".$cabesera->pac_id."</div> 
-                 <div style='font-size: 14px;'>Paciente &nbsp;: ".$cabesera->pac_nom_com." </div><br>";
+         $Html.="<div style='font-size: 14px;margin-left:10px' >Codigo&nbsp;&nbsp;&nbsp;  : ".$cabesera->pac_id."</div> 
+                 <div style='font-size: 14px;margin-left:10px'>Paciente &nbsp;: ".$cabesera->pac_nom_com." </div><br>";
          
          $Html.="<center>TRATAMIENTO N&deg;&nbsp;".$trat_num."</center>";
          
          $fch= strtotime(str_replace('/', '-', $cabesera->cons_fch));
          $fecha=$dias[date('w',$fch)]." ".date('d',$fch)." de ".$meses[date('n',$fch)-1]. " del ".date('Y',$fch) ;         
          
-         $Html.="<div style='font-size: 14px;'>Fecha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : ".$fecha."</div> 
-                 <div style='font-size: 14px;'>Consulta &nbsp;: ".$cabesera->cons_id." </div><br>";
-         $Html.="<table id='table_cab' width=100%>
+         $Html.="<div style='font-size: 14px;margin-left:10px'>Fecha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : ".$fecha."</div> 
+                 <div style='font-size: 14px;margin-left:10px'>Consulta &nbsp;: ".$cabesera->cons_id." </div><br>";
+         $Html.="<table class='table_cab' width=100%>
                     <tr>
                         <td align=center width=5%>N</td>
-                        <td align=center width=70%>Tratamiento - Descripci&oacute;n</td>
+                        <td align=center width=65%>Tratamiento - Descripci&oacute;n</td>
                         <td align=center width=5%>Cant.</td>
                         <td align=center width=10%>Costo S/.</td>
                         <td align=center width=10%>Costo US$. </td>
@@ -65,7 +73,7 @@ class reportes extends CI_Controller
         
          $ttotal_s = $tot_sol-$dscto_sol->dscto_trat_dscto;
          $ttotal_d = $tot_dol-$dscto_dol->dscto_trat_dscto;
-         $Html.="<div style='margin-left:60%'><table width=100% >
+         $Html.="<div style='margin-left:60%'><table width=100% style='margin-left:10px'>
                     <tr>
                         <td width=50% >SUB TOTAL</td>
                         <td width=25% align=right style='border-top: 1px solid black;'>".number_format($tot_sol,2)."</td>
@@ -79,10 +87,40 @@ class reportes extends CI_Controller
                         <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_s,2)."</td>
                         <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
                     </tr>
+                 </table><br>";
+         
+         $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
+                    <tr>
+                        <td width=50% >Pagos Realizados</td>
+                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ttotal_s,2)."</td>
+                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
+                    </tr>
+                 </table>
+                 <table id='table_trat' width=100%>"; 
+         $ssaldo_s=$ttotal_s;
+         $ssaldo_d=$ttotal_d;
+         for($i=0; $i<$max;$i++){
+	    $ssaldo_s-=$pagos[0][$i]->pag_monto_sol;$ssaldo_d-=$pagos[1][$i]->pag_monto;
+	     $Html.="<tr>";
+		  $Html.="<td width=50% align=center>pago ".($i+1)."</td>";  
+		  $Html.="<td width=25% align=right>-".number_format($pagos[0][$i]->pag_monto_sol,2)."</td>";
+		  $Html.="<td width=25% align=right>-".number_format($pagos[1][$i]->pag_monto,2)."</td>";
+	     $Html.="</tr>";
+	 }
+         $Html.="</table>";
+          $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
+                    <tr>
+                        <td width=50% >SALDO</td>
+                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_s,2)."</td>
+                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_d,2)."</td>
+                    </tr>
                  </table></div>";
          $Html.="
-                 <div id='footer'><div style='height:1px; background-color:Black;'> BkSoft</div>";
+                 <div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
 //        echo $Html;
+        
+//        echo json_encode($pagos[1][0]);
+         
 	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
 	 $this->dompdf_lib->load_html($Html);
 	 $this->dompdf_lib->render();

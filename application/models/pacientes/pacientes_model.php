@@ -177,11 +177,11 @@ class Pacientes_model extends CI_Model {
         }
     }
 
-    function insert_dscto_trat($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des) {
+    function insert_dscto_trat($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des,$porcent) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO descuento(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des)
-         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des')"
+         INSERT INTO descuento(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des,dscto_porcent)
+         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des',$porcent)"
         );
 
         if ($insert) {
@@ -191,11 +191,11 @@ class Pacientes_model extends CI_Model {
         }
     }
     
-    function insert_dscto_trat_dol($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des) {
+    function insert_dscto_trat_dol($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des,$porcent) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO descuento_dol(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des)
-         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des')"
+         INSERT INTO descuento_dol(dscto_pac_id, dscto_trat_num, dscto_trat_subtot, dscto_trat_dscto, dscto_trat_tot, dscto_fch, dscto_des,dscto_porcent)
+         VALUES ($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot,'" . date('d/m/Y') . "', '$des',$porcent)"
         );
 
         if ($insert) {
@@ -223,7 +223,7 @@ class Pacientes_model extends CI_Model {
     }
     
     function get_dscto_sol($pac_id, $num_trat) { 
-        $dscto=$this->db->query("select dscto_trat_dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
+        $dscto=$this->db->query("select dscto_trat_dscto,dscto_porcent from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
         if($dscto){
             return $dscto;
         }else{
@@ -233,7 +233,7 @@ class Pacientes_model extends CI_Model {
          
     }
     function get_dscto_dol($pac_id, $num_trat) {           
-        $dscto=$this->db->query("select dscto_trat_dscto from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
+        $dscto=$this->db->query("select dscto_trat_dscto,dscto_porcent from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$num_trat")->result()[0];
         if($dscto){
             return $dscto;
         }else{

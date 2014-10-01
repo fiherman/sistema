@@ -320,7 +320,7 @@ class Pacientes extends CI_Controller{
     function insert_dscto_trat(){
         $cam=  explode('*', $_GET['datos']);        
 //        echo $cam[0].'<br>';
-        $sql=$this->pacientes_model->insert_dscto_trat($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        $sql=$this->pacientes_model->insert_dscto_trat($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6]);
         if($sql){
             echo 'si';
         }else{
@@ -331,7 +331,7 @@ class Pacientes extends CI_Controller{
      function insert_dscto_trat_dol(){
         $cam=  explode('*', $_GET['datos']);        
 //        echo $cam[0].'<br>';
-        $sql=$this->pacientes_model->insert_dscto_trat_dol($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        $sql=$this->pacientes_model->insert_dscto_trat_dol($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6]);
         if($sql){
             echo 'si';
         }else{

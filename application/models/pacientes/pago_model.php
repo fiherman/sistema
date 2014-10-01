@@ -4,7 +4,7 @@ class Pago_model extends CI_Model{
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
                 INSERT INTO pagos(pag_pac_id, pag_trat_num,pag_codigo, pag_monto_sol, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu)
-                VALUES ($pac_id, $trat_num,$pag_cod, $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
+                VALUES ($pac_id, $trat_num,'$pag_cod', $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
                 ");
 
        if($insert){           
@@ -18,7 +18,7 @@ class Pago_model extends CI_Model{
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
                 INSERT INTO pagos_dol(pag_pac_id, pag_trat_num,pag_codigo, pag_monto, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu)
-                VALUES ($pac_id, $trat_num,$pag_cod, $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
+                VALUES ($pac_id, $trat_num,'$pag_cod', $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
                 ");
 
        if($insert){           

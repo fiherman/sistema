@@ -371,8 +371,10 @@
         <div class="ctrl_input">            
             <label class="ctrl_lavel_1" style="width:60%">Subtotal:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot"  disabled/>           
+            <label class="ctrl_lavel_1" style="width:60%">Porcentaje:</label>
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_porcent" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Descuento:</label>
-            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto" disabled="" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Total:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot"  placeholder="S/. 0.00" disabled/>           
         </div> 
@@ -400,9 +402,11 @@
         </div>
         <div class="ctrl_input">            
             <label class="ctrl_lavel_1" style="width:60%">Subtotal:</label>
-            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot_dol"  disabled/>           
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_subtot_dol"  disabled/>
+            <label class="ctrl_lavel_1" style="width:60%">Porcentaje:</label>
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_porcent_dol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Descuento:</label>
-            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto_dol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/. 0.00" /> 
+            <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_dscto_dol" disabled="" placeholder="S/. 0.00" /> 
             <label class="ctrl_lavel_1" style="width:60%">Total:</label>
             <input type="text" class="ctrl_input_t" style="width: 37%;background-color: #EFFAEE" id="div_dscto_tot_dol"  placeholder="S/. 0.00" disabled/>           
         </div> 
@@ -459,7 +463,7 @@
         </div>
         <div class="ctrl_input">             
             <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
-            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
+            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_num_fac_bol" onblur="fn_onblur(this);"  maxlength="15"  placeholder="Numero de factura o boleta">              
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Observacion</label>
@@ -518,7 +522,7 @@
         </div>
         <div class="ctrl_input">             
             <label class="ctrl_lavel_1" style="width:25%">Nº de Factura o Boleta</label>
-            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_dol_num_fac_bol" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);"  placeholder="Numero de factura o boleta">              
+            <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE" maxlength="11" id="div_pac_rea_pago_dol_num_fac_bol" onblur="fn_onblur(this);"  maxlength="15" placeholder="Numero de factura o boleta">              
         </div>
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Observacion</label>

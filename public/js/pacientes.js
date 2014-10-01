@@ -556,8 +556,9 @@ function btn_dscto_trat_dol(){
     subtot =$("#div_trat_total_dol").val();
      
         $("#div_pac_dscto_dol").dialog({
-            autoOpen: false, modal: true, height: 340, width: 550, show: {effect: "fade", duration: 500} 
+            autoOpen: false, modal: true, height: 360, width: 550, show: {effect: "fade", duration: 500} 
         }).dialog('open');
+        
         limpiar_ctrl_c_u('div_pac_dscto_dol','div_dscto_des_dol*div_dscto_dscto_dol*div_dscto_tot_dol');
         $("#div_dscto_pac_dol").val(nom_com);
         $("#hiddendiv_dscto_pac_dol").val(ide_trb);
@@ -572,7 +573,7 @@ function btn_dscto_trat(){//0 soles / 1 dolares
     
     subtot =$("#div_trat_total").val();
     $("#div_pac_dscto").dialog({
-        autoOpen: false, modal: true, height: 340, width: 550, show: {effect: "fade", duration: 500} 
+        autoOpen: false, modal: true, height: 360, width: 550, show: {effect: "fade", duration: 500} 
     }).dialog('open');
     limpiar_ctrl_c_u('div_pac_dscto','div_dscto_des*div_dscto_dscto*div_dscto_tot');
     $("#div_dscto_pac").val(nom_com);
@@ -589,8 +590,9 @@ function btn_insert_dscto(){
     dscto=$("#div_dscto_dscto").val();
     trat_tot=$("#div_dscto_tot").val();
     des=$("#div_dscto_des").val();
-    if(pac_id != "" && trat_num != "" && trat_subtot != "" && dscto != "" && trat_tot != "" && des != ""){
-        datos=pac_id+'*'+trat_num+'*'+trat_subtot+'*'+dscto+'*'+trat_tot+'*'+des.toUpperCase();
+    porcent=$("#div_dscto_porcent").val();
+    if(pac_id != "" && trat_num != "" && trat_subtot != "" && dscto != "" && trat_tot != "" && des != "" && porcent != ""){
+        datos=pac_id+'*'+trat_num+'*'+trat_subtot+'*'+dscto+'*'+trat_tot+'*'+des.toUpperCase()+'*'+porcent;
         $.ajax({                   
             url: 'pacientes/pacientes/insert_dscto_trat?datos='+datos,
             type: 'GET',
@@ -618,8 +620,9 @@ function btn_insert_dscto_dol(){
     dscto=$("#div_dscto_dscto_dol").val();
     trat_tot=$("#div_dscto_tot_dol").val();
     des=$("#div_dscto_des_dol").val();
-    if(pac_id != "" && trat_num != "" && trat_subtot != "" && dscto != "" && trat_tot != "" && des != ""){
-        datos=pac_id+'*'+trat_num+'*'+trat_subtot+'*'+dscto+'*'+trat_tot+'*'+des.toUpperCase();
+    porcent=$("#div_dscto_porcent_dol").val();
+    if(pac_id != "" && trat_num != "" && trat_subtot != "" && dscto != "" && trat_tot != "" && des != ""  && porcent != ""){
+        datos=pac_id+'*'+trat_num+'*'+trat_subtot+'*'+dscto+'*'+trat_tot+'*'+des.toUpperCase()+'*'+porcent;
         $.ajax({                   
             url: 'pacientes/pacientes/insert_dscto_trat_dol?datos='+datos,
             type: 'GET',
@@ -907,20 +910,20 @@ function fn_onblur(input) {
 //            input.focus();
         }
     }
-    if(input.id == "div_dscto_dscto"){       
-        subtot =$("#div_trat_total").val();
-        dscto = parseFloat(input.value);
-        total = (subtot-dscto).toFixed(2);
-        $("#" + input.id).val(dscto.toFixed(2));
-        $("#div_dscto_tot").val(total);
-    }
-    if(input.id == "div_dscto_dscto_dol"){       
-        subtot =$("#div_trat_total_dol").val();
-        dscto = parseFloat(input.value);
-        total = (subtot-dscto).toFixed(2);
-        $("#" + input.id).val(dscto.toFixed(2));
-        $("#div_dscto_tot_dol").val(total);
-    }
+//    if(input.id == "div_dscto_dscto"){       
+//        subtot =$("#div_trat_total").val();
+//        dscto = parseFloat(input.value);
+//        total = (subtot-dscto).toFixed(2);
+//        $("#" + input.id).val(dscto.toFixed(2));
+//        $("#div_dscto_tot").val(total);
+//    }
+//    if(input.id == "div_dscto_dscto_dol"){       
+//        subtot =$("#div_trat_total_dol").val();
+//        dscto = parseFloat(input.value);
+//        total = (subtot-dscto).toFixed(2);
+//        $("#" + input.id).val(dscto.toFixed(2));
+//        $("#div_dscto_tot_dol").val(total);
+//    }
     if(input.id == "div_pac_rea_pago_cos"){ 
         var a = $("#div_realizar_pago_saldo").val();
         var b = a.replace(',','');
@@ -955,6 +958,22 @@ function fn_onblur(input) {
         $("#" + input.id).val(formato_numero(input.value,2,'.',','));
     }
     
+    if(input.id == "div_dscto_porcent"){   
+        monto=parseFloat($("#div_dscto_subtot").val());
+        porc=input.value;
+        des=(monto*porc)/100;
+        $("#div_dscto_dscto").val(des.toFixed(2));
+        $("#div_dscto_tot").val((monto-des).toFixed(2));
+        
+    }
+     if(input.id == "div_dscto_porcent_dol"){   
+        monto=parseFloat($("#div_dscto_subtot_dol").val());
+        porc=input.value;
+        des=(monto*porc)/100;
+        $("#div_dscto_dscto_dol").val(des.toFixed(2));
+        $("#div_dscto_tot_dol").val((monto-des).toFixed(2));
+        
+    }
 }
 
 function fn_load_seguro(seg_id){

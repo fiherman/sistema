@@ -22,8 +22,8 @@ class reportes extends CI_Controller
                  </style>";         
          $Html.="<div id='header'>   
                     <table width=100%><tr>
-                            <td width=80px> <img style='margin-left:0px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
-                            <td width=400px><span style='margin-left:-20px;font-size: 16px;text-decoration: underline;color:#FF0000'>RESUMEN DE PAGOS POR CONSULTA DEL PACIENTE</span><td>
+                            <td width=80px> <img style='margin-left:0px;width:130px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
+                            <td width=400px><span style='margin-left:15%;font-size: 16px;text-decoration: underline;color:#FF0000'>ESTADO DE CUENTA DEL PACIENTE</span><td>
                             <td width=80px><span class='page'>".date('d/M/Y')."<br>N&deg;Pag: </span><td></tr>
                     </table>                                 
                  </div>                 
@@ -53,7 +53,7 @@ class reportes extends CI_Controller
                  <div style='font-size: 14px;margin-left:10px'>Consulta &nbsp;: ".$cabesera->cons_id." </div><br>";
          $Html.="<table class='table_cab' width=100%>
                     <tr>
-                        <td align=center width=5%>N</td>
+                        <td align=center width=5%>N&deg;</td>
                         <td align=center width=65%>Tratamiento - Descripci&oacute;n</td>
                         <td align=center width=5%>Cant.</td>
                         <td align=center width=10%>Costo S/.</td>
@@ -64,7 +64,7 @@ class reportes extends CI_Controller
 	    $c+=1;$tot_sol+=$Datos->trat_esp_cos_sol;$tot_dol+=$Datos->trat_esp_cos_dol;
 	     $Html.="<tr>";
 		  $Html.="<td width=5% align=center>".$c."</td>";
-		  $Html.="<td width=70%>".  utf8_decode(trim($Datos->trat_esp_des))."</td>";
+		  $Html.="<td width=65%>".  utf8_decode(trim($Datos->trat_esp_des))."</td>";
 		  $Html.="<td width=5% align=center>".trim($Datos->trat_cant)."</td>";
 		  $Html.="<td width=10% align=right>".number_format($Datos->trat_esp_cos_sol,2)."</td>";
 		  $Html.="<td width=10% align=right>".number_format($Datos->trat_esp_cos_dol,2)."</td>";
@@ -73,19 +73,19 @@ class reportes extends CI_Controller
          $Html.="</table>";
          $ttotal_s = $tot_sol-$dscto_sol->dscto_trat_dscto;
          $ttotal_d = $tot_dol-$dscto_dol->dscto_trat_dscto;
-         $Html.="<div style='margin-left:60%'><table width=100% class='table_trat' style='margin-left:10px'>
+         $Html.="<div style='margin-left:57.5%'><table width=100% class='table_trat' style='margin-left:10px'>
                     <tr>
                         <td width=50% >SUB TOTAL</td>
                         <td width=25% align=right style='border-top: 1px solid black;'>".number_format($tot_sol,2)."</td>
                         <td width=25% align=right style='border-top: 1px solid black;'>".number_format($tot_dol,2)."</td>
                     </tr><tr>
                         <td>DSCTO</td>
-                        <td align=right>".number_format($dscto_sol->dscto_trat_dscto,2,'.',',')."</td>
-                        <td align=right>".number_format($dscto_dol->dscto_trat_dscto,2,'.',',')."</td>
+                        <td align=right>".$dscto_sol->dscto_porcent."%"."&nbsp;&nbsp;&nbsp;".number_format($dscto_sol->dscto_trat_dscto,2,'.',',')."</td>
+                        <td align=right>".$dscto_dol->dscto_porcent."%"."&nbsp;&nbsp;&nbsp;".number_format($dscto_dol->dscto_trat_dscto,2,'.',',')."</td>
                     </tr><tr>
                         <td>TOTAL</td>
-                        <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_s,2)."</td>
-                        <td align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
+                        <td align=right style='border: 1px solid black;'>".number_format($ttotal_s,2)."</td>
+                        <td align=right style='border: 1px solid black;'>".number_format($ttotal_d,2)."</td>
                     </tr>
                    </table>
                  </div><br>";
@@ -93,11 +93,11 @@ class reportes extends CI_Controller
          $Html.="<table class='table_cab' width=100% style='margin-left:10px;'>
                     <tr><td colspan=5 align=center> PAGOS </td></tr>
                     <tr>
-                        <td width=4% align=center>N</td>
+                        <td width=4% align=center>N&deg;</td>
                         <td width=38% align=center>SOLES</td>
                         <td width=10% align=right >".number_format($ttotal_s,2)."</td>
                         <td width=38% align=center>DOLARES</td>
-                        <td width=10% align=right style='border-top: 1px solid black;'>".number_format($ttotal_d,2)."</td>
+                        <td width=10% align=right>".number_format($ttotal_d,2)."</td>
                     </tr>
                  </table>
                  <table class='table_trat' width=100%>"; 
@@ -110,8 +110,8 @@ class reportes extends CI_Controller
                   if($pagos[0][$i]->pag_fch && $pagos[0][$i]->pag_codigo){
                       $fch_s= strtotime(str_replace('/', '-', trim($pagos[0][$i]->pag_fch)));
                       $fecha_s=date('d',$fch_s)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s); 
-                      $fff="  (".$fecha_s.") Doc. ".$pagos[0][$i]->pag_codigo;
-                  }else{ $fff="  ---";  }
+                      $fff="&nbsp;&nbsp;&nbsp;(".$fecha_s.") Doc. ".$pagos[0][$i]->pag_codigo;
+                  }else{ $fff="&nbsp;&nbsp;&nbsp;---";  }
                   
                   
                   $Html.="<td width=38%>".$fff."</td>";
@@ -120,21 +120,34 @@ class reportes extends CI_Controller
                   if($pagos[1][$i]->pag_fch && $pagos[1][$i]->pag_codigo){
                       $fch_d= strtotime(str_replace('/', '-', trim($pagos[1][$i]->pag_fch)));
                       $fecha_d=date('d',$fch_d)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s);
-                      $ddd="  (".$fecha_d.") Doc. ".$pagos[1][$i]->pag_codigo;
-                  }else{ $ddd="  ---";  }
+                      $ddd="&nbsp;&nbsp;&nbsp;(".$fecha_d.") Doc. ".$pagos[1][$i]->pag_codigo;
+                  }else{ $ddd="&nbsp;&nbsp;&nbsp;---";  }
                                    
                   $Html.="<td width=38%>".$ddd."</td>";
 		  $Html.="<td width=10% align=right>-".number_format($pagos[1][$i]->pag_monto,2)."</td>";
 	     $Html.="</tr>";
 	 }
          $Html.="</table>";
-//          $Html.="<table class='table_cab' width=100% style='margin-left:10px'>
-//                    <tr>
-//                        <td width=50% >SALDO</td>
-//                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_s,2)."</td>
-//                        <td width=25% align=right style='border-top: 1px solid black;'>".number_format($ssaldo_d,2)."</td>
-//                    </tr>
-//                 </table>";
+         $Html.="<table class='table_trat' width=100% style='margin-left:10px'>
+                    <tr>
+                        <td width=4% ></td>
+                        <td width=38% align=right>SALDO SOLES</td>
+                        <td width=10% align=right style='border: 1px solid black;'>".number_format($ssaldo_s,2)."</td>
+                        <td width=38% align=right>SALDO DOLARES</td>
+                        <td width=10% align=right style='border: 1px solid black;'>".number_format($ssaldo_d,2)."</td>
+                    </tr>
+                 </table><br><br>";
+         $Html.="<table class='table_trat' style='margin-left:10px'>
+                    <tr>
+                        <td colspan=4>RESUMEN:</td>                        
+                    </tr>
+                    <tr>
+                        <td>DEUDA ACTUAL SOLES</td><td>:</td><td align=right>S/.</td><td align=right>".number_format($ssaldo_s,2)."</td>                        
+                    </tr>
+                    <tr>
+                        <td>DEUDA ACTUAL DOLARES</td><td>:</td><td align=right>US$</td><td align=right>".number_format($ssaldo_d,2)."</td>                        
+                    </tr>
+                 </table>";
          $Html.="
                  <div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
 //        echo $Html;

@@ -54,7 +54,7 @@ class agenda_model extends CI_Model
     function get_primera_cita($pac_id){
         $this->db->query("set names 'utf8';");       
        
-        $primera_cita = $this->db->query("select * from consulta where pac_id=$pac_id")->result();
+        $primera_cita = $this->db->query("select * from consulta where pac_id=$pac_id order by 7 desc limit 1")->result();
         if($primera_cita){
             return $primera_cita;
         }

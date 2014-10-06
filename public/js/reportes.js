@@ -101,3 +101,17 @@ function crearframe(iframe)
     iframe.dialog('open');
     $('iframe').load(function(){ setTimeout($.unblockUI, 500);}).show();
 }
+
+function ver_rep_ingresos(){
+    $("#div_pac_rep_ing").dialog({
+        autoOpen: false, modal: true, height: 210, width: 550, show: {effect: "fade", duration: 300} 
+    }).dialog('open');
+    $("#rep_ing_fch_ini").mask("99/99/9999");
+    $("#rep_ing_fch_fin").mask("99/99/9999");
+    datepiker('rep_ing_fch_ini','-2Y','+2Y');
+    datepiker('rep_ing_fch_fin','-2Y','+2Y');
+}
+
+function ver_rep_ing(){
+    alert(4);
+}

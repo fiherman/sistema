@@ -264,9 +264,23 @@ class Pacientes_model extends CI_Model {
             return 0.00;
         }
     }
+    
     ///////////REPORTE INGRESOS////////////////////////
-    function get_data1($fchini,$fchfin){
-        
+    function get_soles($fch){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from vw_ver_historial_pagos where pag_form_pag='1' and pag_fch like'%$fch' order by pag_id")->result();
     }
-
+    function get_dolares($fch){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from vw_ver_historial_pagos_dol where pag_form_pag='1' and pag_fch like'%$fch' order by pag_fch")->result();
+    }
+    function get_voucher($fch){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from vw_ver_historial_pagos where pag_form_pag='2' and pag_fch like'%$fch' order by pag_id")->result();
+    }
+    
+    function get_consultas(){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from consulta where cons_fch like '".date('d/m/Y')."'")->result();
+    }
 }

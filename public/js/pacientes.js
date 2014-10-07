@@ -448,12 +448,12 @@ function btn_agregar_insertar(){
     //    <input type='hidden' id='hiddendoc_dina_"+(cont)+"' value=''/>\n\   
     //<label class='lbl_din'>Doctor</label><input style='width:23%;margin-left:1%;' type='text' value='' id='doc_dina_"+(cont)+"'>\n\
     
-        if(cos_dol!=0.00){//habilita edicion texto dolares
-            $("#btn_dscto_trat_dol").attr('disabled',false);
-            $("#cos_sol_"+cont).attr('disabled',true);
-        }else{//habilita edicion soles
-            $("#cos_dol_"+cont).attr('disabled',true);
-        }
+//        if(cos_dol!=0.00){//habilita edicion texto dolares
+//            $("#btn_dscto_trat_dol").attr('disabled',false);
+//            $("#cos_sol_"+cont).attr('disabled',true);
+//        }else{//habilita edicion soles
+//            $("#cos_dol_"+cont).attr('disabled',true);
+//        }
     
         for(i=2; i<=cont; i++){ 
             if (i==cont){                

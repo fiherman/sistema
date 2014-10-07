@@ -104,16 +104,56 @@ function crearframe(iframe)
 
 function ver_rep_ingresos(){
     $("#div_pac_rep_ing").dialog({
-        autoOpen: false, modal: true, height: 210, width: 550, show: {effect: "fade", duration: 300} 
+        autoOpen: false, modal: true, height: 220, width: 350, show: {effect: "fade", duration: 300} 
     }).dialog('open');
-    $("#rep_ing_fch_ini").mask("99/99/9999");
-    $("#rep_ing_fch_fin").mask("99/99/9999");
-    datepiker('rep_ing_fch_ini','-2Y','+2Y');
-    datepiker('rep_ing_fch_fin','-2Y','+2Y');
+    $("#rep_ing_dia").mask("99/99/9999");
+//    $("#rep_ing_fch_fin").mask("99/99/9999");
+    datepiker('rep_ing_dia','-2Y','+2Y');
+//    datepiker('rep_ing_fch_fin','-2Y','+2Y');
+    $("#rb_mes").attr("checked" , false );
+    $("#rb_dia").attr("checked" , false );
+    $("#rep_ing_mes").attr('disabled',true);
+    $("#rep_ing_dia").attr('disabled',true);
+    $("#rep_ing_mes").val("00");
+    $("#rep_ing_dia").val("");
 }
 
+function rep_ing_filtro(){
+    var radio = $('input:radio[name=rb_rep_ing]:checked').val();
+    if(radio=="mes"){
+        $("#rep_ing_mes").attr('disabled',false);
+        $("#rep_ing_dia").attr('disabled',true);
+        $("#rep_ing_dia").val("");
+    }else{
+        $("#rep_ing_mes").attr('disabled',true);
+        $("#rep_ing_dia").attr('disabled',false);
+        $("#rep_ing_mes").val("00");
+    }
+
+}
 function ver_rep_ing(){
-    fch_ini=$("#rep_ing_fch_ini").val();
-    fch_fin=$("#rep_ing_fch_fin").val();
-    window.open("pacientes/reportes/ingresos/"+fch_ini+"/"+fch_fin);
+    var radio = $('input:radio[name=rb_rep_ing]:checked').val();
+    if(radio=="mes"){
+        
+        mes=$("#rep_ing_mes").val();
+        if(mes=="00"){
+            mostraralertas('informe','* Seleccion un Año','INFORMACION');
+        }else{
+            window.open("pacientes/reportes/ingresos_mes/"+mes);
+        }
+        
+    }else{
+        dia=$("#rep_ing_dia").val();
+        if(dia==""){
+            mostraralertas('informe','* Introdusca una fecha','INFORMACION');
+        }else{
+            window.open("pacientes/reportes/ingresos_dia/"+dia);
+        }
+        
+    }
+    
+}
+
+function cons_dia(){
+    window.open("pacientes/reportes/consultas_dia");
 }

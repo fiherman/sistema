@@ -8,7 +8,7 @@ class reportes extends CI_Controller
          $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
          $c=0;$tot_sol=0;$tot_dol=0;
          
-         $Html="";         
+         $Html="<title>ESTADO DE CTA</title>";         
          $Html.="<style>
                     .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
                     .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
@@ -119,7 +119,7 @@ class reportes extends CI_Controller
                   
                   if($pagos[1][$i]->pag_fch && $pagos[1][$i]->pag_codigo){
                       $fch_d= strtotime(str_replace('/', '-', trim($pagos[1][$i]->pag_fch)));
-                      $fecha_d=date('d',$fch_d)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s);
+                      $fecha_d=date('d',$fch_d)."/".substr($meses[date('n',$fch_d)-1],0,3). "/".date('Y',$fch_d);
                       $ddd="&nbsp;&nbsp;&nbsp;(".$fecha_d.") Doc. ".$pagos[1][$i]->pag_codigo;
                   }else{ $ddd="&nbsp;&nbsp;&nbsp;---";  }
                                    
@@ -160,10 +160,121 @@ class reportes extends CI_Controller
 	 $this->dompdf_lib->stream("reporte_pagos.pdf", array("Attachment" => 0));
     }
     
-    function ingresos($fchini,$fchfin){
+    function ingresos_mes($fch){
+         $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+         $totsol=0;$totdol=0;$totvouch=0;
          error_reporting(0);         
+         $mes=  strtotime("01-".$fch."-".date('Y'));
+         $Html="<title>INGRESOS-".$meses[date('n',$mes)-1]."</title>";            
+         $Html.="<style>
+                    .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
+                    .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
+                    .table_trat{ font-size: 12px;margin-left:10px}
+                    #cabesera{font-size: 14px;}
+                    
+                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
+                    @page {margin-top: 80px; margin-left: 2.0em;}
+                    #header .page:after { content: counter(page, arial); }
+                 </style>";         
+         $Html.="<div id='header'>   
+                    <table width=100%><tr>
+                            <td width=80px> <img style='margin-left:0px;width:130px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
+                            <td width=400px><span style='margin-left:22%;font-size: 16px;text-decoration: underline;color:#FF0000'>REPORTE DE INGRESOS</span><td>
+                            <td width=80px><span class='page'>".date('d',$mes)."/".substr($meses[date('n',$mes)-1],0,3). "/".date('Y',$mes)."<br>N&deg;Pag: </span><td></tr>
+                    </table>                                 
+                 </div>                 
+                 <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>";
          
-         $Html="";         
+
+
+         $Html.="<center>".strtoupper($meses[date('n',$mes)-1])." DEL ".date('Y')." </center><br>";
+         $Html.="<table class='table_cab' width=100%>
+                  <tr>
+                      <td align=center width=10%>FECHA</td>
+                      <td align=center width=45%>PACIENTE</td>
+                      <td align=center width=18%>Documento</td>
+                      <td align=center width=9%>Soles</td>
+                      <td align=center width=9%>Dolares</td>
+                      <td align=center width=9%>Voucher</td>
+                  </tr></table>
+                  <table class='table_trat' width=100%>";
+         
+         for ($i=1;$i<=31;$i++){
+            $setfch=$i."/".$fch."/".date('Y');
+            $soles=$this->pacientes_model->get_soles($setfch);
+            $dola=$this->pacientes_model->get_dolares($setfch);
+            $vouch=$this->pacientes_model->get_voucher($setfch);
+            if($soles ||  $dola || $vouch){
+               if($soles){
+                    foreach($soles as $Index => $Datos){
+                        $totsol+=$Datos->pag_monto_sol;
+                        $Html.="<tr>";
+                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
+                            $Html.="<td width=9% align=right></td>";
+                            $Html.="<td width=9% align=right></td>";
+                        $Html.="</tr>";
+                    }                
+                }            
+                if($dola){
+                    foreach($dola as $Index => $Datos){
+                        $totdol+=$Datos->pag_monto;
+                        $Html.="<tr>";
+                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=9% align=right></td>";
+                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto,2)."</td>";
+                            $Html.="<td width=9% align=right></td>";
+                        $Html.="</tr>";
+                    }                
+                }
+                if($vouch){
+                    foreach($vouch as $Index => $Datos){
+                        $totvouch+=$Datos->pag_monto_sol;
+                        $Html.="<tr>";
+                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=9% align=right></td>";
+                            $Html.="<td width=9% align=right></td>";
+                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
+                        $Html.="</tr>";
+                    }                
+                } 
+            }            
+         }
+         $Html.="<table class='table_trat' width=100%>
+                  <tr>                      
+                      <td align=center width=73%>TOTALES</td>
+                      <td align=right width=9% style='border: 1px solid black;'>".number_format($totsol,2)."</td>
+                      <td align=right width=9% style='border: 1px solid black;'>".number_format($totdol,2)."</td>
+                      <td align=right width=9% style='border: 1px solid black;'>".number_format($totvouch,2)."</td>
+                  </tr></table>
+                  ";
+         $Html.="</table>";      
+         
+         $Html.="<div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
+       
+         //<table class='table_trat' width=100%>
+//          echo $Html;
+        
+//        echo json_encode($pagos[1][0]);
+         
+	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
+	 $this->dompdf_lib->load_html($Html);
+	 $this->dompdf_lib->render();
+	 $this->dompdf_lib->stream("reporte_pagos.pdf", array("Attachment" => 0));
+    }
+    
+    function ingresos_dia($fch){
+         error_reporting(0);         
+         $contando_caracter=count($fch);
+         $Html="<title>INGRESOS-".$fch."</title>";            
          $Html.="<style>
                     .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
                     .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
@@ -186,7 +297,7 @@ class reportes extends CI_Controller
          
          $data1=$this->pacientes_model->get_data1($fchini,$fchfin);
          
-         $Html.="";
+         
          
          
          
@@ -201,6 +312,70 @@ class reportes extends CI_Controller
 	 $this->dompdf_lib->load_html($Html);
 	 $this->dompdf_lib->render();
 	 $this->dompdf_lib->stream("reporte_pagos.pdf", array("Attachment" => 0));
+    }
+    
+    function consultas_dia(){
+         $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+         $c=0;
+         $fch=  strtotime(date('d-m-Y'));
+         error_reporting(0);         
+         
+         $Html="<title>CONSULTAS-".date('d/M/Y')."</title>";            
+         $Html.="<style>
+                    .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
+                    .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
+                    .table_trat{ font-size: 12px;margin-left:10px}
+                    #cabesera{font-size: 14px;}
+                    
+                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
+                    @page {margin-top: 80px; margin-left: 2.0em;}
+                    #header .page:after { content: counter(page, arial); }
+                 </style>";         
+         $Html.="<div id='header'>   
+                    <table width=100%><tr>
+                            <td width=80px> <img style='margin-left:0px;width:130px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
+                            <td width=400px><span style='margin-left:15%;font-size: 16px;text-decoration: underline;color:#FF0000'>CONSULTAS DEL DIA ".date('d',$fch)."/".substr($meses[date('n',$fch)-1],0,3). "/".date('Y',$fch)."</span><td>
+                            <td width=80px><span class='page'>".date('d',$fch)."/".substr($meses[date('n',$fch)-1],0,3). "/".date('Y',$fch)."<br>N&deg;Pag: </span><td></tr>
+                    </table>                                 
+                 </div>                 
+                 <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>";
+         
+         $data=$this->pacientes_model->get_consultas();
+         
+         $Html.="<table class='table_cab' width=100%>
+                  <tr>
+                      <td align=center width=5%>N&deg;</td>
+                      <td align=center width=15%>CODIGO</td>
+                      <td align=center width=60%>PACIENTE</td>
+                      <td align=center width=10%>HORA</td>
+                      <td align=center width=10%>COSTO</td>                      
+                  </tr></table>
+                  <table class='table_trat' width=100%>";
+         
+         foreach($data as $Index => $Datos){
+	    $c+=1;
+	     $Html.="<tr>";
+		  $Html.="<td width=5% align=center>".$c."</td>";
+                  $Html.="<td width=15% align=center>".trim($Datos->pac_id)."</td>";
+		  $Html.="<td width=60%>".utf8_decode(trim($Datos->pac_nom_com))."</td>";		  
+		  $Html.="<td width=10% align=center>".trim($Datos->cons_hora)."</td>";
+		  $Html.="<td width=10% align=center>".number_format($Datos->cons_cos,2)."</td>";
+	     $Html.="</tr>";
+	 }
+         $Html.="</table>";
+         $Html.="<div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
+       
+         //<table class='table_trat' width=100%>
+//          echo $Html;
+        
+//        echo json_encode($pagos[1][0]);
+         
+	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
+	 $this->dompdf_lib->load_html($Html);
+	 $this->dompdf_lib->render();
+	 $this->dompdf_lib->stream("consultas.pdf", array("Attachment" => 0));
     }
     
     function get_all_pac_rep(){

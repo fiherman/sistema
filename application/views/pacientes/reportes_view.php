@@ -46,7 +46,10 @@
         <label style="margin-left: 13%;">Fecha Inicial</label>
         <input type="input" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE"  id="rep_ing_fch_ini"  onblur="fn_onblur(this);"   maxlength="10" placeholder="fecha inicial">              
         <label>Fecha Final</label>
-        <input type="input" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE"  id="rep_ing_fch_fin"  onblur="fn_onblur(this);"   maxlength="10" placeholder="fecha final">              
+        <input type="input" class="ctrl_input_t" style="width: 19%;background-color: #EFFAEE"  id="rep_ing_fch_fin"  onblur="fn_onblur(this);"   maxlength="10" placeholder="fecha final"> <br>
+<!--        <input type="checkbox" name="vehicle" value="sol">Soles 
+        <input type="checkbox" name="vehicle" value="dol">Dolares
+        <input type="checkbox" name="vehicle" value="vou">Voucher-->
     </div>
    
     <hr style="background-color: #418BC3; height: 1px; border: 0;">

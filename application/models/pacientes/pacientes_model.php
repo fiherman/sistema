@@ -264,6 +264,9 @@ class Pacientes_model extends CI_Model {
             return 0.00;
         }
     }
-
+    ///////////REPORTE INGRESOS////////////////////////
+    function get_data1($fchini,$fchfin){
+        
+    }
 
 }

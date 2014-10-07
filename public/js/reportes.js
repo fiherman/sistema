@@ -78,7 +78,7 @@ function btn_rep_trat(Id){
 function ver_rep_resumen_pag(){
     pac_id=$("#hiddenrep_nombre").val();
     trat_num=$("#div_rep_trat_select").val();
-    window.open("pacientes/reportes/saludo/"+pac_id+"/"+trat_num);
+    window.open("pacientes/reportes/estado_cta/"+pac_id+"/"+trat_num);
 //    var iframe = $('<div><iframe src="pacientes/reportes/saludo/'+pac_id+'/'+trat_num+'" style="width:100%;height:100%" /></div>');
 //    crearframe(iframe);
 }
@@ -113,5 +113,7 @@ function ver_rep_ingresos(){
 }
 
 function ver_rep_ing(){
-    alert(4);
+    fch_ini=$("#rep_ing_fch_ini").val();
+    fch_fin=$("#rep_ing_fch_fin").val();
+    window.open("pacientes/reportes/ingresos/"+fch_ini+"/"+fch_fin);
 }

@@ -147,7 +147,7 @@ function ver_rep_ing(){
         if(dia==""){
             mostraralertas('informe','* Introdusca una fecha','INFORMACION');
         }else{
-            window.open("pacientes/reportes/ingresos_dia/"+dia);
+            window.open("pacientes/reportes/ingresos_dia?fch="+dia);
         }
         
     }

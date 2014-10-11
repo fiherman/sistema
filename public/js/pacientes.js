@@ -194,7 +194,7 @@ function btn_rea_consulta(){
 //        timeFormat: 'hh:mm tt'
 //    });     
     $("#div_cons_fch").mask("99/99/9999");
-    datepiker('div_cons_fch','-0D','+4M +10D');
+    datepiker('div_cons_fch','-10D','+4M +10D');
     timepiker('div_cons_hora');
     
     $("#div_cons_pac").val(nom_com);

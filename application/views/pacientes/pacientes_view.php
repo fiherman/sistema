@@ -350,7 +350,7 @@
     <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
-    <button class="btn_full_act" id="btn_evolucion" onClick="del_trat();"><img src="public/images/delete.png" style="width:20px">Eliminar este Tratamiento</img></button><!--pagos.js -->
+    <button class="btn_full_act" id="btn_eliminar_trat" onClick="del_trat();"><img src="public/images/delete.png" style="width:20px">Eliminar Tratamiento</img></button><!--pagos.js -->
 
 </div>
 <!--DESCUENTO SOLES-->

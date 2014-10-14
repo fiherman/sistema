@@ -16,7 +16,7 @@ class reportes extends CI_Controller
                     .table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
-                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #header { position: fixed; left: 10px; top: -50px; right: 0px; height: 20px; background-color: white; text-align: center; }
                     #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
                     @page {margin-top: 80px; margin-left: 2.0em;}
                     #header .page:after { content: counter(page, arial); }
@@ -169,88 +169,101 @@ class reportes extends CI_Controller
          date_default_timezone_set('America/Lima');
          $mmes=  strtotime(date('d-m-Y'));
          $mes=  strtotime("01-".$fch."-".date('Y'));
-         $Html="<title>INGRESOS-".$meses[date('n',$mes)-1]."</title>";            
+         $Html='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+         $Html.="<title>INGRESOS-".$meses[date('n',$mes)-1]."</title>";            
          $Html.="<style>
                     .table_cab { border-collapse: separate;  border-spacing:  -1px; border-style: hidden;margin-left:10px }
                     .table_cab tr td{ border:1px solid #000000; font-size: 14px;  }
                     .table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
-                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #header { position: fixed; left: 10px; margin-bottom:100px; top: -50px; right: 0px; height: 20px; background-color: white; text-align: center; }
                     #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
                     @page {margin-top: 80px; margin-left: 2.0em;}
                     #header .page:after { content: counter(page, arial); }
                  </style>";         
          $Html.="<div id='header'>   
                     <table width=100%><tr>
-                            <td width=80px> <img style='margin-left:0px;width:130px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
+                            <td width=80px> <img style='margin-left:0px;width:110px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
                             <td width=400px><span style='margin-left:22%;font-size: 16px;text-decoration: underline;color:#FF0000'>REPORTE DE INGRESOS MENSUAL</span><td>
                             <td width=80px><span class='page'>".date('d',$mmes)."/".substr($meses[date('n',$mmes)-1],0,3). "/".date('Y',$mmes)."<br>N&deg;Pag: </span><td></tr>
-                    </table>                                 
-                 </div>                 
-                 <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>";
-         
-
+                    </table>
+                 </div>
+                 ";  
 
          $Html.="<center>".strtoupper($meses[date('n',$mes)-1])." DEL ".date('Y')." </center><br>";
          $Html.="<table class='table_cab' width=100%>
                   <tr>
+                      <td align=center width=4%>N&deg;</td>
                       <td align=center width=10%>FECHA</td>
-                      <td align=center width=45%>PACIENTE</td>
-                      <td align=center width=18%>Documento</td>
+                      <td align=center width=43%>PACIENTE</td>
+                      <td align=center width=16%>Documento</td>
                       <td align=center width=9%>Soles</td>
                       <td align=center width=9%>Dolares</td>
                       <td align=center width=9%>Voucher</td>
                   </tr></table>
                   <table class='table_trat' width=100%>";
-         
+         $c=0;
          for ($i=1;$i<=31;$i++){
             $setfch=$i."/".$fch."/".date('Y');
             $soles=$this->pacientes_model->get_soles($setfch);
             $dola=$this->pacientes_model->get_dolares($setfch);
             $vouch=$this->pacientes_model->get_voucher($setfch);
-            if($soles ||  $dola || $vouch){
-               if($soles){
-                    foreach($soles as $Index => $Datos){
-                        $totsol+=$Datos->pag_monto_sol;
-                        $Html.="<tr>";
-                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
-                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
-                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
-                            $Html.="<td width=9% align=right></td>";
-                            $Html.="<td width=9% align=right></td>";
-                        $Html.="</tr>";
-                    }                
-                }            
-                if($dola){
-                    foreach($dola as $Index => $Datos){
-                        $totdol+=$Datos->pag_monto;
-                        $Html.="<tr>";
-                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
-                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
-                            $Html.="<td width=9% align=right></td>";
-                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto,2)."</td>";
-                            $Html.="<td width=9% align=right></td>";
-                        $Html.="</tr>";
-                    }                
-                }
-                if($vouch){
-                    foreach($vouch as $Index => $Datos){
-                        $totvouch+=$Datos->pag_monto_sol;
-                        $Html.="<tr>";
-                            $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
-                            $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
-                            $Html.="<td width=9% align=right></td>";
-                            $Html.="<td width=9% align=right></td>";
-                            $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
-                        $Html.="</tr>";
-                    }                
-                } 
-            }            
+            
+                if($soles ||  $dola || $vouch){                    
+                            if($soles){
+                                foreach($soles as $Index => $Datos){
+                                    $c+=1;
+                                    $totsol+=$Datos->pag_monto_sol;
+                                    $Html.="<tr>";
+                                        $Html.="<td width=4% align=right>$c</td>";
+                                        $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                                        $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                    $Html.="</tr>";
+                                }                
+                            }            
+                            if($dola){
+                                foreach($dola as $Index => $Datos){
+                                    $c+=1;
+                                    $totdol+=$Datos->pag_monto;
+                                    $Html.="<tr>";
+                                        $Html.="<td width=4% align=right>$c</td>";
+                                        $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                                        $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                        $Html.="<td width=9% align=right>".number_format($Datos->pag_monto,2)."</td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                    $Html.="</tr>";
+                                }                
+                            }
+                            if($vouch){
+                                foreach($vouch as $Index => $Datos){
+                                    $c+=1;
+                                    $totvouch+=$Datos->pag_monto_sol;
+                                    $Html.="<tr>";
+                                        $Html.="<td width=4% align=right>$c</td>";
+                                        $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
+                                        $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                        $Html.="<td width=9% align=right></td>";
+                                        $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
+                                    $Html.="</tr>";
+                                }                
+                            } 
+
+
+                  
+            }
+                    
+                      
          }
+         
          $Html.="<table class='table_trat' width=100%>
                   <tr>                      
                       <td align=center width=73%>TOTALES</td>
@@ -260,12 +273,11 @@ class reportes extends CI_Controller
                   </tr></table>
                   ";
          $Html.="</table>";      
-         
+         $Html.="<table style='page-break-after:always;'></table>";
          $Html.="<div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
-       
-         //<table class='table_trat' width=100%>
+
 //          echo $Html;
-        
+//        <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>
 //        echo json_encode($pagos[1][0]);
          
 	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
@@ -289,7 +301,7 @@ class reportes extends CI_Controller
                     .table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
-                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #header { position: fixed; left: 10px; top: -50px; right: 0px; height: 20px; background-color: white; text-align: center; }
                     #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
                     @page {margin-top: 80px; margin-left: 2.0em;}
                     #header .page:after { content: counter(page, arial); }
@@ -398,7 +410,7 @@ class reportes extends CI_Controller
                     .table_trat{ font-size: 12px;margin-left:10px}
                     #cabesera{font-size: 14px;}
                     
-                    #header { position: fixed; left: 10px; top: -30px; right: 0px; height: 20px; background-color: white; text-align: center; }
+                    #header { position: fixed; left: 10px; top: -50px; right: 0px; height: 20px; background-color: white; text-align: center; }
                     #footer { position: fixed; left: 10px; bottom: -50px; right: 0px; height: 50px; background-color: white; font-family:arial, helvetica; font-size:12px; font-size:12px;text-align: right; }
                     @page {margin-top: 80px; margin-left: 2.0em;}
                     #header .page:after { content: counter(page, arial); }
@@ -557,10 +569,6 @@ class reportes extends CI_Controller
         echo json_encode($Lista);
     }
 }
-//
-//$Html.="</table>
-//                 <div style=''>
-//                    <div style='text-align: right; width: 50%;'>SUB TOTAL</div> 
-//                    <div style='border-top: 1px solid black; text-align: right; font-size: 13px; width: 7%; margin-left: 1%;'>665</div>
-//                    <div style='width: 7%; text-align: right; font-size: 13px; float: left; border-top: 1px solid black; margin-left: 1%;'>665</div>
-//                 </div>";
+
+
+

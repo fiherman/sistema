@@ -107,7 +107,7 @@
         <p class="spanasis">BUSCAR PACIENTE</p><br/>        
         <div style="margin: -5px 0px -12px 20px">
             Buscar: <input type="text" id="txtbuscar_pac" style="text-transform:uppercase;padding: 3px 10px;width:50%; height: 23px; border-radius: 6px;border: 1px solid #C0CDF6;margin-bottom: 5px;"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_full" id="btn_buscar" onClick="fn_buscar_pac();">Buscar</button>            
+            &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_full" id="btn_buscar" onClick="fn_buscar_pac();" title="Enter">Buscar</button>            
         </div>
     </div>
     <div style="margin: 1.5% 1.5% 1%;">
@@ -182,8 +182,8 @@
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act"  id="btn_salir_registro" onClick="btn_salir('div_reg_pac_nuevo');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act"  id="btn_guardar_registro" onClick="brn_guardar_pac('INSERTAR');"><img src="public/images/guardar.png" tabindex="14"  style="width:20px">Guardar Paciente</img></button>
-    <button class="btn_full_act"  id="btn_editar_registro" onClick="brn_guardar_pac('EDITAR');"><img src="public/images/guardar.png" style="width:20px"> Editar Paciente</img></button>
+    <button class="btn_full_act"  id="btn_guardar_registro" onClick="brn_guardar_pac('INSERTAR');" title="Enter"><img src="public/images/guardar.png" tabindex="14"  style="width:20px">Guardar Paciente</img></button>
+    <button class="btn_full_act"  id="btn_editar_registro" onClick="brn_guardar_pac('EDITAR');" title="Ctrl+A"><img src="public/images/guardar.png" style="width:20px"> Editar Paciente</img></button>
 
 
 </div>

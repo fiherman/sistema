@@ -44,7 +44,8 @@
     <link rel="stylesheet" href="<?php echo base_url('public/dist/css/bootstrap.css'); ?>"/> 
     <!--<script src="<?php // echo base_url('public/js/pacientes.js');?>" type="text/javascript"></script>-->
     <script src="<?php echo base_url('public/dist/js/jquery.js');?>" type="text/javascript"></script>
-    <!--<script src="<?php // echo base_url('public/dist/js/bootstrap.js');?>" type="text/javascript"></script>-->    
+    <!--<script src="<?php // echo base_url('public/dist/js/bootstrap.js');?>" type="text/javascript"></script>-->
+    <script src="<?php echo base_url('public/js/shortcut.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/metas.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jquery-ui/js/jquery-1.10.2.js');?>" type="text/javascript"></script>
     <script src="<?php echo base_url('public/js/jquery-ui/js/jquery-ui-1.10.4.custom.min.js');?>" type="text/javascript"></script>      

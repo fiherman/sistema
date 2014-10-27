@@ -1,5 +1,16 @@
+shorcut_enter=0;// atajo de tecla para guardar... desactivado 0 desactivado, 1 inserta, 2 buscar paciente,
+shortcut.add("enter",function() {
+    if(shorcut_enter==1){
+//        alert("insertar");
+        $("#btn_guardar_registro").click();        
+    }
+    if(shorcut_enter==2 && $('#txtbuscar_pac').val()!=""){
+//        alert("buscar paciente");
+        $("#btn_buscar").click();       
+    }
+});
 
-function brn_guardar_pac(modo) {
+function brn_guardar_pac(modo) {    
     pac_id=$("#pac_id").val();
     nombre = $("#nombre").val();
     apellidos = $("#apellidos").val();
@@ -32,6 +43,7 @@ function brn_guardar_pac(modo) {
                         success: function(data){
                             if(data=='si'){
                                 mensaje_sis('mensaje',' DATOS INSERTADOS CORRECTAMENTE','MENSAJE DEL SISTEMA');
+                                shorcut_enter=0;
                                 btn_salir('div_reg_pac_nuevo');
                                 btn_actualizar();
                             }
@@ -58,7 +70,6 @@ function brn_guardar_pac(modo) {
         if (nombre == "") { $("#nombre").css({border: "1px solid red"}); }
         if (apellidos == "") { $("#apellidos").css({border: "1px solid red"}); }
         if (direccion == "") { $("#direccion").css({border: "1px solid red"}); }
-//        if (dni == "") { $("#dni").css({border: "1px solid red"}); }
         if (distrito == "") { $("#distrito").css({border: "1px solid red"}); }
         if (sexo == "") { $("#sexo").css({border: "1px solid red"}); }
         if (fec_nac == "") { $("#fec_nac").css({border: "1px solid red"}); }
@@ -66,12 +77,13 @@ function brn_guardar_pac(modo) {
 
         mostraralertas('informe','* los campos marcados de rojo son requeridos','INFORMACION');
         return false;
+        shorcut_enter=1;
     }
 }
 
 ide_trb=0;
 function btn_editar_pac(Id){
-    
+    shorcut_enter=0;
     nombre = $.trim($("#grid_con_pac").getCell(Id,"nombre"));  
     apellido = $.trim($("#grid_con_pac").getCell(Id,"apellido"));  
     direccion = $.trim($("#grid_con_pac").getCell(Id,"direccion"));
@@ -104,21 +116,26 @@ function btn_editar_pac(Id){
 }
 
 function fn_open_pac(){
+    shorcut_enter=2;
     $("#div_pac_reg").dialog({
-        autoOpen: false, modal: true, height: 585, width: 990, show: {effect: "fade", duration: 500} 
+        autoOpen: false, modal: true, height: 585, width: 990, show: {effect: "fade", duration: 500},close: function(event, ui) {         
+            shorcut_enter=0;
+            $('#txtbuscar_pac').val("");
+        } 
     }); 
     $("#grid_con_pac").jqGrid("clearGridData", true).trigger("reloadGrid");
     jQuery("#grid_con_pac").jqGrid({
         url: 'pacientes/pacientes/get_all',
         datatype: 'json', mtype: 'GET',
-        colNames: ['CODIGO', 'NOMBRE', 'APELLIDOS', 'DIRECCION', 'DNI', 'dis', 'EMAIL', 'EDITAR','TTO.','CITA', 'sex', 'tel', 'mov', 'cla', 'fnac', 'dep', 'seg', 'est','seguro'],
+        colNames: ['COD', 'NOMBRE', 'APELLIDOS','EDAD', 'DIRECCION', 'DNI', 'dis', 'EMAIL', 'EDITAR','TTO.','CITA', 'sex', 'tel', 'mov', 'cla', 'fnac', 'dep', 'seg', 'est','seguro'],
         rowNum: 13, sortname: 'id', sortorder: 'desc', viewrecords: true, caption: 'LISTADO DE PACIENTES', width: '100%', height: '297', align: "center",
         colModel: [
-            {name: 'id', index: 'id', width: 60, resizable: true, align: "center"},
-            {name: 'nombre', index: 'nombre', width: 210, resizable: true, align: "left"},
-            {name: 'apellido', index: 'apellido', width: 210, resizable: true, align: "left"},
-            {name: 'direccion', index: 'direccion', width: 210, resizable: true, align: "left"},
-            {name: 'dni', index: 'dni', width: 90, resizable: true, align: "center"},
+            {name: 'id', index: 'id', width: 55, resizable: true, align: "center"},
+            {name: 'nombre', index: 'nombre', width: 200, resizable: true, align: "left"},
+            {name: 'apellido', index: 'apellido', width: 200, resizable: true, align: "left"},
+            {name: 'edad', index: 'edad', width: 45, resizable: true, align: "center"},
+            {name: 'direccion', index: 'direccion', width: 200, resizable: true, align: "left"},
+            {name: 'dni', index: 'dni', width: 80, resizable: true, align: "center"},
             {name: 'distrito', index: 'distrito', hidden: true},
             {name: 'email', index: 'email',  hidden: true},
             {name: 'Editar', index: 'Editar', width: 70, resizable: true, align: "center"},
@@ -165,14 +182,18 @@ function btn_salir(dialogo){
 
 function btn_nuevo_pac(modo){
     $("#div_reg_pac_nuevo").dialog({
-        autoOpen: false, modal: true, height: 510, width: 800, show: {effect: "fade", duration: 300} 
+        autoOpen: false, modal: true, height: 510, width: 800, show: {effect: "fade", duration: 300},close: function(event, ui) {         
+            shorcut_enter=2;         
+        } 
     }).dialog('open'); 
     $("#fec_nac").mask("99/99/9999");//para autocompletar la fecha
-    datepiker('fec_nac','-1Y','+1Y');
+    
     if(modo=='INSERTAR'){
+        shorcut_enter=1;
         $("#btn_guardar_registro").show();
         $("#btn_editar_registro").hide();
     }else if(modo=='EDITAR'){
+        shorcut_enter=0;
         $("#btn_guardar_registro").hide();
         $("#btn_editar_registro").show();
     }
@@ -194,7 +215,7 @@ function btn_rea_consulta(){
 //        timeFormat: 'hh:mm tt'
 //    });     
     $("#div_cons_fch").mask("99/99/9999");
-    datepiker('div_cons_fch','-10D','+4M +10D');
+//    datepiker('div_cons_fch','-10D','+4M +10D');
     timepiker('div_cons_hora');
     
     $("#div_cons_pac").val(nom_com);

@@ -108,7 +108,7 @@ function ver_rep_ingresos(){
     }).dialog('open');
     $("#rep_ing_dia").mask("99/99/9999");
 //    $("#rep_ing_fch_fin").mask("99/99/9999");
-    datepiker('rep_ing_dia','-2Y','+2Y');
+//    datepiker('rep_ing_dia','-2Y','+2Y');
 //    datepiker('rep_ing_fch_fin','-2Y','+2Y');
     $("#rb_mes").attr("checked" , false );
     $("#rb_dia").attr("checked" , false );

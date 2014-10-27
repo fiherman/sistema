@@ -47,7 +47,7 @@ class Pacientes_model extends CI_Model {
                 . "movistar='$movi',claro='$claro',fec_nac='$fchnac',email='$email',dependiente='$depen',seg_id=$seg_id,fch_reg='" . date('d/m/Y') . "',estado='1' "
                 . " where id=$id");
         if ($update) {
-            $this->db->query("update pacientes set cad_lar=(nombre || ' ' || apellido || ' ' || dni) where id=$id");
+            $this->db->query("update pacientes set cad_lar=(nombre || ' ' || apellido || ' ' || dni || ' ' || id) where id=$id");
             return true;
         } else {
             return FALSE;
@@ -282,5 +282,15 @@ class Pacientes_model extends CI_Model {
     function get_consultas(){
         $this->db->query("set names 'utf8';");
         return $this->db->query("select * from consulta where cons_fch like '".date('d/m/Y')."'")->result();
+    }
+    /////////////////////////// EDAD
+    
+    function get_edad($fecha_nac){
+        error_reporting(0);
+        $fecha=str_replace('/','-',$fecha_nac);
+        $dias=explode('-',$fecha,3);
+        $d=mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
+        $edad=(int)((time()-$d)/31556926);
+        return $edad;
     }
 }

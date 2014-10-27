@@ -79,6 +79,8 @@ class Pacientes extends CI_Controller{
 	   $Lista->rows[$Index]['cell']= array($Datos->id,
                             trim($Datos->nombre),
                             trim($Datos->apellido),
+               
+                            $this->pacientes_model->get_edad($Datos->fec_nac),
                             trim($Datos->direccion),
                             trim($Datos->dni),
                             trim($Datos->distrito),
@@ -136,6 +138,7 @@ class Pacientes extends CI_Controller{
 	   $Lista->rows[$Index]['cell']= array($Datos->id,
                             $Datos->nombre,
                             $Datos->apellido,
+                            $this->pacientes_model->get_edad($Datos->fec_nac),
                             $Datos->direccion,
                             $Datos->dni,
                             $Datos->distrito,
@@ -392,5 +395,7 @@ class Pacientes extends CI_Controller{
         
         echo json_encode($Eventos);
     }
+    
+    
    
 }

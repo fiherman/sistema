@@ -117,7 +117,7 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_salir" onClick="btn_salir('div_pac_reg');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_nuevo_pac" onClick="btn_nuevo_pac('INSERTAR');"><img src="public/images/paciente.png" style="width:20px">Nuevo Paciente</img></button>
-    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Primera Cita</img></button>
+    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Primeras Cita</img></button>
     <button class="btn_full_act" id="btn_actualizar_pac" onClick="btn_actualizar();"><img src="public/images/actualizar.png" style="width:20px">Actualizar</img></button>
     <button class="btn_full_act" id="btn_plan_trat_pac" onClick="btn_plan_tratamiento();"><img src="public/images/tratamiento.png" style="width:20px">Tratamiento</img></button>
 

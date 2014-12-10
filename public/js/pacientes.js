@@ -373,7 +373,7 @@ function ver_tratamiento_pac(Id){
             $("#div_ver_trat_select").empty();
             
             $("#div_ver_tratamiento").dialog({
-                autoOpen: false, modal: true, height: 540, width: 880, show: {effect: "fade", duration: 500},close: function() { ver_trat_pac_id=0; }
+                autoOpen: false, modal: true, height: 540, width: 900, show: {effect: "fade", duration: 500},close: function() { ver_trat_pac_id=0; }
             }).dialog('open');
             for(i=0;i<=data.length-1;i++){//carga el combo para seleccionar el tratamiento desde la BD
                 $('#div_ver_trat_select').append('<option value='+data[i].trat+'>'+'<b>nro: '+data[i].trat+'</b></option>');
@@ -403,23 +403,26 @@ function grid_ver_tratamiento(pac_id,num_trat){
     jQuery("#grid_ver_trat_pac").jqGrid({
             url: 'pacientes/pacientes/get_ver_tratamiento?pac_id='+pac_id+'&num_trat='+num_trat,
             datatype: 'json', mtype: 'GET',
-            colNames: ['CODIGO','NºTRAT', 'DESCRIPCION','Cant.','Costo S/.','Costo $.', 'FECHA','SEGURO','seg_id','DOCTOR','tot'],
+            colNames: ['COD.','NºTRAT', 'DESCRIPCION','Cant.','Costo S/.','Costo $.', 'FECHA','SEGURO','seg_id','DOCTOR','Elim','tot'],
             rowNum: 10, sortname: 'trat_esp_tip', sortorder: 'asc', viewrecords: true, caption: 'LISTADO DE TRATAMIENTOS', width: '100%', height: '230', align: "center",
             colModel: [
                 {name: 'trat_id', index: 'trat_id', width: 57, resizable: true, align: "center"},
                 {name: 'trat_num', index: 'trat_num',hidden:true},
-                {name: 'trat_esp_des', index: 'trat_esp_des', width: 300, resizable: true, align: "left"},           
+                {name: 'trat_esp_des', index: 'trat_esp_des', width: 280, resizable: true, align: "left"},           
                 {name: 'trat_cant', index: 'trat_cant', width: 57, resizable: true, align: "center"},
                 {name: 'trat_esp_cos_sol', index: 'trat_esp_cos_sol', width: 70, resizable: true, align: "right"},
                 {name: 'trat_esp_cos_dol', index: 'trat_esp_cos_dol', width: 70, resizable: true, align: "right"},
-                {name: 'trat_fch', index: 'trat_fch', width: 90, resizable: true, align: "center"}, 
+                {name: 'trat_fch', index: 'trat_fch', width: 85, resizable: true, align: "center"}, 
                 {name: 'seguro', index: 'trat_seg_id', width: 95, resizable: true, align: "left"},
                 {name: 'trat_seg_id', index: 'doctor',hidden:true},
                 {name: 'doctor', index: 'doctor',  width: 113, resizable: true, align: "left"},
+                {name: 'eliminar', index: 'eliminar',  width: 45, resizable: true, align: "center"},
                 {name: 'ttotal', index: 'ttotal', hidden:true}
             ],
             gridComplete: function () {                       
-                $("#div_ver_trat_ttotal").val($("#grid_ver_trat_pac").getCell(1,"ttotal"));            
+                $("#div_ver_trat_ttotal").val($("#grid_ver_trat_pac").getCell(1,"ttotal"));  
+                
+                
             }      
         });
 }

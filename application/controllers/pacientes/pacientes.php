@@ -314,6 +314,7 @@ class Pacientes extends CI_Controller{
                 $Datos->seguro,
                 $Datos->trat_seg_id,
                 $Datos->doctor,
+                '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Paciente" src="'.base_url('public/images/delete.png').'" onClick="btn_editar_pac('.$Datos->trat_id.');"/>',
                 $ttotal->total
            );	      
         }

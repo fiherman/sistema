@@ -166,11 +166,26 @@ class Pacientes_model extends CI_Model {
     function insert_tratamiento_pac($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol,$cant) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch,trat_cant)
-         VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,$esp_cos_dol,'" . date('d/m/Y') . "',$cant)"
+         INSERT INTO tratamiento(trat_num,trat_pac_id,trat_seg_id,trat_esp_tip,trat_esp_cod,trat_esp_des,trat_esp_cos_sol,trat_doc_id,trat_esp_cos_dol,trat_fch,trat_cant,trat_est)
+         VALUES ($trat_num,$pac_id,$seg_id,$esp_tip,$esp_cod,'$esp_des',$esp_cos,$doc_id,$esp_cos_dol,'" . date('d/m/Y') . ",'1',$cant)"
         );
 
         if ($insert) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+    function update_tratamiento_unid($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol,$cant,$codigo,$fch) {
+        $this->db->query("set names 'utf8';");
+        $update = $this->db->query("
+         UPDATE tratamiento set trat_seg_id=$seg_id,trat_esp_tip=$esp_tip,trat_esp_cod=$esp_cod,trat_esp_des='$esp_des',
+         trat_esp_cos_sol=$esp_cos,trat_doc_id=$doc_id,trat_esp_cos_dol=$esp_cos_dol,trat_fch='$fch',trat_cant=$cant,trat_est='1' 
+         where trat_num=$trat_num and trat_id=$codigo and trat_pac_id=$pac_id
+         "
+        );
+
+        if ($update) {
             return true;
         } else {
             return FALSE;
@@ -209,7 +224,19 @@ class Pacientes_model extends CI_Model {
     function get_ver_trat_dscto($pac_id, $trat_num) {
         return $this->db->query("select * from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result();
     }
-    
+    function delete_tratamiento_0($trat_id) {
+
+        $this->db->query("set names 'utf8';");
+
+        $update = $this->db->query(
+                "update tratamiento set trat_est='0'"               
+                . " where trat_id=$trat_id");
+        if ($update) {            
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
     
     ///////REPORTE///////////////////////////////////////////////////////////////////////////
     function get_cabecera_report($pac_id, $num_trat) {

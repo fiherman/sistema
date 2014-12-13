@@ -144,7 +144,7 @@ legend.scheduler-border {
 .spanasis {
     /*background-image: url(../images/lay_men.gif);*/
     background-color: #CCDEF4;
-    margin: 0px;
+    margin: -3px 0 0;
     font-weight: bold;
     color: #04408c;
     padding: 4px;
@@ -155,7 +155,7 @@ legend.scheduler-border {
     /*text-transform: capitalize;*/
     text-shadow: 0 1px 0 white;
     /*line-height: 1.5;*/
-    padding-left: 5px;
+    padding: 2px 2px 2px 5px;
     border-top: solid 1px #99bce8;
     margin-top: -1px;
     
@@ -204,6 +204,8 @@ legend.scheduler-border {
     border: 0;
     color: #ffffff;
     font-weight: bold;
+    height: 25px;
+    font-size: 11px;
 }
 /////DATEPIKER
 /*div principal del datepicker*/
@@ -246,6 +248,8 @@ legend.scheduler-border {
     color: #FFFFFF;
     }
 
+    
+    .ui-jqgrid tr.jqgrow td {font-size:0.8em}
 ///////////////////GRID/////////////
 
 

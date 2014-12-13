@@ -302,23 +302,64 @@ class Pacientes extends CI_Controller{
         {
            $c+=1;
            $tot+=$Datos->trat_esp_cos_sol;
-           $Lista->rows[$Index]['id'] = $c;
-	   $Lista->rows[$Index]['cell']= array(
-                $Datos->trat_id,
-                $Datos->trat_num,
-                trim($Datos->trat_esp_des),
-                $Datos->trat_cant,
-                $Datos->trat_esp_cos_sol,
-                $Datos->trat_esp_cos_dol,
-                $Datos->trat_fch,
-                $Datos->seguro,
-                $Datos->trat_seg_id,
-                $Datos->doctor,
-                '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Paciente" src="'.base_url('public/images/delete.png').'" onClick="btn_editar_pac('.$Datos->trat_id.');"/>',
-                $ttotal->total
-           );	      
+           $Lista->rows[$Index]['id'] = $Datos->trat_id;
+           if($c==1){
+               $Lista->rows[$Index]['cell']= array(
+                    $Datos->trat_id,
+                    $Datos->trat_num,
+                    trim($Datos->trat_esp_des),
+                    $Datos->trat_cant,
+                    $Datos->trat_esp_cos_sol,
+                    $Datos->trat_esp_cos_dol,
+                    $Datos->trat_fch,
+                    $Datos->seguro,
+                    $Datos->trat_seg_id,
+                    $Datos->doctor,
+                    $Datos->trat_doc_id,
+                    '',
+                    '',
+                    $ttotal->total
+               );
+           }else{
+               $Lista->rows[$Index]['cell']= array(
+                    $Datos->trat_id,
+                    $Datos->trat_num,
+                    trim($Datos->trat_esp_des),
+                    $Datos->trat_cant,
+                    $Datos->trat_esp_cos_sol,
+                    $Datos->trat_esp_cos_dol,
+                    $Datos->trat_fch,
+                    $Datos->seguro,
+                    $Datos->trat_seg_id,
+                    $Datos->doctor,
+                    $Datos->trat_doc_id,
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Tratamiento" src="'.base_url('public/images/editar.png').'" onClick="btn_open_editar_trat('.$Datos->trat_id.');"/>',
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Eliminar Tratamiento" src="'.base_url('public/images/delete.png').'" onClick="del_trat_unidad('.$Datos->trat_id.');"/>',
+                    $ttotal->total
+               );
+           }
+	   	      
         }
         echo json_encode($Lista);
+    }
+    
+    function eliminar_tratamiento(){
+        $trat_id = $_GET['trat_id'];
+        $sql=$this->pacientes_model->delete_tratamiento_0($trat_id);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
+    function editar_tratamiento(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->pacientes_model->update_tratamiento_unid($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8],$cam[9],$cam[10],$cam[11]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
     }
     
     function insert_dscto_trat(){

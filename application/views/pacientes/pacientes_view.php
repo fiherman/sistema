@@ -88,6 +88,7 @@
     .btn_navi:hover{        
         background-color:#DFE8F6;
     }
+.ui-jqgrid tr.jqgrow td {font-size:0.8em}
 /*    .btn_navi:active{ 
         color: #418BC3;
         background-color: #FFFFFF;
@@ -117,7 +118,7 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_salir" onClick="btn_salir('div_pac_reg');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_nuevo_pac" onClick="btn_nuevo_pac('INSERTAR');"><img src="public/images/paciente.png" style="width:20px">Nuevo Paciente</img></button>
-    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Primeras Cita</img></button>
+    <button class="btn_full_act" id="btn_consulta_pac" onClick="btn_rea_consulta();"><img src="public/images/cita.png" style="width:20px">Consulta</img></button>
     <button class="btn_full_act" id="btn_actualizar_pac" onClick="btn_actualizar();"><img src="public/images/actualizar.png" style="width:20px">Actualizar</img></button>
     <button class="btn_full_act" id="btn_plan_trat_pac" onClick="btn_plan_tratamiento();"><img src="public/images/tratamiento.png" style="width:20px">Tratamiento</img></button>
 
@@ -634,7 +635,51 @@
     <button class="btn_full_act" id="div_historial_pagos_salir" onClick="btn_salir('div_historial_pagos');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
 </div>
 
-
+<!--EDITAR TRATAMIENTO UNO POR UNO-->
+<div id="div_editar_trat" style="display: none; font-size: 12px" title="EDITAR TRATAMIENTO">
+    <div class="filtros">
+        <p class="spanasis">TRATAMIENTO</p><br/>       
+        <div class="ctrl_input">               
+            <input type="hidden" id="div_editar_trat_pac_id" value="">
+            <input type="hidden" id="div_editar_trat_trat_num" value="">
+            <input type="hidden" id="div_editar_trat_codigo" value="">
+            
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Descripcion</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%;background-color: #EFFAEE" id="div_editar_trat_des"  onblur="fn_onblur(this);"> 
+            <input type="hidden" id="hiddendiv_editar_trat_des" value="">
+            <input type="hidden" id="hiddendiv_editar_trat_tip" value="">
+        </div>       
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Cantidad</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_cant" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="Cantidad" maxlength="2"> 
+           
+        </div> 
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Soles</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_sol"  onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."> 
+            <label class="ctrl_lavel_1" style="width: 11.5%;">Dolares</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_dol"  onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="$."> 
+        </div> 
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Fecha</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_fch" onblur="fn_onblur(this);" > 
+            <label class="ctrl_lavel_1" style="width: 11.5%;">Seguro</label>             
+            <select class="ctrl_lavel_t" id="div_editar_trat_seguro" style="width: 32.5%;background-color: #EFFAEE">
+                <option value="1">SIN SEGURO</option>
+                <option value="2">LA POSITIVA</option>
+                <option value="3">CERRO VERDE</option>
+            </select>
+        </div>
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Doctor</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%;background-color: #EFFAEE" id="div_editar_trat_doctor"  onblur="fn_onblur(this);"> 
+            <input type="hidden" id="div_editar_trat_doc_id" value="">
+        </div> 
+    </div>     
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="btn_salir_consulta" onClick="btn_salir('div_editar_trat');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="btn_guardar_consulta" onClick="btn_editar_trat();"><img src="public/images/guardar.png" style="width:20px">Editar</img></button>    
+</div>
 
 
 

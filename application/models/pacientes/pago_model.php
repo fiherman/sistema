@@ -29,7 +29,7 @@ class Pago_model extends CI_Model{
     }
     
     function get_saldo($pac_id,$trat_num){
-        $ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+        $ttotal = $this->db->query("select sum(trat_esp_cos_sol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num and trat_est='1'")->result()[0];
         $dscto  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result()[0];
        
         $lista=array();
@@ -59,7 +59,7 @@ class Pago_model extends CI_Model{
         $lista[0]['saldo']=  number_format($saldo,2);
         /////////////////////////////////////////DOLARES//////////////////////////////////////////////////////////////////////////////////////////
         
-        $ttotaldol = $this->db->query("select sum(trat_esp_cos_dol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num")->result()[0];
+        $ttotaldol = $this->db->query("select sum(trat_esp_cos_dol)as ttotal from tratamiento where trat_pac_id=$pac_id and trat_num=$trat_num and trat_est='1'")->result()[0];
         $dsctodol  = $this->db->query("select sum(dscto_trat_dscto) as dscto from descuento_dol where dscto_pac_id=$pac_id and dscto_trat_num=$trat_num")->result()[0];
        
         

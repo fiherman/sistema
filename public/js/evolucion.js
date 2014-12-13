@@ -9,10 +9,7 @@ function btn_evolucion() {
     }).dialog('open');
 
     $("#div_pac_evol_fch_act").mask("99/99/9999");
-    $("#div_pac_evol_pro_acti_fch").mask("99/99/9999");
-
-    datepiker('div_pac_evol_fch_act', '-1Y', '+1Y');
-    datepiker('div_pac_evol_pro_acti_fch', '-1Y', '+1Y');
+    $("#div_pac_evol_pro_acti_fch").mask("99/99/9999");    
 
     timepiker('div_pac_evol_hora_act');
     timepiker('div_pac_evol_pro_hora_act');
@@ -61,8 +58,7 @@ function btn_insert_evol() {
                 }
             }
         });
-    } else {
-        alert(3);
+    } else {      
        
         if (fch_act == "") {
             $("#div_pac_rea_pago_cos").css({border: "1px solid red"});

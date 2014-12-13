@@ -122,6 +122,16 @@ function mensaje_eliminar_trat(div, texto, tit,pac_id,trat_num) {
     }).dialog('open');
     $("#" + div).html('<p class="info"><b>' + texto + '</b></p>');
 }
+function mensaje_eliminar_trat_unidad(div, texto, tit,trat_id) {
+    $("#" + div).dialog({
+        autoOpen: false, modal: true, title: tit, height: 150, width: 350, show: {effect: "fade", duration: 300},
+        buttons: [
+            { text: "Aceptar", click: function() {  $(this).dialog("close"); btn_eliminar_trat(trat_id);} },
+            { text: "Cancelar", click: function() { $(this).dialog("close"); } }
+        ]
+    }).dialog('open');
+    $("#" + div).html('<p class="info"><b>' + texto + '</b></p>');
+}
 
 function vista_previa_pac(div, texto) {
 

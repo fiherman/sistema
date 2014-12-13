@@ -28,6 +28,7 @@
         width: 100%; 
         height: 100%; 
       }
+      .ui-jqgrid tr.jqgrow td {font-size:0.8em}
     </style>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>

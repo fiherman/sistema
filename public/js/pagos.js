@@ -158,7 +158,7 @@ function trat_saldo(Id, trat_num, flag) {
         url: 'pacientes/Pago/get_saldo?datos=' + datos,
         type: 'GET',
         success: function(data) {
-            
+            //alert(data[0].ttotal);
             if (flag===1){
                 var a1 = data[0].saldo;
                 var b1 = parseFloat(a1.replace(',',''));
@@ -188,12 +188,19 @@ function trat_saldo(Id, trat_num, flag) {
     });
 }
 
-function del_trat(){//boton eliminar .. muestra el mensaje antes de eliminar el tratamiento
+function del_trat(){//boton eliminar .. muestra el mensaje antes de eliminar todo el tratamiento
     pac_id=$("#hiddendiv_ver_trat_pac").val();
     trat_num=$("#div_ver_trat_select").val();
     
     mensaje_eliminar_trat('eliminar', '* Esta seguro de eliminar el tratamiento<br>* Los cambios no se podran revertir', 'ELIMINAR TRATAMIENTO',pac_id,trat_num);
 }
+function del_trat_unidad(trat_id){//boton eliminar .. muestra el mensaje antes de eliminar el tratamiento seleccionado
+    mensaje_eliminar_trat_unidad('eliminar', '* Esta seguro de eliminar este tratamiento', 'ELIMINAR TRATAMIENTO',trat_id);
+}
+
+
+
+
 function eliminar_tratatamiento(pac_id,trat_num){
     
     $.ajax({

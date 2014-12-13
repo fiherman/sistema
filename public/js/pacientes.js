@@ -403,26 +403,26 @@ function grid_ver_tratamiento(pac_id,num_trat){
     jQuery("#grid_ver_trat_pac").jqGrid({
             url: 'pacientes/pacientes/get_ver_tratamiento?pac_id='+pac_id+'&num_trat='+num_trat,
             datatype: 'json', mtype: 'GET',
-            colNames: ['COD.','NºTRAT', 'DESCRIPCION','Cant.','Costo S/.','Costo $.', 'FECHA','SEGURO','seg_id','DOCTOR','Elim','tot'],
+            colNames: ['COD.','NºTRAT', 'DESCRIPCION','Cant.','Cost S/.','Cost $.', 'FECHA','SEGURO','seg_id','DOCTOR','doc_id','Edit','Elim','tot'],
             rowNum: 10, sortname: 'trat_esp_tip', sortorder: 'asc', viewrecords: true, caption: 'LISTADO DE TRATAMIENTOS', width: '100%', height: '230', align: "center",
             colModel: [
                 {name: 'trat_id', index: 'trat_id', width: 57, resizable: true, align: "center"},
                 {name: 'trat_num', index: 'trat_num',hidden:true},
                 {name: 'trat_esp_des', index: 'trat_esp_des', width: 280, resizable: true, align: "left"},           
                 {name: 'trat_cant', index: 'trat_cant', width: 57, resizable: true, align: "center"},
-                {name: 'trat_esp_cos_sol', index: 'trat_esp_cos_sol', width: 70, resizable: true, align: "right"},
-                {name: 'trat_esp_cos_dol', index: 'trat_esp_cos_dol', width: 70, resizable: true, align: "right"},
-                {name: 'trat_fch', index: 'trat_fch', width: 85, resizable: true, align: "center"}, 
-                {name: 'seguro', index: 'trat_seg_id', width: 95, resizable: true, align: "left"},
-                {name: 'trat_seg_id', index: 'doctor',hidden:true},
+                {name: 'trat_esp_cos_sol', index: 'trat_esp_cos_sol', width: 60, resizable: true, align: "right"},
+                {name: 'trat_esp_cos_dol', index: 'trat_esp_cos_dol', width: 60, resizable: true, align: "right"},
+                {name: 'trat_fch', index: 'trat_fch', width: 80, resizable: true, align: "center"}, 
+                {name: 'seguro', index: 'seguro', width: 95, resizable: true, align: "left"},
+                {name: 'trat_seg_id', index: 'trat_seg_id',hidden:true},
                 {name: 'doctor', index: 'doctor',  width: 113, resizable: true, align: "left"},
-                {name: 'eliminar', index: 'eliminar',  width: 45, resizable: true, align: "center"},
+                {name: 'trat_doc_id', index: 'trat_doc_id',hidden:true},
+                {name: 'editar', index: 'eliminar',  width: 35, resizable: true, align: "center"},
+                {name: 'eliminar', index: 'eliminar',  width: 35, resizable: true, align: "center"},
                 {name: 'ttotal', index: 'ttotal', hidden:true}
             ],
             gridComplete: function () {                       
-                $("#div_ver_trat_ttotal").val($("#grid_ver_trat_pac").getCell(1,"ttotal"));  
-                
-                
+                //$("#div_ver_trat_ttotal").val($("#grid_ver_trat_pac").getCell(1,"ttotal"));            
             }      
         });
 }
@@ -571,6 +571,90 @@ function btn_guardar_trat_tot(){
         
     }    
 }
+editar_trat_global=0;  // variable que guarda el id del trataminto que se va a editar
+function btn_open_editar_trat(trat_id){
+    editar_trat_global=trat_id;
+//    pac_id = $.trim($("#div_editar_trat_pac_id").getCell(trat_id,"trat_esp_des"));
+    descripcion = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_des"));
+    cant = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_cant"));
+    sol = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_cos_sol"));
+    dol = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_cos_dol"));
+    fch = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_fch"));
+    seguro = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_seg_id"));
+    doc_id = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_doc_id"));
+    doctor = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"doctor"));
+   
+    $("#div_editar_trat").dialog({
+        autoOpen: false, modal: true, height: 320, width: 600, show: {effect: "fade", duration: 500} 
+    }).dialog('open');
+    
+    $("#div_editar_trat_codigo").val(trat_id);
+    $("#div_editar_trat_trat_num").val($("#div_ver_trat_select").val());
+    $("#div_editar_trat_pac_id").val($("#hiddendiv_ver_trat_pac").val());
+    $("#div_editar_trat_des").val(descripcion);
+    $("#div_editar_trat_cant").val(cant);
+    $("#div_editar_trat_sol").val(sol);
+    $("#div_editar_trat_dol").val(dol);
+    $("#div_editar_trat_fch").val(fch);
+    $("#div_editar_trat_seguro").val(seguro);
+    $("#div_editar_trat_doctor").val(doctor);
+    $("#div_editar_trat_doc_id").val(doc_id);
+    
+    llenararajaxtodo_editar_trat('div_editar_trat_des','pacientes/pacientes/listartodo_trat',seguro,0);
+    llenararajaxtodo_doctor('div_editar_trat_doctor','pacientes/pacientes/listartodo_doc',0);
+    $("#div_editar_trat_fch").mask("99/99/9999");  
+    $("#div_editar_trat_seguro").css({ border: "1px solid #00C000"});
+}
+function btn_editar_trat(){
+    fch=$("#div_editar_trat_fch").val();
+    codigo=$("#div_editar_trat_codigo").val();
+    trat_num=$.trim($("#div_editar_trat_trat_num").val());
+    pac_id=$.trim($("#div_editar_trat_pac_id").val());
+    
+    esp_tip=$.trim($("#hiddendiv_editar_trat_tip").val());
+    esp_cod=$.trim($("#hiddendiv_editar_trat_des").val());
+    esp_des=$.trim($("#div_editar_trat_des").val());
+    esp_cos=$.trim($("#div_editar_trat_sol").val());
+    esp_cos_dol=$.trim($("#div_editar_trat_dol").val());
+    seg_id=$.trim($("#div_editar_trat_seguro").val());
+    doc_id=$.trim($("#div_editar_trat_doc_id").val());
+    cant=$.trim($("#div_editar_trat_cant").val());
+    
+    
+    if(pac_id != "" && seg_id != "" && doc_id != "" && esp_des != "" && esp_cos != "" && esp_cos_dol != "" && cant != ""){
+        datos=trat_num+'*'+pac_id+'*'+seg_id+'*'+esp_tip+'*'+esp_cod+'*'+esp_des+'*'+esp_cos+'*'+doc_id+'*'+esp_cos_dol+'*'+cant+'*'+codigo+'*'+fch;
+        
+        $.ajax({                   
+            url: 'pacientes/pacientes/editar_tratamiento?datos='+datos,
+            type: 'GET',
+            success: function(data){ 
+                select_ver_trat(trat_num);
+                btn_salir('div_editar_trat');
+            },
+            error: function (data) {
+                mensaje_sis('mensaje',' ERROR AL GUARDAR TRATAMIENTO','MENSAJE DEL SISTEMA');
+            }
+        });
+//        fn_close_tratamiento('unidad');
+    }
+}
+function btn_eliminar_trat(trat_id){
+    trat_num=$("#div_ver_trat_select").val();
+    $.ajax({                   
+        url: 'pacientes/pacientes/eliminar_tratamiento?trat_id='+trat_id,
+        type: 'GET',
+        success: function(data){
+            if(data=='si'){
+                select_ver_trat(trat_num); //actualiza la grilla despues de eliminar el tratamiento 
+            }else{mensaje_sis('mensaje',' ERROR AL ELIMINAR TRATAMIENTO','MENSAJE DEL SISTEMA');}
+        },
+        error: function(data){
+            mensaje_sis('mensaje',' ERROR AL ELIMINAR TRATAMIENTO','MENSAJE DEL SISTEMA');
+        }
+    });
+    
+}
+
 function btn_dscto_trat_dol(){
     
     nom = $.trim($("#grid_con_pac").getCell(ide_trb, "nombre"));
@@ -715,6 +799,39 @@ function llenararajaxtodo_tip_trat(textbox,url,seg_id,val){
             }
     });
 }
+
+function llenararajaxtodo_editar_trat(textbox,url,seg_id,val){
+    $.ajax({
+           type: 'GET',
+           url: url+'?seg_id='+seg_id,
+           success: function(data){
+                var $local_sourcedoctotodo=data;          
+                 $("#"+textbox).autocomplete({
+                      source: $local_sourcedoctotodo,
+                      focus: function(event, ui) {
+                             $("#"+textbox).val(ui.item.label);
+                             $("#hidden"+textbox).val(ui.item.value);
+                             $("#"+textbox).attr('maxlength', ui.item.label.length);
+                             $("#div_editar_trat_sol").val(ui.item.sol);
+                             $("#div_editar_trat_dol").val(ui.item.dol);
+                             //$("#div_trat_tip").val(ui.item.esp_tip_des);
+                             $("#hiddendiv_editar_trat_tip").val(ui.item.esp_tip); 
+                             return false;
+                      },
+                      select: function(event, ui) {
+                              $("#"+textbox).val(ui.item.label);
+                              $("#hidden"+textbox).val(ui.item.value); 
+                              $("#div_editar_trat_sol").val(ui.item.sol);
+                              $("#div_editar_trat_dol").val(ui.item.dol);                              
+                              //$("#div_trat_tip").val(ui.item.esp_tip_des);
+                              $("#hiddendiv_trat_tip").val(ui.item.esp_tip);
+                              return false;
+                      }   
+                  });             
+            }
+    });
+}
+
 function llenararajaxtodo_doctor(textbox,url,val){
     $.ajax({
            type: 'GET',
@@ -812,6 +929,8 @@ function pintar_verde_todo(){
     $("#txt_divnuevousu_user").css({ border: "1px solid #7DCE73"});
     $("#div_nuevo_usu_c").css({ border: "1px solid #7DCE73"});
     $("#div_nuevo_usu_rep_c").css({ border: "1px solid #7DCE73"});
+    //editar tratamiento unitario
+    
 }
 
 function limpiar_ctrl(div){
@@ -978,7 +1097,7 @@ function fn_onblur(input) {
             $("#" + input.id).val("");
         }       
     }
-    if(input.id == "div_adm_nueva_esp_cos" || input.id=="div_cons_cos"){         
+    if(input.id == "div_adm_nueva_esp_cos" || input.id=="div_cons_cos" || input.id=="div_editar_trat_sol" || input.id=="div_editar_trat_dol"){         
         $("#" + input.id).val(formato_numero(input.value,2,'.',','));
     }
     

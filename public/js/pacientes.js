@@ -572,7 +572,7 @@ function btn_guardar_trat_tot(){
     }    
 }
 editar_trat_global=0;  // variable que guarda el id del trataminto que se va a editar
-function btn_open_editar_trat(trat_id){
+function btn_open_editar_trat(trat_id,sol,dol){
     editar_trat_global=trat_id;
 //    pac_id = $.trim($("#div_editar_trat_pac_id").getCell(trat_id,"trat_esp_des"));
     descripcion = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_des"));
@@ -1068,8 +1068,8 @@ function fn_onblur(input) {
 //        $("#div_dscto_tot_dol").val(total);
 //    }
     if(input.id == "div_pac_rea_pago_cos"){ 
-        var a = $("#div_realizar_pago_saldo").val();
-        var b = a.replace(',','');
+        var a = $("#div_realizar_pago_saldo").val();        
+        var b = a.replace(',','');        
         
         saldo=parseFloat(b);          
         monto=parseFloat(input.value).toFixed(2);

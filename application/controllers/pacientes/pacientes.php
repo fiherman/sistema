@@ -333,8 +333,8 @@ class Pacientes extends CI_Controller{
                     $Datos->trat_seg_id,
                     $Datos->doctor,
                     $Datos->trat_doc_id,
-                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Tratamiento" src="'.base_url('public/images/editar.png').'" onClick="btn_open_editar_trat('.$Datos->trat_id.');"/>',
-                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Eliminar Tratamiento" src="'.base_url('public/images/delete.png').'" onClick="del_trat_unidad('.$Datos->trat_id.');"/>',
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Tratamiento" src="'.base_url('public/images/editar.png').'" onClick="btn_open_editar_trat('.$Datos->trat_id.','.$Datos->trat_esp_cos_sol.','.$Datos->trat_esp_cos_dol.');"/>',
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Eliminar Tratamiento" src="'.base_url('public/images/delete.png').'" onClick="del_trat_unidad('.$Datos->trat_id.','.$Datos->trat_esp_cos_sol.','.$Datos->trat_esp_cos_dol.');"/>',
                     $ttotal->total
                );
            }

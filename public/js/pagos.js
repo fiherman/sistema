@@ -17,7 +17,7 @@ function btn_pago_pac(tip) {
             }).dialog('open');
             limpiar_ctrl('div_pac_realizar_pago');
             $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
-            datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
+            //datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
             $("#hiddendiv_pac_realizar_pago").val($("#hiddendiv_ver_trat_pac").val());
             $("#div_realizar_pago_pac").val(pac);
             $("#div_realizar_pago_trat_num").val(trat);
@@ -46,7 +46,7 @@ function btn_pago_pac(tip) {
             }).dialog('open');
             limpiar_ctrl('div_pac_realizar_pago_dol');
             $("#div_pac_rea_pago_dol_fch").mask("99/99/9999");//para autocompletar la fecha
-            datepiker('div_pac_rea_pago_dol_fch', '-1Y', '+1Y');
+            //datepiker('div_pac_rea_pago_dol_fch', '-1Y', '+1Y');
             $("#hiddendiv_pac_realizar_pago_dol").val($("#hiddendiv_ver_trat_pac").val());
             $("#div_realizar_pago_pac_dol").val(pac);
             $("#div_realizar_pago_trat_num_dol").val(trat);
@@ -194,8 +194,19 @@ function del_trat(){//boton eliminar .. muestra el mensaje antes de eliminar tod
     
     mensaje_eliminar_trat('eliminar', '* Esta seguro de eliminar el tratamiento<br>* Los cambios no se podran revertir', 'ELIMINAR TRATAMIENTO',pac_id,trat_num);
 }
-function del_trat_unidad(trat_id){//boton eliminar .. muestra el mensaje antes de eliminar el tratamiento seleccionado
-    mensaje_eliminar_trat_unidad('eliminar', '* Esta seguro de eliminar este tratamiento', 'ELIMINAR TRATAMIENTO',trat_id);
+function del_trat_unidad(trat_id,sol,dol){//boton eliminar .. muestra el mensaje antes de eliminar el tratamiento seleccionado
+    
+    var a = $("#div_ver_trat_saldo").val();        
+    var b = a.replace(',','');
+    saldo=parseFloat(b);
+    soles=parseFloat(sol).toFixed(2);
+    //alert(soles+'--'+saldo);
+    if(soles<=saldo){
+        mensaje_eliminar_trat_unidad('eliminar', '* Esta seguro de eliminar este tratamiento', 'ELIMINAR TRATAMIENTO',trat_id);
+    }else{
+        mostraralertas('informe','*No se puede Eliminar<br>* El costo del tratamiento es mayor al saldo','INFORMACION');
+    }
+    
 }
 
 

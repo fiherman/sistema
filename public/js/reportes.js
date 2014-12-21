@@ -157,3 +157,9 @@ function ver_rep_ing(){
 function cons_dia(){
     window.open("pacientes/reportes/consultas_dia");
 }
+
+function factura(){
+    pac_id=$("#hiddendiv_ver_trat_pac").val();
+    trat_num=$("#div_ver_trat_select").val();
+    window.open("pacientes/reportes/factura/"+pac_id+"/"+trat_num);
+}

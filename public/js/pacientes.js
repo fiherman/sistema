@@ -26,54 +26,54 @@ function brn_guardar_pac(modo) {
     dependiente = $("#dependiente").val();
     seg_id = $("#seg_id").val();
 
-    if (nombre != "" && apellidos != "" && direccion != "" && distrito != "" && sexo != "" && fec_nac != "" && email != "") {
+    if (nombre != "" && apellidos != "" && direccion != "" && sexo != "" && fec_nac != "") {
 
-        if (email != "") {
-            expr = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/;
-            if (!expr.test(email)) {
-                $("#email").css({border: "1px solid red"});
-                mostraralertas('informe','* email no valido','INFORMACION');
-                return false;
-            }else{
-                if(modo=='INSERTAR'){                   
-                   var datos=nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase()+'*'+fec_nac+'*'+telefono+'*'+movistar+'*'+claro+'*'+email+'*'+dependiente.toUpperCase()+'*'+seg_id;
-                    $.ajax({                   
-                        url: 'pacientes/pacientes/insert_pac?datos='+datos,
-                        type: 'GET',
-                        success: function(data){
-                            if(data=='si'){
-                                mensaje_sis('mensaje',' DATOS INSERTADOS CORRECTAMENTE','MENSAJE DEL SISTEMA');
-                                shorcut_enter=0;
-                                btn_salir('div_reg_pac_nuevo');
-                                btn_actualizar();
-                            }
+//        if (email != "") {
+//            expr = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/;
+//            if (!expr.test(email)) {
+//                $("#email").css({border: "1px solid red"});
+//                mostraralertas('informe','* email no valido','INFORMACION');
+//                return false;
+//            }else{
+           if(modo=='INSERTAR'){                   
+               var datos=nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase()+'*'+fec_nac+'*'+telefono+'*'+movistar+'*'+claro+'*'+email+'*'+dependiente.toUpperCase()+'*'+seg_id;
+                $.ajax({                   
+                    url: 'pacientes/pacientes/insert_pac?datos='+datos,
+                    type: 'GET',
+                    success: function(data){
+                        if(data=='si'){
+                            mensaje_sis('mensaje',' DATOS INSERTADOS CORRECTAMENTE','MENSAJE DEL SISTEMA');
+                            shorcut_enter=0;
+                            btn_salir('div_reg_pac_nuevo');
+                            btn_actualizar();
                         }
-                    });
-                }else if(modo=='EDITAR'){                    
-                   var datos=pac_id+'*'+nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase()+'*'+fec_nac+'*'+telefono+'*'+movistar+'*'+claro+'*'+email+'*'+dependiente.toUpperCase()+'*'+seg_id;
-                    $.ajax({                   
-                        url: 'pacientes/pacientes/update_pac?datos='+datos,
-                        type: 'GET',
-                        success: function(data){
-                            if(data=='si'){
-                                mensaje_sis('mensaje',' DATOS MODIFICADO CORRECTAMENTE','MENSAJE DEL SISTEMA');
-                                btn_salir('div_reg_pac_nuevo');
-                                btn_actualizar();
-                            }
+                    }
+                });
+            }else if(modo=='EDITAR'){                    
+               var datos=pac_id+'*'+nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase()+'*'+fec_nac+'*'+telefono+'*'+movistar+'*'+claro+'*'+email+'*'+dependiente.toUpperCase()+'*'+seg_id;
+                $.ajax({                   
+                    url: 'pacientes/pacientes/update_pac?datos='+datos,
+                    type: 'GET',
+                    success: function(data){
+                        if(data=='si'){
+                            mensaje_sis('mensaje',' DATOS MODIFICADO CORRECTAMENTE','MENSAJE DEL SISTEMA');
+                            btn_salir('div_reg_pac_nuevo');
+                            btn_actualizar();
                         }
-                    }); 
-                }                
-                return true;
-            }
-        }
+                    }
+                }); 
+            }                
+            return true;
+//            }
+//        }
     } else {
         if (nombre == "") { $("#nombre").css({border: "1px solid red"}); }
         if (apellidos == "") { $("#apellidos").css({border: "1px solid red"}); }
         if (direccion == "") { $("#direccion").css({border: "1px solid red"}); }
-        if (distrito == "") { $("#distrito").css({border: "1px solid red"}); }
+//        if (distrito == "") { $("#distrito").css({border: "1px solid red"}); }
         if (sexo == "") { $("#sexo").css({border: "1px solid red"}); }
         if (fec_nac == "") { $("#fec_nac").css({border: "1px solid red"}); }
-        if (email == "") { $("#email").css({border: "1px solid red"}); }
+//        if (email == "") { $("#email").css({border: "1px solid red"}); }
 
         mostraralertas('informe','* los campos marcados de rojo son requeridos','INFORMACION');
         return false;
@@ -355,7 +355,7 @@ function btn_plan_tratamiento(){
         
 }
 ver_trat_pac_id=0;
-function ver_tratamiento_pac(Id){    
+function ver_tratamiento_pac(Id,edad){    
     ver_trat_pac_id=Id;
     nom = $.trim($("#grid_con_pac").getCell(Id, "nombre"));
     ape = $.trim($("#grid_con_pac").getCell(Id, "apellido"));
@@ -388,7 +388,7 @@ function ver_tratamiento_pac(Id){
             $("#btn_ver_trat_dscto").hide();////////boton de descuento.........
             $("#hiddendiv_ver_trat_pac").val(Id);
             $("#div_ver_trat_pac").val(nom_com);            
-            
+            $("#div_ver_trat_edad").val(edad); 
 //            get_dscto_all(Id,1,0);
         },
         error:function(data){

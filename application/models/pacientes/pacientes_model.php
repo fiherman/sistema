@@ -241,12 +241,12 @@ class Pacientes_model extends CI_Model {
     ///////REPORTE///////////////////////////////////////////////////////////////////////////
     function get_cabecera_report($pac_id, $num_trat) {
         $this->db->query("set names 'utf8';");
-        return $this->db->query("select * from consulta where pac_id=$pac_id and cons_trat_num=$num_trat")->result()[0];
+        return $this->db->query("select a.*,b.direccion from consulta a inner join pacientes b on a.pac_id=b.id where a.pac_id=$pac_id and a.cons_trat_num=$num_trat order by a.cons_fch desc")->result()[0];
     }
     
     function get_trat_report($pac_id, $num_trat) {
         $this->db->query("set names 'utf8';");        
-        return $this->db->query("select * from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat  order by 5")->result();
+        return $this->db->query("select *,round(trat_esp_cos_sol/trat_cant,2) as pre_uni_sol,round(trat_esp_cos_dol/trat_cant,2) as pre_uni_dol from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat  order by 5")->result();
     }
     
     function get_dscto_sol($pac_id, $num_trat) { 

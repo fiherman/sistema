@@ -303,9 +303,11 @@
         <p class="spanasis">DATOS DE PACIENTE</p><br/>       
         <div style="margin:-1%">
             <input type="hidden" id="hiddendiv_ver_trat_pac" value="">
-            <label class="ctrl_lavel_1" style="width:13%">Paciente</label>
-            <input type="text" class="ctrl_input_t" style="width: 55%;background-color: #EFFAEE" id="div_ver_trat_pac" disabled/> 
-            <label class="ctrl_lavel_1" style="width:12%">Tratamiento</label>            
+            <label class="ctrl_lavel_1" style="width:12%">Paciente</label>
+            <input type="text" class="ctrl_input_t" style="width: 45%;background-color: #EFFAEE" id="div_ver_trat_pac" disabled/> 
+            <label class="ctrl_lavel_1" style="width:5%">Edad</label>
+            <input type="text" class="ctrl_input_t" style="width: 7%;background-color: #EFFAEE" id="div_ver_trat_edad" disabled/>
+            <label class="ctrl_lavel_1" style="width:11%">Tratamiento</label>            
             <select class="ctrl_input_t" id="div_ver_trat_select" onchange="select_ver_trat(this.value);" style="background-color: #EFFAEE;width: 13.7%">
 
             </select>           
@@ -347,8 +349,8 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_ver_trat_salir" onClick="btn_salir('div_ver_tratamiento');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_ver_trat_dscto" onClick="btn_ver_vista_previa_dscto();"><img src="public/images/dscto.png" style="width:20px">Ver Descuento</img></button>
-    <button class="btn_full_act" id="btn_ver_trat_pago" onClick="btn_pago_pac('s');"><img src="public/images/sol.png" style="width:20px">Pagar Soles</img></button>
-    <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="btn_pago_pac('d');"><img src="public/images/dol.png" style="width:20px">Pagar Dolares</img></button>
+    <button class="btn_full_act" id="btn_ver_trat_pago" onClick="factura();"><img src="public/images/print.png" style="width:20px">Factura</img></button>
+    <button class="btn_full_act" id="btn_ver_trat_pago_dol" onClick="open_elegir_moneda();"><img src="public/images/dol.png" style="width:20px">Pagar</img></button>
     <button class="btn_full_act" id="btn_ver_trat_pago_his" onClick="open_historial_pagos();"><img src="public/images/pago2.png" style="width:20px">Historial de Pagos</img></button>
     <button class="btn_full_act" id="btn_evolucion" onClick="btn_evolucion();"><img src="public/images/evolucion.png" style="width:20px">Evolucion</img></button>
     <button class="btn_full_act" id="btn_eliminar_trat" onClick="del_trat();"><img src="public/images/delete.png" style="width:20px">Eliminar Tratamiento</img></button><!--pagos.js -->
@@ -418,6 +420,25 @@
     <button class="btn_full_act" id="btn_dscto_guardar" onClick="btn_insert_dscto_dol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
 
 </div>
+
+<!--ELEGIR EL TIPO DE MONEDA-->
+<div id="div_elegir_moneda" style="display: none; font-size: 12px;" title="TIPO DE MONEDA">
+    <div class="filtros" style="">
+        <p class="spanasis">MONEDA</p><br/>       
+        <div style="margin:-1%">             
+            <label class="ctrl_lavel_1" style="width:45%">Seleccione Moneda</label>            
+            <select class="ctrl_input_t" id="div_elegir_moneda_mon" style="background-color: #EFFAEE;width: 30%">
+                <option value="0">Soles</option>
+                <option value="1">Dolares</option>
+            </select>           
+        </div>        
+    </div>
+    
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_elegir_moneda_salir" onClick="btn_salir('div_elegir_moneda');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="siguiente" onClick="moneda();"><img src="public/images/mm.png" style="width:20px;transform: rotate(90deg)">Siguiente</img></button>
+</div>
+
 <!--REALIZAR PAGO SOLES  = 0--> 
 <div id="div_pac_realizar_pago" style="display: none; font-size: 12px" title="PAGO EN SOLES">
     <div class="filtros">

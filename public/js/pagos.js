@@ -209,8 +209,22 @@ function del_trat_unidad(trat_id,sol,dol){//boton eliminar .. muestra el mensaje
     
 }
 
-
-
+function open_elegir_moneda(){
+    $("#div_elegir_moneda").dialog({
+        autoOpen: false, modal: true, height: 200, width: 440, show: {effect: "fade", duration: 500},close: function(event, ui) {         
+            
+        }
+    }).dialog('open');
+}
+function moneda(){    
+    mon=$("#div_elegir_moneda_mon").val();
+    if (mon==0){
+        btn_pago_pac('s');
+    }else{
+        btn_pago_pac('d');
+    }
+    btn_salir('div_elegir_moneda');
+}
 
 function eliminar_tratatamiento(pac_id,trat_num){
     

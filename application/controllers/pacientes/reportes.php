@@ -25,7 +25,7 @@ class reportes extends CI_Controller
                     <table width=100%><tr>
                             <td width=80px> <img style='margin-left:0px;width:130px' src='http://".$_SERVER["SERVER_NAME"]."/sistema/public/images/laroca.jpg'/><td>                            
                             <td width=400px><span style='margin-left:15%;font-size: 16px;text-decoration: underline;color:#FF0000'>ESTADO DE CUENTA DEL PACIENTE</span><td>
-                            <td width=80px><span class='page'>".date('d/M/Y')."<br>N&deg;Pag: </span><td></tr>
+                            <td width=80px><span class='page'>".date('d')."/".substr($meses[date('n',date('m'))-1],0,3)."/".date('Y')."<br>N&deg;Pag: </span><td></tr>
                     </table>                                 
                  </div>                 
                  <hr style='background-color: black; height: 1px; border: 0;margin-top:40px;margin-left:10px'><br>";
@@ -151,10 +151,8 @@ class reportes extends CI_Controller
                  </table>";
          $Html.="
                  <div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
-//        echo $Html;
-        
-//        echo json_encode($pagos[1][0]);
-         
+//        echo $Html;        
+//        echo json_encode($pagos[1][0]);         
 	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
 	 $this->dompdf_lib->load_html($Html);
 	 $this->dompdf_lib->render();
@@ -458,6 +456,47 @@ class reportes extends CI_Controller
 	 $this->dompdf_lib->load_html($Html);
 	 $this->dompdf_lib->render();
 	 $this->dompdf_lib->stream("consultas.pdf", array("Attachment" => 0));
+    }
+    
+    function factura($pac_id,$trat_num){
+        error_reporting(0);
+        date_default_timezone_set('America/Lima');
+        $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        
+        $cabesera=$this->pacientes_model->get_cabecera_report($pac_id,$trat_num);
+        
+        $Html="<title>FACTURA</title>"; 
+        $Html.="<style>                   
+                    .table_trat{ font-size: 12px;margin-left:12px;margin-right:12px}
+                    .table_trat tr td{padding: 5px 1px 5px 1px}
+                    html{margin:0px}
+                 </style>";         
+        $Html.="<div style='font-size: 12px;margin-left:17%;margin-top:20%; width:40%; background: yellow'>".$cabesera->pac_nom_com."<br>".$cabesera->direccion." </div>";
+       
+        $Html.="<div style='font-size: 12px;margin-left:65%'>".date('d')."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$meses[date('n',date('m'))-1]."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".substr(date('Y'),3,4)."</div><br>";
+        
+        $tratt=$this->pacientes_model->get_trat_report($pac_id,$trat_num);
+        
+        $Html.="<table class='table_trat' width='100%' >";
+        foreach($tratt as $Index => $Datos){
+	    $c+=1;$tot_sol+=$Datos->trat_esp_cos_sol;$tot_dol+=$Datos->trat_esp_cos_dol;
+	     $Html.="<tr>";
+		  $Html.="<td width=5% align=center>".$Datos->trat_cant."</td>";
+		  $Html.="<td width=7%>&nbsp;</td>";
+		  $Html.="<td width=45% align=left>".substr(utf8_decode(trim($Datos->trat_esp_des)),0,60)."</td>";
+		  $Html.="<td width=10% align=center>".number_format($Datos->pre_uni_sol,2)."</td>";
+		  $Html.="<td width=12% align=center>".number_format($Datos->pre_uni_dol,2)."</td>";
+	     $Html.="</tr>";
+	 }
+        $Html.="</table>";
+      
+//        echo $Html;
+        
+        $this->dompdf_lib->set_paper ('a5','landscape');//portraid
+        $this->dompdf_lib->load_html($Html);
+        $this->dompdf_lib->render();
+        $this->dompdf_lib->stream("emision_factura.pdf", array("Attachment" => 0));
     }
     
     function get_all_pac_rep(){

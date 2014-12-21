@@ -75,18 +75,18 @@ class Pacientes extends CI_Controller{
         
         foreach($Consulta as $Index => $Datos)
         {
+           $edad=$this->pacientes_model->get_edad($Datos->fec_nac);
            $Lista->rows[$Index]['id'] = $Datos->id;
 	   $Lista->rows[$Index]['cell']= array($Datos->id,
                             trim($Datos->nombre),
-                            trim($Datos->apellido),
-               
-                            $this->pacientes_model->get_edad($Datos->fec_nac),
+                            trim($Datos->apellido),               
+                            trim($edad),
                             trim($Datos->direccion),
                             trim($Datos->dni),
                             trim($Datos->distrito),
                             trim($Datos->email),
                             '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Paciente" src="'.base_url('public/images/editar.png').'" onClick="btn_editar_pac('.$Datos->id.');"/>',
-                            '<input id="btn_image_ver_pac" type="image" width="17px" height="15px" title="Ver Tratamiento" src="'.base_url('public/images/pago2.png').'" onClick="ver_tratamiento_pac('.$Datos->id.');"/>',
+                            '<input id="btn_image_ver_pac" type="image" width="17px" height="15px" title="Ver Tratamiento" src="'.base_url('public/images/pago2.png').'" onClick="ver_tratamiento_pac('.$Datos->id.','.$edad.');"/>',
                             '<input id="btn_image_ver_cita" type="image" width="18px" height="18px" title="Ver Cita" src="'.base_url('public/images/vista_previa.png').'" onClick="ver_cita_pac('.$Datos->id.');"/>',
                             trim($Datos->sexo),
                             trim($Datos->telefono),
@@ -134,27 +134,28 @@ class Pacientes extends CI_Controller{
 
         foreach($Consulta as $Index => $Datos)
         {
+           $edad=$this->pacientes_model->get_edad($Datos->fec_nac);
            $Lista->rows[$Index]['id'] = $Datos->id;
 	   $Lista->rows[$Index]['cell']= array($Datos->id,
-                            $Datos->nombre,
-                            $Datos->apellido,
-                            $this->pacientes_model->get_edad($Datos->fec_nac),
-                            $Datos->direccion,
-                            $Datos->dni,
-                            $Datos->distrito,
-                            $Datos->email,
+                            trim($Datos->nombre),
+                            trim($Datos->apellido),
+                            trim($edad),
+                            trim($Datos->direccion),
+                            trim($Datos->dni),
+                            trim($Datos->distrito),
+                            trim($Datos->email),
                             '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Paciente" src="'.base_url('public/images/editar.png').'" onClick="btn_editar_pac('.$Datos->id.');"/>',
-                            '<input id="btn_image_ver_pac" type="image" width="17px" height="15px" title="Ver Tratamiento" src="'.base_url('public/images/pago2.png').'" onClick="ver_tratamiento_pac('.$Datos->id.');"/>',
+                            '<input id="btn_image_ver_pac" type="image" width="17px" height="15px" title="Ver Tratamiento" src="'.base_url('public/images/pago2.png').'" onClick="ver_tratamiento_pac('.$Datos->id.','.$edad.');"/>',
                             '<input id="btn_image_ver_cita" type="image" width="18px" height="18px" title="Ver Cita" src="'.base_url('public/images/vista_previa.png').'" onClick="ver_cita_pac('.$Datos->id.');"/>',
-                            $Datos->sexo,
-                            $Datos->telefono,
-                            $Datos->movistar,
-                            $Datos->claro,
-                            $Datos->fec_nac,
-                            $Datos->dependiente,
-                            $Datos->seg_id,
-                            $Datos->estado,
-                            $Datos->seguro);
+                            trim($Datos->sexo),
+                            trim($Datos->telefono),
+                            trim($Datos->movistar),
+                            trim($Datos->claro),
+                            trim($Datos->fec_nac),
+                            trim($Datos->dependiente),
+                            trim($Datos->seg_id),
+                            trim($Datos->estado),
+                            trim($Datos->seguro));
 	      
         }
         echo json_encode($Lista);

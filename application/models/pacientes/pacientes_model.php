@@ -39,7 +39,9 @@ class Pacientes_model extends CI_Model {
     }
 
     function update_pacientes($id, $nom, $ape, $direc, $dni = null, $distri, $sexo, $fchnac, $tel = null, $movi = null, $claro = null, $email, $depen = null, $seg_id) {
-
+        if(!$dni){
+            $dni='null';
+        }
         $this->db->query("set names 'utf8';");
 
         $update = $this->db->query(

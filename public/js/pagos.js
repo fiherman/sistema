@@ -70,7 +70,7 @@ function btn_guardar_pago(tip) {
         pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
         trat_num = $.trim($("#div_realizar_pago_trat_num").val());
         codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
-        monto = $.trim($("#div_pac_rea_pago_cos").val());
+        monto = $.trim(($("#div_pac_rea_pago_cos").val()).replace(',',''));
         fch = $.trim($("#div_pac_rea_pago_fch").val());
         forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
         doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
@@ -109,7 +109,7 @@ function btn_guardar_pago(tip) {
         pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
         trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
         codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
-        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
+        monto = $.trim(($("#div_pac_rea_pago_dol_cos").val()).replace(',',''));
         fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
         forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
         doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());

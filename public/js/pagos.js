@@ -70,7 +70,7 @@ function btn_guardar_pago(tip) {
         pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
         trat_num = $.trim($("#div_realizar_pago_trat_num").val());
         codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
-        monto = $.trim(($("#div_pac_rea_pago_cos").val()).replace(',',''));
+        monto = $.trim($("#div_pac_rea_pago_cos").val());
         fch = $.trim($("#div_pac_rea_pago_fch").val());
         forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
         doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
@@ -109,7 +109,7 @@ function btn_guardar_pago(tip) {
         pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
         trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
         codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
-        monto = $.trim(($("#div_pac_rea_pago_dol_cos").val()).replace(',',''));
+        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
         fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
         forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
         doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());
@@ -288,7 +288,7 @@ function open_historial_pagos() {
             $("#div_historial_pagos_select").empty();
 
             $("#div_historial_pagos").dialog({///abre el dialigo de historial de pagos
-                autoOpen: false, modal: true, height: 550, width: 820, show: {effect: "fade", duration: 500}, close: function(event,ui) {
+                autoOpen: false, modal: true, height: 600, width: 820, show: {effect: "fade", duration: 500}, close: function(event,ui) {
                     $("#grid_ver_historial_pagos").jqGrid("clearGridData", true);
                     $("#grid_ver_historial_pagos_dol").jqGrid("clearGridData", true);
 //                    cargar_his_pagos=0;
@@ -325,7 +325,7 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
         url: 'pacientes/pago/get_historial_pagos?pac_id=' + Id + '&trat_num=' + h_p_trat_num,
         datatype: 'json', mtype: 'GET',
         colNames: ['CODIGO', 'MONTO', 'FECH. PAGO', 'DOCUMENTO','Nº DOCUMENTO' ,'OBSERVACION'],
-        rowNum: 10, sortname: 'pag_id', sortorder: 'asc', viewrecords: true, caption: 'PAGOS EN SOLES', width: '100%', height: '230', align: "center",
+        rowNum: 10, sortname: 'pag_id', sortorder: 'desc', viewrecords: true, caption: 'PAGOS EN SOLES', width: '100%', height: '135', align: "center",
         colModel: [
             {name: 'pag_id', index: 'pag_id', width: 70, resizable: true, align: "left"},
             {name: 'pag_monto', index: 'pag_monto', width: 100, resizable: true, align: "right"},
@@ -342,7 +342,7 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
         url: 'pacientes/pago/get_historial_pagos_dol?pac_id=' + Id + '&trat_num=' + h_p_trat_num,
         datatype: 'json', mtype: 'GET',
         colNames: ['CODIGO', 'MONTO', 'FECH. PAGO', 'DOCUMENTO','Nº DOCUMENTO' ,'OBSERVACION'],
-        rowNum: 10, sortname: 'pag_id', sortorder: 'asc', viewrecords: true, caption: 'PAGOS EN DOLARES', width: '100%', height: '230', align: "center",
+        rowNum: 10, sortname: 'pag_id', sortorder: 'desc', viewrecords: true, caption: 'PAGOS EN DOLARES', width: '100%', height: '100', align: "center",
         colModel: [
             {name: 'pag_id', index: 'pag_id', width: 70, resizable: true, align: "left"},
             {name: 'pag_monto', index: 'pag_monto', width: 100, resizable: true, align: "right"},
@@ -352,8 +352,8 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
             {name: 'pag_obs', index: 'pag_obs', width: 295, resizable: true, align: "left"}
         ],
         rowList: [9, 25],
-        pager: '#grid_ver_historial_pagos_dol_pager',
-        hiddengrid: true
+        pager: '#grid_ver_historial_pagos_dol_pager'
+//        hiddengrid: true// inicia el grid en hide
     });
     
 //    $("#grid_ver_historial_pagos").jqGrid('setGridState', 'hidden');

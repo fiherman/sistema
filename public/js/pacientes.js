@@ -929,7 +929,10 @@ function pintar_verde_todo(){
     $("#txt_divnuevousu_user").css({ border: "1px solid #7DCE73"});
     $("#div_nuevo_usu_c").css({ border: "1px solid #7DCE73"});
     $("#div_nuevo_usu_rep_c").css({ border: "1px solid #7DCE73"});
-    //editar tratamiento unitario
+    //nuevo ruc
+    $("#div_reg_ruc_raz_soc").css({ border: "1px solid #7DCE73"});
+    $("#div_reg_ruc_num_ruc").css({ border: "1px solid #7DCE73"});
+    $("#div_reg_ruc_dir").css({ border: "1px solid #7DCE73"});
     
 }
 

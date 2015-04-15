@@ -49,7 +49,11 @@ class Pacientes_model extends CI_Model {
                 . "movistar='$movi',claro='$claro',fec_nac='$fchnac',email='$email',dependiente='$depen',seg_id=$seg_id,fch_reg='" . date('d/m/Y') . "',estado='1' "
                 . " where id=$id");
         if ($update) {
-            $this->db->query("update pacientes set cad_lar=(nombre || ' ' || apellido || ' ' || dni || ' ' || id) where id=$id");
+            if($dni!='null'){
+                $this->db->query("update pacientes set cad_lar=(nombre ||' '|| apellido ||' '|| dni ||' '||id) where id=$id");
+            }else{
+                $this->db->query("update pacientes set cad_lar=(nombre ||' '|| apellido ||' '||id) where id=$id");
+            }            
             return true;
         } else {
             return FALSE;
@@ -312,6 +316,24 @@ class Pacientes_model extends CI_Model {
         $this->db->query("set names 'utf8';");
         return $this->db->query("select * from consulta where cons_fch like '".date('d/m/Y')."'")->result();
     }
+    /////////RUC
+    function model_get_ruc($pac_id){
+        return $this->db->query("select * from ruc where pac_id=$pac_id")->result()[0];
+    }
+    function insert_ruc($pac_id,$raz_soc,$num_ruc,$direccion,$est) {
+        $this->db->query("set names 'utf8';");
+        $insert = $this->db->query("insert into ruc(pac_id, ruc_raz_soc,ruc_num, ruc_dir, ruc_est) values "
+                . "($pac_id,'$raz_soc',$num_ruc,'$direccion','$est')");
+
+        if ($insert) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    
+    
     /////////////////////////// EDAD
     
     function get_edad($fecha_nac){
@@ -322,4 +344,6 @@ class Pacientes_model extends CI_Model {
         $edad=(int)((time()-$d)/31556926);
         return $edad;
     }
+    
+    
 }

@@ -104,7 +104,7 @@ function mensaje_sis(div, texto, tit) {
     $("#" + div).dialog({
         autoOpen: false, modal: true, title: tit, height: 150, width: 350, show: {effect: "fade", duration: 300},
         buttons: [
-            {text: "Aceptar", click: function() {
+            {text: "Aceptar",id:"msg_aceptar", click: function() {
                     $(this).dialog("close");
                 }}
         ]

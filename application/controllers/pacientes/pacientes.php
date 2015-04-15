@@ -374,7 +374,7 @@ class Pacientes extends CI_Controller{
         }
     } 
     
-     function insert_dscto_trat_dol(){
+    function insert_dscto_trat_dol(){
         $cam=  explode('*', $_GET['datos']);        
 //        echo $cam[0].'<br>';
         $sql=$this->pacientes_model->insert_dscto_trat_dol($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6]);
@@ -439,6 +439,30 @@ class Pacientes extends CI_Controller{
         echo json_encode($Eventos);
     }
     
+    //CONSULTA EL RUC DE UN PACIENTE..../ INSERTA NUEVO RUC
+    function get_ruc($pac_id){
+        header("Content-Type: application/json"); 
+        $sql=$this->pacientes_model->model_get_ruc($pac_id);
+        if($sql){
+            $ruc=array();
+            $ruc['pac_id']=trim($sql->pac_id);                      
+            $ruc['ruc_raz_soc']=trim($sql->ruc_raz_soc);
+            $ruc['ruc_num']=trim($sql->ruc_num);
+            $ruc['ruc_dir']=trim($sql->ruc_dir);
+            $ruc['ruc_est']=trim($sql->ruc_est);
+
+            echo json_encode($ruc);
+        }       
+    }
+    function insert_ruc(){
+        $cam=  explode('*', $_GET['datos']); 
+        $sql=$this->pacientes_model->insert_ruc($cam[0],$cam[1],$cam[2],$cam[3],$cam[4]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
     
    
 }

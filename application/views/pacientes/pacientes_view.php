@@ -629,7 +629,7 @@
             </select>           
         </div>        
     </div>
-    <div style="position: absolute; top: 18.4%; z-index: 1; left: 71.5%;">
+    <div style="position: absolute; top: 16.4%; z-index: 1; left: 71%;">
         <label class="ctrl_lavel_1" style="color: white; float: left; width: 37%;">Saldo S/.</label>
         <input type="text" class="conta_deudas_pagos" style="float: left; width: 48%; margin-left: 2%;" id="div_historial_pagos_saldo" disabled/> 
         <!--javascript pagos-->
@@ -637,7 +637,7 @@
             <img src="public/images/mm.png" style="width:20px"></img>
         </button>
     </div>
-    <div style="position: absolute; top: 80%; z-index: 1; left: 72.5%;" id="div_his_pagos_mov">
+    <div style="position: absolute; top: 56%; z-index: 1; left: 72%;" id="div_his_pagos_mov">
         <label class="ctrl_lavel_1" style="color: white; float: left; width: 36%;">Saldo $.</label>
         <input type="text" class="conta_deudas_pagos_dol" style="float: left; width: 48%; margin-left: 2%;" id="div_historial_pagos_saldo_dol" disabled/> 
         <!--javascript pagos-->
@@ -703,7 +703,44 @@
 </div>
 
 
-
+<!--RUC-->
+<div id="div_reg_ruc" style="display: none; font-size: 12px;" title="REGISTRO DE RUC"> 
+    <div class="filtros">
+        <p class="spanasis">DATOS DEL PACIENTE</p><br/>       
+        <div class="ctrl_input" style="margin-top: -1%; margin-bottom: -1.5%">
+            <input type="hidden" id="hiddendiv_reg_ruc_nom_pac" value="">
+            <label class="ctrl_lavel_1" style="width:16%">Paciente</label>
+            <input type="text" class="ctrl_input_t" style="width: 81.5%;background-color: #EFFAEE" id="div_reg_ruc_nom_pac" disabled/> 
+        </div>        
+    </div>
+    <div class="filtros" style="">
+        <p class="spanasis">DATOS DEL RUC</p><br/> 
+        <div class="ctrl_input">
+            <input type="hidden" id="div_reg_ruc_pac_id_hidden" value="">
+            <label class="ctrl_lavel_1" style="width: 19%;">Razon Social</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%; " id="div_reg_ruc_raz_soc" maxlength="150" onblur="fn_onblur(this);"/>        
+        </div>
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style=" width: 19%;">Numero Ruc</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%;" id="div_reg_ruc_num_ruc" maxlength="11" onblur="fn_onblur(this);" onkeypress="return soloDNI(event);"/>
+        </div>
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style="width: 19%;">Direccion</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%;" id="div_reg_ruc_dir" maxlength="200" onblur="fn_onblur(this);" />
+        </div>        
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style="width: 19%;">Etado</label>
+            <select class="ctrl_input_t" id="div_reg_ruc_est" style="background-color: #EFFAEE">
+                <option value="1">HABILITADO</option>
+                <option value="0">DESHABILITADO</option>                
+            </select>
+        </div> 
+    </div>      
+    
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">    
+    <button class="btn_full_act" id="div_reg_ruc_salir" onClick="btn_salir('div_reg_ruc');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="div_reg_ruc_guardar" onClick="brn_guardar_ruc('INSERTAR');" title="Enter"><img src="public/images/guardar.png" style="width:20px">Guardar Ruc</img></button>
+</div>
 
 
 

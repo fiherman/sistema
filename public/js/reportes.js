@@ -159,7 +159,79 @@ function cons_dia(){
 }
 
 function factura(){
-    pac_id=$("#hiddendiv_ver_trat_pac").val();
-    trat_num=$("#div_ver_trat_select").val();
-    window.open("pacientes/reportes/factura/"+pac_id+"/"+trat_num);
+    Id=$('#hiddendiv_ver_trat_pac').val();
+    
+    $.ajax({                   
+        url: 'pacientes/pacientes/get_ruc/'+Id,
+        type: 'GET',
+        success: function(data){
+            trat_num=$("#div_ver_trat_select").val(); 
+            raz_soc=data.ruc_raz_soc;
+            ruc_num=data.ruc_num;
+            window.open("pacientes/reportes/factura/"+Id+"/"+trat_num+"/"+raz_soc+"/"+ruc_num); //crea la factura si ya esta registrado el ruc     
+          
+        },
+        error:function(data){            
+            $("#div_reg_ruc").dialog({//abre el dialogo para registrar el ruc
+                autoOpen: false, modal: true, height: 370, width: 550, show: {effect: "fade", duration: 300} 
+            }).dialog('open');
+            pintar_verde_todo();
+            limpiar_ctrl_c_u('div_reg_ruc','div_reg_ruc_raz_soc*div_reg_ruc_num_ruc*div_reg_ruc_dir');
+            $("#hiddendiv_reg_ruc_nom_pac").val(Id);
+            $("#div_reg_ruc_nom_pac").val($("#div_ver_trat_pac").val());
+        }
+    });     
+}
+
+function brn_guardar_ruc(modo){
+    pac_id=$("#hiddendiv_reg_ruc_nom_pac").val();
+    raz_soc=$("#div_reg_ruc_raz_soc").val();
+    num_ruc=$("#div_reg_ruc_num_ruc").val();
+    dir=$("#div_reg_ruc_dir").val();
+    est=$("#div_reg_ruc_est").val();
+    
+    
+    if (pac_id != "" && raz_soc != "" && num_ruc != "" && dir != "") {
+
+           if(modo=='INSERTAR'){                   
+               var datos= pac_id+'*'+raz_soc.toUpperCase()+'*'+num_ruc+'*'+dir.toUpperCase()+'*'+est;
+                $.ajax({                   
+                    url: 'pacientes/pacientes/insert_ruc?datos='+datos,
+                    type: 'GET',
+                    success: function(data){
+                        if(data=='si'){
+                            mensaje_sis('mensaje',' DATOS INSERTADOS CORRECTAMENTE','MENSAJE DEL SISTEMA');
+                            shorcut_enter=0;
+                            btn_salir('div_reg_ruc');                            
+                        }
+                    }
+                });
+            }else if(modo=='EDITAR'){                    
+               var datos=pac_id+'*'+nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase();
+                $.ajax({                   
+                    url: 'pacientes/pacientes/update_pac?datos='+datos,
+                    type: 'GET',
+                    success: function(data){
+                        if(data=='si'){
+                            mensaje_sis('mensaje',' DATOS MODIFICADO CORRECTAMENTE','MENSAJE DEL SISTEMA');
+                            btn_salir('div_reg_pac_nuevo');
+                            btn_actualizar();
+                        }
+                    }
+                }); 
+            }                
+            return true;
+//            }
+//        }
+    } else {
+        if (nombre == "") { $("#nombre").css({border: "1px solid red"}); }
+        if (apellidos == "") { $("#apellidos").css({border: "1px solid red"}); }
+        if (direccion == "") { $("#direccion").css({border: "1px solid red"}); }
+        if (sexo == "") { $("#sexo").css({border: "1px solid red"}); }
+        if (fec_nac == "") { $("#fec_nac").css({border: "1px solid red"}); }
+
+        mostraralertas('informe','* los campos marcados de rojo son requeridos','INFORMACION');
+        return false;
+        shorcut_enter=1;
+    }
 }

@@ -250,6 +250,11 @@ class Pacientes_model extends CI_Model {
         return $this->db->query("select a.*,b.direccion from consulta a inner join pacientes b on a.pac_id=b.id where a.pac_id=$pac_id and a.cons_trat_num=$num_trat order by a.cons_fch desc")->result()[0];
     }
     
+    function get_dir($id) {
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from ruc where id=$id")->result()[0];
+    }
+    
     function get_trat_report($pac_id, $num_trat) {
         $this->db->query("set names 'utf8';");        
         return $this->db->query("select *,round(trat_esp_cos_sol/trat_cant,2) as pre_uni_sol,round(trat_esp_cos_dol/trat_cant,2) as pre_uni_dol from vw_ver_trat_pac where trat_pac_id=$pac_id and trat_num=$num_trat  order by 5")->result();
@@ -275,8 +280,8 @@ class Pacientes_model extends CI_Model {
     }
     function get_pago_sol_dol($pac_id, $num_trat) { 
         
-        $pag=$this->db->query("select * from pagos where pag_pac_id=$pac_id and pag_trat_num=$num_trat")->result();
-        $pag_dol=$this->db->query("select * from pagos_dol where pag_pac_id=$pac_id and pag_trat_num=$num_trat")->result();
+        $pag=$this->db->query("select * from pagos where pag_pac_id=$pac_id and pag_trat_num=$num_trat order by 1 desc")->result();
+        $pag_dol=$this->db->query("select * from pagos_dol where pag_pac_id=$pac_id and pag_trat_num=$num_trat order by 1 desc")->result();
         
         $Lista=array();
 //        if($pag && $pag_dol){
@@ -317,13 +322,13 @@ class Pacientes_model extends CI_Model {
         return $this->db->query("select * from consulta where cons_fch like '".date('d/m/Y')."'")->result();
     }
     /////////RUC
-    function model_get_ruc($pac_id){
-        return $this->db->query("select * from ruc where pac_id=$pac_id")->result()[0];
+    function model_get_ruc($id){
+        return $this->db->query("select * from ruc where id=$id")->result()[0];
     }
-    function insert_ruc($pac_id,$raz_soc,$num_ruc,$direccion,$est) {
+    function insert_ruc($raz_soc,$num_ruc,$direccion,$est) {
         $this->db->query("set names 'utf8';");
-        $insert = $this->db->query("insert into ruc(pac_id, ruc_raz_soc,ruc_num, ruc_dir, ruc_est) values "
-                . "($pac_id,'$raz_soc',$num_ruc,'$direccion','$est')");
+        $insert = $this->db->query("insert into ruc(ruc_raz_soc,ruc_num, ruc_dir, ruc_est) values "
+                . "('$raz_soc',$num_ruc,'$direccion','$est')");
 
         if ($insert) {
             return true;
@@ -331,7 +336,10 @@ class Pacientes_model extends CI_Model {
             return FALSE;
         }
     }
-    
+    function get_factura_ruc(){//autocompletar numero ruc y factura
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select id, ruc_num,ruc_raz_soc from ruc")->result();
+    }
     
     
     /////////////////////////// EDAD

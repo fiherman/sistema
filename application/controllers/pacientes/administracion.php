@@ -297,4 +297,24 @@ class Administracion extends CI_Controller{
             echo 'no';
         }
     }
+    
+    ///////////////////////////////CONFIGURACION DEL SISTEMA///////////////////////////////////////////////
+    function get_config_system(){
+        header("Content-Type: application/json");  
+        $Consulta=$this->administracion_model->get_configuracion_sistema();
+        $trat=array();
+        $trat['fac_ini']=$Consulta->sys_fac_ini;                      
+        $trat['fac_fin']=$Consulta->sys_fac_fin;
+        $trat['igv']=$Consulta->sys_igv;       
+        echo @json_encode($trat);
+    }
+    function update_config_system(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->administracion_model->update_configuracion_sistema($cam[0],$cam[1],$cam[2]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
 }

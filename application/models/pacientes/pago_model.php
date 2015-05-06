@@ -1,10 +1,24 @@
 <?php
 class Pago_model extends CI_Model{
-    function insert_pago_pac($pac_id,$trat_num,$pag_cod,$monto,$fch,$form_pag,$doc_fac,$obs = null,$usuario){
+    function insert_pago_pac($pac_id,$trat_num,$num_fac,$monto,$fch,$form_pag,$doc_fac,$obs = null,$usuario){
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
-                INSERT INTO pagos(pag_pac_id, pag_trat_num,pag_codigo, pag_monto_sol, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu)
-                VALUES ($pac_id, $trat_num,'$pag_cod', $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario');
+                INSERT INTO pagos(pag_pac_id, pag_trat_num,pag_num_fac, pag_monto_sol, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu,pag_est)
+                VALUES ($pac_id, $trat_num,'$num_fac', $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario',1);
+                ");
+
+       if($insert){           
+           return true; 
+       }else{
+           return FALSE;
+       }
+    }
+    
+    function insert_pago_pac_factura($pac_id,$trat_num,$num_fac,$monto,$fch,$form_pag,$doc_fac,$obs = null,$usuario,$ruc){
+        $this->db->query("set names 'utf8';");
+        $insert = $this->db->query("
+                INSERT INTO pagos(pag_pac_id, pag_trat_num,pag_num_factura, pag_monto_sol, pag_fch, pag_form_pag,pag_doc_fac, pag_obs,pag_usu,pag_num_ruc,pag_est)
+                VALUES ($pac_id, $trat_num,'$num_fac', $monto, '$fch', '$form_pag', '$doc_fac', '$obs','$usuario',$ruc,1);
                 ");
 
        if($insert){           
@@ -145,6 +159,21 @@ class Pago_model extends CI_Model{
         }else{
             return false;
         }
+    }
+    
+    ////////////////////////////////// traer la serie de factura /////////////////////////
+    
+    function get_serie_fac(){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select pag_id,pag_num_factura from pagos where pag_doc_fac='3' order by 1 desc limit 1
+        ")->result()[0];
+    }
+    
+    function get_limite_fac(){        
+        return $this->db->query("
+            select sys_fac_ini,sys_fac_fin from system
+        ")->result()[0];
     }
 }
 

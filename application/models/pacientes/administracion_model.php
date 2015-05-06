@@ -173,4 +173,27 @@ class administracion_model extends CI_Model{
             return FALSE;
         }              
     }
+    
+    ////////////////////configuracion del sistema////////////////////////////////////////////////
+    function get_configuracion_sistema(){      
+        $this->db->query("set names 'utf8';");                   
+        return $this->db->query("select * from system")->result()[0]; 
+    }
+    function update_configuracion_sistema($rango_fac_ini,$rango_fac_fin,$igv){      
+        $this->db->query("set names 'utf8';");
+        $update = $this->db->query("
+            UPDATE system SET sys_fac_ini=$rango_fac_ini, sys_fac_fin=$rango_fac_fin, sys_igv=$igv WHERE id=1;
+        "); 
+        if($update){          
+            return true; 
+        }else{
+            return FALSE;
+        }  
+    }
+    
+    //////////////////////////////factura///////////
+    function get_system_igv() {
+        $this->db->query("set names 'utf8';");        
+        return $this->db->query("select sys_igv from system")->result()[0];
+    }
 }

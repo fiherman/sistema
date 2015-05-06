@@ -158,29 +158,35 @@ function cons_dia(){
     window.open("pacientes/reportes/consultas_dia");
 }
 
-function factura(){
-    Id=$('#hiddendiv_ver_trat_pac').val();
+function factura(tip,fch,monto){
+    Id=$('#hiddendiv_pac_realizar_pago_factura_ruc').val();
+//    fch=$.trim($("#grid_ver_historial_pagos").getCell(pag_id,"pag_fch"));//obtiene la fecha de pago de l grilla historial de pagos
+//    monto=$.trim($("#grid_ver_historial_pagos").getCell(pag_id,"pag_monto"));
+    fecha=fch.replace('/','-');
     
-    $.ajax({                   
-        url: 'pacientes/pacientes/get_ruc/'+Id,
-        type: 'GET',
-        success: function(data){
-            trat_num=$("#div_ver_trat_select").val(); 
-            raz_soc=data.ruc_raz_soc;
-            ruc_num=data.ruc_num;
-            window.open("pacientes/reportes/factura/"+Id+"/"+trat_num+"/"+raz_soc+"/"+ruc_num); //crea la factura si ya esta registrado el ruc     
-          
-        },
-        error:function(data){            
-            $("#div_reg_ruc").dialog({//abre el dialogo para registrar el ruc
-                autoOpen: false, modal: true, height: 370, width: 550, show: {effect: "fade", duration: 300} 
-            }).dialog('open');
-            pintar_verde_todo();
-            limpiar_ctrl_c_u('div_reg_ruc','div_reg_ruc_raz_soc*div_reg_ruc_num_ruc*div_reg_ruc_dir');
-            $("#hiddendiv_reg_ruc_nom_pac").val(Id);
-            $("#div_reg_ruc_nom_pac").val($("#div_ver_trat_pac").val());
-        }
-    });     
+    if (tip==3){//si es factura
+        $.ajax({                   
+            url: 'pacientes/pacientes/get_ruc/'+Id,
+            type: 'GET',
+            success: function(data){//si esta registrado su ruc
+                trat_num=$("#div_ver_trat_select").val(); 
+                raz_soc=data.ruc_raz_soc;
+                ruc_num=data.ruc_num;
+                window.open("pacientes/reportes/factura/"+Id+"/"+trat_num+"/"+raz_soc+"/"+ruc_num+"/"+fecha.replace('/','-')+"/"+monto); //crea la factura si ya esta registrado el ruc     
+
+            },
+            error:function(data){//si no tiene ruc abre un dialigo para registrarlo        
+                $("#div_reg_ruc").dialog({//abre el dialogo para registrar el ruc
+                    autoOpen: false, modal: true, height: 370, width: 550, show: {effect: "fade", duration: 300} 
+                }).dialog('open');
+                pintar_verde_todo();
+                limpiar_ctrl_c_u('div_reg_ruc','div_reg_ruc_raz_soc*div_reg_ruc_num_ruc*div_reg_ruc_dir');
+                $("#hiddendiv_reg_ruc_nom_pac").val(Id);
+                $("#div_reg_ruc_nom_pac").val($("#div_ver_trat_pac").val());
+            }
+        }); 
+    }
+        
 }
 
 function brn_guardar_ruc(modo){

@@ -332,6 +332,8 @@ function btn_plan_tratamiento(){
                     limpiar_ctrl('div_plan_tratamiento');
                     llenararajaxtodo_tip_trat('div_trat_des','pacientes/pacientes/listartodo_trat',seg_id,0);
                     llenararajaxtodo_doctor('div_trat_doctor','pacientes/pacientes/listartodo_doc',0); 
+//                    llenararajaxtodo_doctor('div_trat_doctor','pacientes/pacientes/listartodo_ruc',0); 
+                    
                     $("#div_trat_pac").val(nom_com);
                     $("#div_trat_id").val(ide_trb);
                     $("#div_trat_seg_id").val(seg_id);
@@ -832,6 +834,35 @@ function llenararajaxtodo_editar_trat(textbox,url,seg_id,val){
     });
 }
 
+
+//function llenararajaxtodo_doctor(textbox,url,val){
+//    $.ajax({
+//           type: 'GET',
+//           url: url,
+//           success: function(data){                
+//                var $local_sourcedoctotodo=data;  
+//                
+//                 $("#"+textbox).autocomplete({
+//                      source: $local_sourcedoctotodo,
+//                      focus: function(event, ui) {
+//                             
+//                             $("#"+textbox).val(ui.item.label);                             
+//                             $("#hidden"+textbox).val(ui.item.value);
+//                             return false;
+//                      },
+//                      select: function(event, ui) {
+//                              
+//                              $("#"+textbox).val(ui.item.label);
+//                              $("#hidden"+textbox).val(ui.item.value); 
+//                              return false;
+//                      }   
+//                  });             
+//            },
+//            error: function(data){
+//                mensaje_sis('mensaje',' ERROR AL CREAR CONSULTA','MENSAJE DEL SISTEMA');
+//            }
+//    });
+//}
 function llenararajaxtodo_doctor(textbox,url,val){
     $.ajax({
            type: 'GET',
@@ -933,6 +964,10 @@ function pintar_verde_todo(){
     $("#div_reg_ruc_raz_soc").css({ border: "1px solid #7DCE73"});
     $("#div_reg_ruc_num_ruc").css({ border: "1px solid #7DCE73"});
     $("#div_reg_ruc_dir").css({ border: "1px solid #7DCE73"});
+    //pagar con factura////
+    $("#div_pac_realizar_pago_factura_ruc").css({ border: "1px solid #7DCE73"});
+    $("#div_razon_soc_factura").css({ border: "1px solid #7DCE73"});
+    $("#div_pac_realizar_pago_factura_fch").css({ border: "1px solid #7DCE73"});
     
 }
 
@@ -1120,6 +1155,22 @@ function fn_onblur(input) {
         $("#div_dscto_tot_dol").val((monto-des).toFixed(2));
         
     }
+    if(input.id == "div_pac_realizar_pago_factura_monto"){ //validar monto para la factura
+        var a = $("#div_realizar_pago_saldo_fac").val();
+        var b = a.replace(',','');
+        
+        saldo=parseFloat(b);          
+        monto=parseFloat(input.value).toFixed(2);
+
+        if(monto <= saldo){
+            pag_monto = formato_numero(input.value,2,'.',',');        
+            $("#" + input.id).val(pag_monto);
+        }else{
+            mostraralertas('informe','* monto excedido <br>* El saldo es de '+formato_numero(saldo,2,'.',',')+' soles','INFORMACION');
+            $("#" + input.id).val("");
+        }       
+    }
+    
 }
 
 function fn_load_seguro(seg_id){

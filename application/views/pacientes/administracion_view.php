@@ -78,22 +78,27 @@
 <script src="<?php echo base_url('public/js/administracion.js'); ?>" type="text/javascript" charset="UTF-8"></script>
 <!--menu administracion del sistema-->
 <div id="div_adm_all" style="display: none; font-size: 12px" title="ADMINISTRACION DEL SISTEMA">
-        <div style="height: 67%;padding: 3% 5% 0% 6%">
-            <div style="float: left;margin-right: 2%;width: 30%;border: 1px solid #418BC3;border-radius: 3px">
+        <div style="height: 75%;padding: 4% 0% 0% 6%">
+            <div style="float: left;margin: 1% 1% 0 5%;width: 38%;border: 1px solid #418BC3;border-radius: 3px">
                 <a href="#" onclick="open_doctores();" class="list_group_item" style="opacity: 0.8"><center><b>DOCTORES</b></center>
                     <img src="public/images/doctor.png" class="img-rounded img-responsive" style="width: 60%;margin-left: 22%">
                 </a>                       
             </div> 
-            <div style="float: left;margin: 0 2%;;width: 30%;border: 1px solid #418BC3;border-radius: 3px">
+            <div style="float: left;margin: 1% 5%;;width: 38%;border: 1px solid #418BC3;border-radius: 3px">
                 <a href="#" onclick="open_usuarios();" class="list_group_item" style="opacity: 0.8;"><center><b>USUARIOS</b></center>
-                    <img src="public/images/configurar.png" class="img-rounded img-responsive" style="width: 60%;margin-left: 22%">
+                    <img src="public/images/pacientes.jpg" class="img-rounded img-responsive" style="width: 60%;margin-left: 22%">
                 </a>                       
             </div>
-            <div style="float: left;margin-left: 2%;width: 30%;border: 1px solid #418BC3;border-radius: 3px">
+            <div style="float: left;margin: 5% 0 0 5%;width: 38%;border: 1px solid #418BC3;border-radius: 3px">
                 <a href="#" onclick="open_especialidades();" class="list_group_item" style="opacity: 0.8;"><center><b>ESPECIALIDADES</b></center>
                     <img src="public/images/especialidades.png" class="img-rounded img-responsive" style="width: 60%;margin-left: 22%">
                 </a>                       
-            </div>            
+            </div>  
+            <div style="float: left;margin: 5% 0 0 6%;width: 38%;border: 1px solid #418BC3;border-radius: 3px">
+                <a href="#" onclick="open_config_system();" class="list_group_item" style="opacity: 0.8;"><center><b>SISTEMA</b></center>
+                    <img src="public/images/configurar.png" class="img-rounded img-responsive" style="width: 60%;margin-left: 22%">
+                </a>                       
+            </div> 
         </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_adm_salir" onClick="btn_salir('div_adm_all');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>    
@@ -212,8 +217,6 @@
     
 </div>
 
-
-
 <!--USUARIOS USUARIOS USUARIOS USUARIOS USUARIOS-->
 <div id="div_adm_usu" style="display: none; font-size: 12px" title="LISTA DE USUARIOS">
     <div class="filtros">
@@ -297,6 +300,30 @@
     <button class="btn_full_act"  id="div_nuevo_usu_btn_salir" onClick="btn_salir('div_edit_usu');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>    
     <button class="btn_full_act"  id="div_nuevo_usu_btn_edit" onClick="btn_guardar_update_usu();"><img src="public/images/guardar.png" style="width:20px"> Editar Usuario</img></button>
 </div>
+
+<!--CONFIGURACION DEL SISTEMA-->
+<div id="div_config_system" style="display: none; font-size: 12px" title="CONFIGURACION DEL SISTEMA">
+    <div class="filtros">
+        <p class="spanasis">BUSCAR USUARIO</p><br/>        
+         <div class="ctrl_input">               
+            <input type="hidden" id="doc_id" value="" >
+            <label style="text-align: right;width: 30%;">Rango de Factura</label>
+            <input type="text" class="ctrl_input_t" style="width: 30%;background-color: #EFFAEE" id="div_config_system_fac_ini" >             
+            <label style="text-align: right;width: 3%;">al</label>
+            <input type="text" class="ctrl_input_t" style="width: 30%;background-color: #EFFAEE" id="div_config_system_fac_fin" >             
+        </div> 
+        <div class="ctrl_input">
+            <label style="text-align: right;width: 30%;">IGV</label>
+            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE" id="div_config_system_igv" >%
+        </div>
+    </div>
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_config_system_salir" onClick="btn_salir('div_config_system');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act"  id="div_config_system_guardar" onClick="brn_guardar_system_config();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
+    
+</div>
+
+
 <!--<div class="ctrl_input"> 
             <label style="text-align: right;width: 25%;">Contraseña Actual</label>
             <input type="password" class="ctrl_input_t" style="width: 73%;background-color: #EFFAEE" id="div_nuevo_usu_c_act" onblur="fn_onblur(this);" placeholder="contraseña actual">

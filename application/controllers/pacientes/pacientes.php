@@ -195,6 +195,23 @@ class Pacientes extends CI_Controller{
         }
         echo @json_encode($todo);
     }
+    /////factura///////////////////////
+    function listartodo_ruc(){
+        header("Content-Type: application/json");      
+        $Consulta= $this->pacientes_model->get_factura_ruc();       
+               
+        $todo=array();
+        foreach($Consulta as $Datos)
+        {
+            $Lista=new stdClass();
+            $Lista->value=$Datos->id;
+            $Lista->label=trim($Datos->ruc_num.' - '.utf8_encode(trim($Datos->ruc_raz_soc)));
+            $Lista->num_ruc=trim($Datos->ruc_num);
+            $Lista->raz_soc=utf8_encode(trim($Datos->ruc_raz_soc));          
+            array_push($todo,$Lista);
+        }
+        echo @json_encode($todo);
+    }
     
     //TRATAMIENTO
     function insert_tratamiento_pac(){
@@ -440,12 +457,11 @@ class Pacientes extends CI_Controller{
     }
     
     //CONSULTA EL RUC DE UN PACIENTE..../ INSERTA NUEVO RUC
-    function get_ruc($pac_id){
+    function get_ruc($id){
         header("Content-Type: application/json"); 
-        $sql=$this->pacientes_model->model_get_ruc($pac_id);
+        $sql=$this->pacientes_model->model_get_ruc($id);
         if($sql){
-            $ruc=array();
-            $ruc['pac_id']=trim($sql->pac_id);                      
+            $ruc=array();                                  
             $ruc['ruc_raz_soc']=trim($sql->ruc_raz_soc);
             $ruc['ruc_num']=trim($sql->ruc_num);
             $ruc['ruc_dir']=trim($sql->ruc_dir);

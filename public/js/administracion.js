@@ -1,7 +1,7 @@
 
 function open_administracion() {
     $("#div_adm_all").dialog({
-        autoOpen: false, modal: true, height: 270, width: 690, show: {effect: "fade", duration: 300}
+        autoOpen: false, modal: true, height: 400, width: 440, show: {effect: "fade", duration: 300}
     }).dialog('open');
 }
 function open_doctores() {
@@ -605,6 +605,42 @@ function brn_guardar_usu(modo) {
     }
 }
 
+////////////////CONFIGURACION DEL SISTEMA////////////////////////////////////////////////////////////////////////
+function open_config_system(){
+    
+    $.ajax({//trae los datos guardados de la factura y igv
+        url: 'pacientes/administracion/get_config_system',
+        type: 'GET',
+        success: function(data) {
+            $("#div_config_system_fac_ini").val(data.fac_ini);//numero inicial de rango la factura
+            $("#div_config_system_fac_fin").val(data.fac_fin);//numero final del ranfo de la factura
+            $("#div_config_system_igv").val(data.igv);           
+        }
+    });
+    
+    $("#div_config_system").dialog({
+        autoOpen: false, modal: true, height: 250, width: 500, show: {effect: "fade", duration: 300}
+    }).dialog('open');
+    
+    btn_salir('div_adm_all');   
+}
+function brn_guardar_system_config(){
+    ini=$("#div_config_system_fac_ini").val();
+    fin=$("#div_config_system_fac_fin").val();
+    igv=$("#div_config_system_igv").val();
+    var datos = $.trim(ini) + '*' + $.trim(fin) + '*' + $.trim(igv);
+ 
+    $.ajax({
+        url: 'pacientes/administracion/update_config_system?datos=' + datos,
+        type: 'GET',
+        success: function(data) {
+            if (data == 'si') {
+                mensaje_sis('mensaje', ' DATOS MODIFICADO CORRECTAMENTE', 'MENSAJE DEL SISTEMA');                
+                btn_salir('div_config_system');
+            }
+        }
+    });
+}
 
 
 

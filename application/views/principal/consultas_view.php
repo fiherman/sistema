@@ -1,4 +1,4 @@
-<style type="text/css">
+<!--<style type="text/css">
     
 </style>
 <script type="text/javascript">
@@ -73,5 +73,5 @@ function btn_actualizar_mon_suc(){
         <table id="grid_con_pac"></table>
         <div id="pager_con_pac"></div>
     </div>  
-    <!--<button class="btn_full" id="btn_rea_con_pac" style="margin-left: 80%;position: absolute" onClick="">Buscar</button>-->
-</div>
+    <button class="btn_full" id="btn_rea_con_pac" style="margin-left: 80%;position: absolute" onClick="">Buscar</button>
+</div>-->

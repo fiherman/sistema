@@ -1,10 +1,10 @@
 
-function btn_pago_pac(tip) {
+function btn_pago_pac(tip,documento) {
 //    pac_id=$("#hiddendiv_ver_trat_pac").val();
-
-    if(tip=='s'){
-        saldo = $("#div_ver_trat_saldo").val();
-
+    saldo = $("#div_ver_trat_saldo").val();
+    
+    if(tip=='s' && (documento=='1' || documento=='2')){
+        
         if (saldo == 0.00) {
             mensaje_sis('mensaje', ' EL PAGO EN SOLES ESTA CANCELADO', 'MENSAJE DEL SISTEMA');
         } else {
@@ -15,6 +15,7 @@ function btn_pago_pac(tip) {
                 autoOpen: false, modal: true, height: 430, width: 750, show: {effect: "fade", duration: 500}, close: function() {
                 }
             }).dialog('open');
+            
             limpiar_ctrl('div_pac_realizar_pago');
             $("#div_pac_rea_pago_fch").mask("99/99/9999");//para autocompletar la fecha
             //datepiker('div_pac_rea_pago_fch', '-1Y', '+1Y');
@@ -26,12 +27,52 @@ function btn_pago_pac(tip) {
             $("#div_realizar_pago_tot_pago").val($("#div_ver_trat_tot_pag").val());
             $("#div_realizar_pago_pagado").val($("#div_ver_trat_pagado").val());
             $("#div_realizar_pago_saldo").val($("#div_ver_trat_saldo").val());
-//            $("#div_realizar_pago_saldo").val(formato_numero(parseFloat($("#div_ver_trat_saldo").val()),2,'.',','));
-            
-            
+//            $("#div_realizar_pago_saldo").val(formato_numero(parseFloat($("#div_ver_trat_saldo").val()),2,'.',','));    
             pintar_verde_todo();
         }
-    }else if(tip=='d'){
+    }else if(tip=='s' && documento=='3'){//dialogo para realizar el pago con factura
+        
+        if (saldo == 0.00) {
+            mensaje_sis('mensaje', ' EL PAGO EN SOLES ESTA CANCELADO', 'MENSAJE DEL SISTEMA');
+        } else {
+            pac = $("#div_ver_trat_pac").val();
+            trat = $("#div_ver_trat_select").val();
+            
+            $("#div_pac_realizar_pago_factura").dialog({
+                autoOpen: false, modal: true, height: 445, width: 750, show: {effect: "fade", duration: 500}, close: function() {
+                }
+            }).dialog('open');
+            
+            limpiar_ctrl('div_pac_realizar_pago_factura');
+            $("#div_pac_realizar_pago_factura_fch").mask("99/99/9999");//para autocompletar la fecha
+            
+            $.ajax({
+                url: 'pacientes/Pago/get_serie_factura',
+                type: 'GET',
+                success: function(data) {                    
+                    $("#div_pac_realizar_pago_factura_serie").val(data.serie_nueva);
+                },
+                error: function(data){
+                    mensaje_sis('mensaje', ' ERROR  DE SERIE DE FACTURA', 'MENSAJE DEL SISTEMA');
+                }
+            });
+            $("#hiddendiv_pac_realizar_pago_fac").val($("#hiddendiv_ver_trat_pac").val());
+            $("#div_realizar_pago_pac_fac").val(pac);
+            $("#div_realizar_pago_trat_num_fac").val(trat);
+            $("#div_realizar_pago_cos_tot_fac").val($("#div_ver_trat_ttotal").val());
+            $("#div_realizar_pago_dscto_fac").val($("#div_ver_trat_dscto").val());
+            $("#div_realizar_pago_tot_pago_fac").val($("#div_ver_trat_tot_pag").val());
+            $("#div_realizar_pago_pagado_fac").val($("#div_ver_trat_pagado").val());
+            $("#div_realizar_pago_saldo_fac").val($("#div_ver_trat_saldo").val());  
+            pintar_verde_todo();
+            var f = new Date();
+            $("#div_pac_realizar_pago_factura_fch").val(("0" + f.getDate()).slice(-2) + "/" + ("0" + (f.getMonth() + 1)).slice(-2) + "/" + f.getFullYear());
+            llenararajaxtodo_ruc('div_pac_realizar_pago_factura_ruc','pacientes/pacientes/listartodo_ruc',0); 
+        }
+    }
+    
+    
+    if(tip=='d'){
         saldo = $("#div_ver_trat_saldo_dol").val();
 
         if (saldo == 0.00) {
@@ -60,90 +101,133 @@ function btn_pago_pac(tip) {
         }
     }
     
-
-
 }
 
 function btn_guardar_pago(tip) {
     
-    if(tip==0){
-        pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
-        trat_num = $.trim($("#div_realizar_pago_trat_num").val());
-        codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
-        monto = $.trim($("#div_pac_rea_pago_cos").val());
-        fch = $.trim($("#div_pac_rea_pago_fch").val());
-        forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
-        doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
-        obs = $.trim($("#div_pac_rea_pago_obs").val());
-        usuario = $.trim($("#hiddendiv_usuario").val());
-        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
-            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
+    if(tip=='factura'){//soles - factura
+        pac_id = $.trim($("#hiddendiv_pac_realizar_pago_fac").val());
+        trat_num = $.trim($("#div_realizar_pago_trat_num_fac").val());
+        num_factura = $.trim($("#div_pac_realizar_pago_factura_serie").val());
+        monto = $.trim($("#div_pac_realizar_pago_factura_monto").val());
+        fch = $.trim($("#div_pac_realizar_pago_factura_fch").val());
+        forma_pag=1;
+        doc_fac = 3;
+        obs = $.trim($("#div_pac_realizar_pago_factura_obs").val());
+        usuario = $.trim($("#hiddendiv_usuario_fac").val());
+        ruc=$.trim($("#div_pac_realizar_pago_factura_ruc").val());
+        if (pac_id != "" && trat_num != "" && num_factura != "" && monto != "" && fch != "" && usuario != "" && ruc != "") {
+            datos = pac_id+'*'+trat_num+'*'+num_factura+'*'+monto+'*'+fch+'*'+forma_pag+'*'+doc_fac+'*'+obs+'*'+usuario+'*'+ruc;
             $.ajax({
-                url: 'pacientes/Pago/insert_pago_paciente?datos=' + datos,
+                url: 'pacientes/Pago/insert_pago_paciente_factura?datos=' + datos,
                 type: 'GET',
                 success: function(data) {
-                    if (data == 'si') {
-                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
-                        btn_salir('div_pac_realizar_pago');
+                    if (data == 'si') {                                              
                         trat_saldo(pac_id, trat_num,0);
+                        btn_salir('div_pac_realizar_pago_factura');
+                        factura(doc_fac,fch,monto);//realiza la factura
+                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');  
                     } else {
                         mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
                     }
+                },
+                error: function(data){
+                    mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO 2', 'MENSAJE DEL SISTEMA');
                 }
             });
         } else {
             if (monto == "") {
-                $("#div_pac_rea_pago_cos").css({border: "1px solid red"});
+                $("#div_pac_realizar_pago_factura_monto").css({border: "1px solid red"});
             }
             if (fch == "") {
-                $("#div_pac_rea_pago_fch").css({border: "1px solid red"});
+                $("#div_pac_realizar_pago_factura_fch").css({border: "1px solid red"});
             }
-            if (codigo == "") {
-                $("#div_pac_rea_pago_num_fac_bol").css({border: "1px solid red"});
+            if (ruc == "") {
+                $("#div_pac_realizar_pago_factura_ruc").css({border: "1px solid red"});
             }
             mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
             return false;
         }
     }
-    else{
-        pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
-        trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
-        codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
-        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
-        fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
-        forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
-        doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());
-        obs = $.trim($("#div_pac_rea_pago_dol_obs").val());
-        usuario = $.trim($("#hiddendiv_usuario_dol").val());
-        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
-            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
-            $.ajax({
-                url: 'pacientes/Pago/insert_pago_dol_paciente?datos=' + datos,
-                type: 'GET',
-                success: function(data) {
-                    if (data == 'si') {
-                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
-                        btn_salir('div_pac_realizar_pago_dol');
-                        trat_saldo(pac_id, trat_num,0);
-                    } else {
-                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
-                    }
-                }
-            });
-        } else {
-            if (monto == "") {
-                $("#div_pac_rea_pago_dol_cos").css({border: "1px solid red"});
-            }
-            if (fch == "") {
-                $("#div_pac_rea_pago_dol_fch").css({border: "1px solid red"});
-            }
-            if (codigo == "") {
-                $("#div_pac_rea_pago_dol_num_fac_bol").css({border: "1px solid red"});
-            }
-            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
-            return false;
-        }
-    }    
+    
+//    if(tip==0){//soles
+//        pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
+//        trat_num = $.trim($("#div_realizar_pago_trat_num").val());
+//        codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
+//        monto = $.trim($("#div_pac_rea_pago_cos").val());
+//        fch = $.trim($("#div_pac_rea_pago_fch").val());
+//        forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
+//        doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
+//        obs = $.trim($("#div_pac_rea_pago_obs").val());
+//        usuario = $.trim($("#hiddendiv_usuario").val());
+//        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
+//            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
+//            $.ajax({
+//                url: 'pacientes/Pago/insert_pago_paciente?datos=' + datos,
+//                type: 'GET',
+//                success: function(data) {
+//                    if (data == 'si') {
+//                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
+//                        btn_salir('div_pac_realizar_pago');
+//                        trat_saldo(pac_id, trat_num,0);                        
+//                    } else {
+//                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
+//                    }
+//                }
+//            });
+//        } else {
+//            if (monto == "") {
+//                $("#div_pac_rea_pago_cos").css({border: "1px solid red"});
+//            }
+//            if (fch == "") {
+//                $("#div_pac_rea_pago_fch").css({border: "1px solid red"});
+//            }
+//            if (codigo == "") {
+//                $("#div_pac_rea_pago_num_fac_bol").css({border: "1px solid red"});
+//            }
+//            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+//            return false;
+//        }
+//    }
+//    else{
+//        pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
+//        trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
+//        codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
+//        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
+//        fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
+//        forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
+//        doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());
+//        obs = $.trim($("#div_pac_rea_pago_dol_obs").val());
+//        usuario = $.trim($("#hiddendiv_usuario_dol").val());
+//        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
+//            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
+//            $.ajax({
+//                url: 'pacientes/Pago/insert_pago_dol_paciente?datos=' + datos,
+//                type: 'GET',
+//                success: function(data) {
+//                    if (data == 'si') {
+//                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
+//                        btn_salir('div_pac_realizar_pago_dol');
+//                        trat_saldo(pac_id, trat_num,0);
+//                    } else {
+//                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
+//                    }
+//                }
+//            });
+//        } else {
+//            if (monto == "") {
+//                $("#div_pac_rea_pago_dol_cos").css({border: "1px solid red"});
+//            }
+//            if (fch == "") {
+//                $("#div_pac_rea_pago_dol_fch").css({border: "1px solid red"});
+//            }
+//            if (codigo == "") {
+//                $("#div_pac_rea_pago_dol_num_fac_bol").css({border: "1px solid red"});
+//            }
+//            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+//            return false;
+//        }
+//    }    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +237,7 @@ function trat_saldo(Id, trat_num, flag) {
 //    pac_id=$("#hiddendiv_ver_trat_pac").val();
 //    trat_num=$("#div_ver_trat_select").val();
 //    cos_total=$("#div_ver_trat_ttotal").val();
-    datos = Id + '*' + trat_num;
+    datos = Id + '*' + trat_num;    
     $.ajax({
         url: 'pacientes/Pago/get_saldo?datos=' + datos,
         type: 'GET',
@@ -211,17 +295,19 @@ function del_trat_unidad(trat_id,sol,dol){//boton eliminar .. muestra el mensaje
 
 function open_elegir_moneda(){
     $("#div_elegir_moneda").dialog({
-        autoOpen: false, modal: true, height: 200, width: 440, show: {effect: "fade", duration: 500},close: function(event, ui) {         
+        autoOpen: false, modal: true, height: 240, width: 440, show: {effect: "fade", duration: 500},close: function(event, ui) {         
             
         }
     }).dialog('open');
 }
 function moneda(){    
     mon=$("#div_elegir_moneda_mon").val();
+    documento=$("#div_elegir_moneda_doc_fac").val();
+    
     if (mon==0){
-        btn_pago_pac('s');
+        btn_pago_pac('s',documento);
     }else{
-        btn_pago_pac('d');
+        btn_pago_pac('d',documento);
     }
     btn_salir('div_elegir_moneda');
 }
@@ -324,15 +410,17 @@ function ver_grid_historial_pagos(Id, h_p_trat_num) {
     jQuery("#grid_ver_historial_pagos").jqGrid({
         url: 'pacientes/pago/get_historial_pagos?pac_id=' + Id + '&trat_num=' + h_p_trat_num,
         datatype: 'json', mtype: 'GET',
-        colNames: ['CODIGO', 'MONTO', 'FECH. PAGO', 'DOCUMENTO','Nº DOCUMENTO' ,'OBSERVACION'],
+        colNames: ['CODIGO', 'MONTO', 'FECH. PAGO', 'DOCUMENTO','Nº DOCUMENTO' ,'OBSERVACION','impr','tipo'],
         rowNum: 10, sortname: 'pag_id', sortorder: 'desc', viewrecords: true, caption: 'PAGOS EN SOLES', width: '100%', height: '135', align: "center",
         colModel: [
-            {name: 'pag_id', index: 'pag_id', width: 70, resizable: true, align: "left"},
-            {name: 'pag_monto', index: 'pag_monto', width: 100, resizable: true, align: "right"},
-            {name: 'pag_fch', index: 'pag_fch', width: 100, resizable: true, align: "left"},
-            {name: 'documento', index: 'documento', width: 100, resizable: true, align: "left"},
+            {name: 'pag_id', index: 'pag_id', width: 70, resizable: true, align: "center"},
+            {name: 'pag_monto', index: 'pag_monto', width: 80, resizable: true, align: "right"},
+            {name: 'pag_fch', index: 'pag_fch', width: 90, resizable: true, align: "center"},
+            {name: 'documento', index: 'documento', width: 95, resizable: true, align: "center"},
             {name: 'pag_codigo', index: 'pag_codigo', width: 117, resizable: true, align: "left"},
-            {name: 'pag_obs', index: 'pag_obs', width: 295, resizable: true, align: "left"}
+            {name: 'pag_obs', index: 'pag_obs', width: 230, resizable: true, align: "left"},
+            {name: 'genera', index: 'genera', width: 100, resizable: true, align: "center"},
+            {name: 'pag_dog_fac', index: 'pag_dog_fac', hidden: true}
         ],
         rowList: [9, 25],
         pager: '#grid_ver_historial_pagos_pager'        
@@ -414,8 +502,34 @@ function navegacion(tip){
         }
     }
 }
-//$(".ui-jqgrid-titlebar").click(function() {
-////     $(".ui-jqgrid-titlebar-close", this).click();
-//alert(4);
-//});
+
+function llenararajaxtodo_ruc(textbox,url,val){
+    $.ajax({
+           type: 'GET',
+           url: url,
+           success: function(data){                
+                var $local_sourcedoctotodo=data;                  
+                 $("#"+textbox).autocomplete({
+                      source: $local_sourcedoctotodo,
+                      focus: function(event, ui) {                             
+                             $("#"+textbox).val(ui.item.label);                             
+                             $("#hidden"+textbox).val(ui.item.value);                             
+                             $("#"+textbox).attr('maxlength', ui.item.num_ruc.length);
+                             return false;
+                      },
+                      select: function(event, ui) {                              
+                              $("#"+textbox).val(ui.item.label);
+                              $("#hidden"+textbox).val(ui.item.value); 
+                              $("#div_pac_realizar_pago_factura_ruc").val(ui.item.num_ruc);
+                              $("#div_razon_soc_factura").val(ui.item.raz_soc);
+                              $("#div_razon_soc_factura").attr('maxlength', ui.item.raz_soc.length);
+                              return false;
+                      }   
+                  });             
+            },
+            error: function(data){
+                mensaje_sis('mensaje',' ERROR AL CREAR CONSULTA','MENSAJE DEL SISTEMA');
+            }
+    });
+}
 

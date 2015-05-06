@@ -105,23 +105,24 @@ class reportes extends CI_Controller
          $ssaldo_s=$ttotal_s;
          $ssaldo_d=$ttotal_d;
          for($i=0; $i<$max;$i++){
-	    $ssaldo_s-=$pagos[0][$i]->pag_monto_sol;$ssaldo_d-=$pagos[1][$i]->pag_monto;
+	    $ssaldo_s-=$pagos[0][$i]->pag_monto_sol;
+            $ssaldo_d-=$pagos[1][$i]->pag_monto;
 	     $Html.="<tr>";
 		  $Html.="<td width=4% align=center>".($i+1)."</td>"; 
-                  if($pagos[0][$i]->pag_fch && $pagos[0][$i]->pag_codigo){
+                  if($pagos[0][$i]->pag_fch && $pagos[0][$i]->pag_num_factura){
                       $fch_s= strtotime(str_replace('/', '-', trim($pagos[0][$i]->pag_fch)));
                       $fecha_s=date('d',$fch_s)."/".substr($meses[date('n',$fch_s)-1],0,3). "/".date('Y',$fch_s); 
-                      $fff="&nbsp;&nbsp;&nbsp;(".$fecha_s.") Doc. ".$pagos[0][$i]->pag_codigo;
+                      $fff="&nbsp;&nbsp;&nbsp;(".$fecha_s.") Doc. ".$pagos[0][$i]->pag_num_factura;
                   }else{ $fff="&nbsp;&nbsp;&nbsp;---";  }
                   
                   
                   $Html.="<td width=38%>".$fff."</td>";
 		  $Html.="<td width=10% align=right>-".number_format($pagos[0][$i]->pag_monto_sol,2)."</td>";
                   
-                  if($pagos[1][$i]->pag_fch && $pagos[1][$i]->pag_codigo){
+                  if($pagos[1][$i]->pag_fch && $pagos[1][$i]->pag_num_factura){
                       $fch_d= strtotime(str_replace('/', '-', trim($pagos[1][$i]->pag_fch)));
                       $fecha_d=date('d',$fch_d)."/".substr($meses[date('n',$fch_d)-1],0,3). "/".date('Y',$fch_d);
-                      $ddd="&nbsp;&nbsp;&nbsp;(".$fecha_d.") Doc. ".$pagos[1][$i]->pag_codigo;
+                      $ddd="&nbsp;&nbsp;&nbsp;(".$fecha_d.") Doc. ".$pagos[1][$i]->pag_num_factura;
                   }else{ $ddd="&nbsp;&nbsp;&nbsp;---";  }
                                    
                   $Html.="<td width=38%>".$ddd."</td>";
@@ -151,7 +152,7 @@ class reportes extends CI_Controller
                  </table>";
          $Html.="
                  <div id='footer'><div style='height:1px; background-color:Black;margin-left:10px'> BkSoft</div>";
-//        echo $Html;        
+               
 //        echo json_encode($pagos[1][0]);         
 	 $this->dompdf_lib->set_paper ('a4','portraid');//landscape
 	 $this->dompdf_lib->load_html($Html);
@@ -217,7 +218,7 @@ class reportes extends CI_Controller
                                         $Html.="<td width=4% align=right>$c</td>";
                                         $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                                         $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                                         $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
                                         $Html.="<td width=9% align=right></td>";
                                         $Html.="<td width=9% align=right></td>";
@@ -232,7 +233,7 @@ class reportes extends CI_Controller
                                         $Html.="<td width=4% align=right>$c</td>";
                                         $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                                         $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                                         $Html.="<td width=9% align=right></td>";
                                         $Html.="<td width=9% align=right>".number_format($Datos->pag_monto,2)."</td>";
                                         $Html.="<td width=9% align=right></td>";
@@ -247,7 +248,7 @@ class reportes extends CI_Controller
                                         $Html.="<td width=4% align=right>$c</td>";
                                         $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                                         $Html.="<td width=43%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                                        $Html.="<td width=16%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                                         $Html.="<td width=9% align=right></td>";
                                         $Html.="<td width=9% align=right></td>";
                                         $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
@@ -339,7 +340,7 @@ class reportes extends CI_Controller
                         $Html.="<tr>";
                             $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                             $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                             $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
                             $Html.="<td width=9% align=right></td>";
                             $Html.="<td width=9% align=right></td>";
@@ -352,7 +353,7 @@ class reportes extends CI_Controller
                         $Html.="<tr>";
                             $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                             $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                             $Html.="<td width=9% align=right></td>";
                             $Html.="<td width=9% align=right>".number_format($Datos->pag_monto,2)."</td>";
                             $Html.="<td width=9% align=right></td>";
@@ -365,7 +366,7 @@ class reportes extends CI_Controller
                         $Html.="<tr>";
                             $Html.="<td width=10% align=center>".$Datos->pag_fch."</td>";
                             $Html.="<td width=45%>".  utf8_decode(trim($Datos->nom_com))."</td>";
-                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_codigo)."</td>";
+                            $Html.="<td width=18%>". substr(trim($Datos->documento),0,3).": ".trim($Datos->pag_num_factura)."</td>";
                             $Html.="<td width=9% align=right></td>";
                             $Html.="<td width=9% align=right></td>";
                             $Html.="<td width=9% align=right>".number_format($Datos->pag_monto_sol,2)."</td>";
@@ -458,13 +459,15 @@ class reportes extends CI_Controller
 	 $this->dompdf_lib->stream("consultas.pdf", array("Attachment" => 0));
     }
     
-    function factura($pac_id,$trat_num,$raz_soc,$num_ruc){
+    function factura($pac_id,$trat_num,$raz_soc,$num_ruc,$fecha,$monto){
         error_reporting(0);
         date_default_timezone_set('America/Lima');
+        $fch=  strtotime($fecha);
         $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         
-        $cabesera=$this->pacientes_model->get_cabecera_report($pac_id,$trat_num);
+//        $cabesera=$this->pacientes_model->get_cabecera_report($pac_id,$trat_num);
+        $cabesera=$this->pacientes_model->get_dir($pac_id);
         
         $Html="<title>FACTURA</title>"; 
         $Html.="<style>                   
@@ -472,16 +475,17 @@ class reportes extends CI_Controller
                     .table_trat tr td{padding: 5px 1px 5px 1px}
                     html{margin:0px}
                  </style>";         
-        $Html.="<div style='font-size: 12px;margin-left:17%;margin-top:20%; width:40%;'>".str_replace('%20', ' ', $raz_soc)."<br>".$cabesera->direccion." </div>";
+        $Html.="<div style='font-size: 12px;margin-left:17%;margin-top:20%; width:40%;'>".str_replace('%20', ' ', $raz_soc)."<br>".$cabesera->ruc_dir." </div>";
        
         $Html.="<div style='font-size: 12px;margin-left:15%; '>".
                 $num_ruc."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
-                date('d')."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
-                $meses[date('n',date('m'))-1]."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
-                substr(date('Y'),3,4)."</div><br>";
+                date('d',$fch)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
+                $meses[date('n',$fch)-1]."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".
+                substr(date('Y',$fch),3,4)."</div><br>";
         
         $tratt=$this->pacientes_model->get_trat_report($pac_id,$trat_num);
-        
+        $sys_igv=$this->administracion_model->get_system_igv();
+        $flag=0;
         $Html.="<table class='table_trat' width='100%' >";
         foreach($tratt as $Index => $Datos){
 	    $c+=1;$tot_sol+=$Datos->trat_esp_cos_sol;$tot_dol+=$Datos->trat_esp_cos_dol;
@@ -489,14 +493,34 @@ class reportes extends CI_Controller
 		  $Html.="<td width=5% align=center>".$Datos->trat_cant."</td>";
 		  $Html.="<td width=7%>&nbsp;</td>";
 		  $Html.="<td width=45% align=left>".substr(utf8_decode(trim($Datos->trat_esp_des)),0,60)."</td>";
-		  $Html.="<td width=10% align=center>".number_format($Datos->pre_uni_sol,2)."</td>";
-		  $Html.="<td width=12% align=center>".number_format($Datos->pre_uni_dol,2)."</td>";
+                  if ($flag==0){
+                      $flag=1;
+                      $Html.="<td width=10% align=center>S/.".number_format($monto,2)."</td>";
+                      $Html.="<td width=10% align=center>S/.".number_format($monto,2)."</td>";
+                  }
+//		  $Html.="<td width=10% align=center>".number_format($Datos->pre_uni_sol,2)."</td>";
+//		  $Html.="<td width=12% align=center>".number_format($Datos->pre_uni_dol,2)."</td>";
 	     $Html.="</tr>";
 	 }
-        $Html.="</table>";
-      
-//        echo $Html;
-        
+         $subtot=$monto;
+         $igv=$subtot*(trim($sys_igv->sys_igv)/100);
+         $ttotal=$subtot+$igv;
+         $Html.="<div style='margin-left:75%'><table width=100% class='table_trat' style='margin-right:19%;margin-top:60%'>
+                    <tr>
+                        <td width=10% >SUB TOTAL</td>
+                        <td width=10% align=right>".number_format($subtot,2,'.',',')."</td>                        
+                    </tr><tr>
+                        <td>IGV ".$sys_igv->sys_igv."%</td>
+                        <td align=right>".number_format($igv,2,'.',',')."</td>                        
+                    </tr><tr>
+                        <td>TOTAL</td>
+                        <td align=right>".number_format($ttotal,2,'.',',')."</td>
+                    </tr>
+                   </table>
+                 </div>";
+         
+        $Html.="</table>";      
+//        echo $Html;        
         $this->dompdf_lib->set_paper ('a5','landscape');//portraid
         $this->dompdf_lib->load_html($Html);
         $this->dompdf_lib->render();

@@ -8,8 +8,7 @@ class Pago extends CI_Controller{
             echo 'si';
         }else{
             echo 'no';
-        }
-        
+        }        
     }
     
     function insert_pago_dol_paciente(){
@@ -24,7 +23,7 @@ class Pago extends CI_Controller{
     }
     
     function get_saldo(){
-         header("Content-Type: application/json");
+        header("Content-Type: application/json");
         $cam=  explode('*', $_GET['datos']);
         $Consulta= $this->pago_model->get_saldo($cam[0],$cam[1]);  
 //        $todo=array();
@@ -51,7 +50,7 @@ class Pago extends CI_Controller{
         }else{
             echo 'no';
         }
-    }
+    }    
     
     function get_historial_pagos(){
         header('Content-type: application/json');
@@ -92,8 +91,10 @@ class Pago extends CI_Controller{
                             trim($Datos->pag_fch),
                             trim($Datos->documento),
                             trim($Datos->pag_codigo),                                                      
-                            trim($Datos->pag_obs)
-                            );	      
+                            trim($Datos->pag_obs),
+                            '<button class="btn_full_act" style="height:17px; font-size:10px; padding:0px 5px 0px 5px " Onclick="factura('.$Datos->pag_doc_fac.','.$Datos->pag_id.');" >'."IMPR. ".substr(trim($Datos->documento),0,4).".".'</button>',
+                            trim($Datos->pag_doc_fac) 
+               );	   
         }
         echo json_encode($Lista);
     }
@@ -142,5 +143,40 @@ class Pago extends CI_Controller{
         }
         echo json_encode($Lista);
     }
+    
+    function get_serie_factura(){
+       
+        header("Content-Type: application/json");
+        
+        $Consulta= $this->pago_model->get_serie_fac(); 
+        $limite= $this->pago_model->get_limite_fac(); 
+        
+        $limit=(int)$limite->sys_fac_fin;
+        $serie_ant=(int)ltrim($Consulta->pag_num_factura, '0');
+        
+        if($serie_ant==$limit){
+            $serie_nueva=str_pad($limite->sys_fac_ini, 6, "0", STR_PAD_LEFT);
+        }else{
+            $serie_nueva=str_pad($serie_ant+1, 6, "0", STR_PAD_LEFT);            
+        }
+
+        $serie_fact=array();
+        $serie_fact['pag_id']=$Consulta->pag_id;                      
+        $serie_fact['pag_num_fact']=trim($Consulta->pag_num_factura);  
+        $serie_fact['serie_ant']=str_pad(trim($serie_ant),6,"0", STR_PAD_LEFT); 
+        $serie_fact['serie_nueva']=$serie_nueva; 
+        echo @json_encode($serie_fact);
+    }
+    
+    function insert_pago_paciente_factura(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->pago_model->insert_pago_pac_factura($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8],$cam[9]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }        
+    }
+    
 }
 

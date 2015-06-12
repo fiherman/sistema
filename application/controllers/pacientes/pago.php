@@ -90,7 +90,7 @@ class Pago extends CI_Controller{
                             trim($Datos->pag_monto_sol),
                             trim($Datos->pag_fch),
                             trim($Datos->documento),
-                            trim($Datos->pag_codigo),                                                      
+                            trim($Datos->pag_num_factura),                                                      
                             trim($Datos->pag_obs),
                             '<button class="btn_full_act" style="height:17px; font-size:10px; padding:0px 5px 0px 5px " Onclick="factura('.$Datos->pag_doc_fac.','.$Datos->pag_id.');" >'."IMPR. ".substr(trim($Datos->documento),0,4).".".'</button>',
                             trim($Datos->pag_doc_fac) 
@@ -147,22 +147,28 @@ class Pago extends CI_Controller{
     function get_serie_factura(){
        
         header("Content-Type: application/json");
+        $serie_fact=array();
         
         $Consulta= $this->pago_model->get_serie_fac(); 
+        if($Consulta){
+            $serie_ant=(int)ltrim($Consulta->pag_num_factura, '0');
+            $serie_fact['pag_id']=$Consulta->pag_id;                      
+            $serie_fact['pag_num_fact']=trim($Consulta->pag_num_factura);
+        }else{
+            $serie_ant=0;
+        }
+        
         $limite= $this->pago_model->get_limite_fac(); 
         
         $limit=(int)$limite->sys_fac_fin;
-        $serie_ant=(int)ltrim($Consulta->pag_num_factura, '0');
+       
         
         if($serie_ant==$limit){
             $serie_nueva=str_pad($limite->sys_fac_ini, 6, "0", STR_PAD_LEFT);
         }else{
             $serie_nueva=str_pad($serie_ant+1, 6, "0", STR_PAD_LEFT);            
         }
-
-        $serie_fact=array();
-        $serie_fact['pag_id']=$Consulta->pag_id;                      
-        $serie_fact['pag_num_fact']=trim($Consulta->pag_num_factura);  
+                  
         $serie_fact['serie_ant']=str_pad(trim($serie_ant),6,"0", STR_PAD_LEFT); 
         $serie_fact['serie_nueva']=$serie_nueva; 
         echo @json_encode($serie_fact);

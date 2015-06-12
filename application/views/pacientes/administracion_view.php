@@ -122,7 +122,7 @@
     <button class="btn_full_act" id="btn_adm_actualizar_pac" onClick="btn_actualizar_cons();"><img src="public/images/actualizar.png" style="width:20px">Actualizar</img></button>    
 </div>
 <!--NUEVO DOCTOR-->
-<div id="div_nuevo_doc" title="AGREGAR NUEVO DOCTOR" style="display: none"> 
+<div id="div_nuevo_doc" title="DOCTOR" style="display: none"> 
     <div class="filtros">
         <p class="spanasis">DATOS PERSONALES </p><br/>   
         <div class="ctrl_input">               
@@ -133,6 +133,20 @@
         <div class="ctrl_input"> 
             <label style="text-align: right;width: 14.5%;">Apellidos</label>
             <input type="text" class="ctrl_input_t" style="width: 84%;background-color: #EFFAEE" id="txtadm_doc_ape" onblur="fn_onblur(this);" placeholder="Ingrese Apellidos">
+        </div>
+        <div class="ctrl_input"> 
+            <label style="text-align: right;width: 14.5%;">Direccion</label>
+            <input type="text" class="ctrl_input_t" style="width: 84%;background-color: #EFFAEE" id="txtadm_doc_dir" onblur="fn_onblur(this);" placeholder="Ingrese Direccion">
+        </div>
+        <div class="ctrl_input">
+            <label style="text-align: right;width: 14.5%;">Email</label>
+            <input type="text" style="width: 84%;background-color: #EFFAEE" id="txtadm_doc_email" name="email" onblur="fn_onblur(this);" value="" placeholder="Ingrese Email">
+        </div>
+        <div class="ctrl_input">
+            <label style="text-align: right;width: 14.5%;">Celular</label>
+            <input type="text" class="ctrl_input_t" style="width: 34%;background-color: #EFFAEE" id="txtadm_doc_cel" name="email" onblur="fn_onblur(this);" value="" placeholder="Celular">
+            <label style="text-align: right;width: 14.5%;">Telefono</label>
+            <input type="text" class="ctrl_input_t" style="width: 34%;background-color: #EFFAEE" id="txtadm_doc_fijo" name="email" onblur="fn_onblur(this);" value="" placeholder="fijo">
         </div>
         <div class="ctrl_input">
             <label style="text-align: right;width: 14.5%;">Universidad</label>
@@ -162,9 +176,9 @@
             <label class="ctrl_lavel_0">SEGURO</label>
             <select id="div_adm_esp_seg_id" class="ctrl_input_t" onchange="select_adm_seg_id(this.value,0);">
                 <option value="select">--SELECCIONE--</option>
-                <option value="1">SIN SEGURO</option>
+<!--                <option value="1">SIN SEGURO</option>
                 <option value="2">PACIFICO</option>
-                <option value="3">CERRO VERDE</option>
+                <option value="3">CERRO VERDE</option>-->
             </select>
             <label class="ctrl_lavel_0" style="width:16%">ESPECIALIDAD</label>
             <select class="ctrl_input_t" id="div_adm_esp_tipo" onchange="select_adm_esp_tipo(this.value);">
@@ -177,23 +191,22 @@
         <!--<div id="pager_con_doc"></div>-->
     </div>  
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
-    <button class="btn_full_act" id="btn_adm_salir" onClick="btn_salir('div_adm_esp');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="btn_adm_nuevo_pac" onClick="btn_nueva_especialidad('INSERTAR');"><img src="public/images/paciente.png" style="width:20px">Nuevo Tratamiento</img></button>    
-    <!--<button class="btn_full_act" id="btn_adm_nuevo_pac" onClick=""><img src="public/images/paciente.png" style="width:20px">Nuevo Especialidad</img></button>-->    
+    <button class="btn_full_act" id="div_adm_esp_salir" onClick="btn_salir('div_adm_esp');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="div_adm_esp_insert" onClick="btn_nueva_especialidad('INSERTAR');"><img src="public/images/paciente.png" style="width:20px">Nuevo Tratamiento</img></button>    
+    <button class="btn_full_act" id="div_adm_esp_seguro" onClick="btn_nuevo_seguro();"><img src="public/images/nuevo.png" style="width:20px">Nuevo Seguro</img></button>   
+    <button class="btn_full_act" id="div_adm_esp_espe" onClick="btn_new_especialidad();"><img src="public/images/nuevo.png" style="width:20px">Nueva Especialidad</img></button>    
     
 </div>
 
 <!--NUEVA ESPECIALIDAD-->
-<div id="div_adm_nueva_esp" style="display: none; font-size: 12px" title="NUEVA ESPECIALIDAD">  
+<div id="div_adm_nueva_esp" style="display: none; font-size: 12px" title="NUEVO TRATAMIENTO">  
     <div class="filtros">
         <br>
         <div class="ctrl_input">
             <label class="ctrl_lavel_0" style="width:17%">SEGURO</label>
             <select id="div_adm_nueva_esp_seg" class="ctrl_input_t" onchange="select_adm_seg_id(this.value,1);">
                 <option value="select">--SELECCIONE--</option>
-                <option value="1">SIN SEGURO</option>
-                <option value="2">PACIFICO</option>
-                <option value="3">CERRO VERDE</option>
+
             </select>
             <label class="ctrl_lavel_0" style="width:17%">ESPECIALIDAD</label>
             <select class="ctrl_input_t" id="div_adm_nueva_esp_tipo">
@@ -212,7 +225,7 @@
     </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_adm_nueva_esp_salir" onClick="btn_salir('div_adm_nueva_esp');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="btn_adm_nuevo_pac_ins" onClick="brn_guardar_especialidad('INSERTAR');"><img src="public/images/nuevo.png" style="width:20px">Guardar Tratamiento</img></button>    
+    <button class="btn_full_act" id="btn_adm_nuevo_pac_ins" onClick="brn_guardar_especialidad('INSERTAR');"><img src="public/images/guardar.png" style="width:20px">Guardar Tratamiento</img></button>    
     <button class="btn_full_act" id="btn_adm_nuevo_pac_upd" onClick="brn_guardar_especialidad('EDITAR');"><img src="public/images/editar.png" style="width:20px">Editar Tratamiento</img></button>    
     
 </div>
@@ -304,7 +317,7 @@
 <!--CONFIGURACION DEL SISTEMA-->
 <div id="div_config_system" style="display: none; font-size: 12px" title="CONFIGURACION DEL SISTEMA">
     <div class="filtros">
-        <p class="spanasis">BUSCAR USUARIO</p><br/>        
+        <p class="spanasis">RANGO DE FACTURA / IGV</p><br/>        
          <div class="ctrl_input">               
             <input type="hidden" id="doc_id" value="" >
             <label style="text-align: right;width: 30%;">Rango de Factura</label>
@@ -323,6 +336,44 @@
     
 </div>
 
+<!-- INGRESAR NUEVO SEGURO AL SISTEMA ---  0 seguro /  1 especialidad -->
+<div id="div_nuevo_seg" style="display: none; font-size: 12px" title="NUEVO SEGURO">
+    <div class="filtros">
+        <p class="spanasis">Seguro</p><br/>        
+         <div class="ctrl_input">              
+            
+            <label style="text-align: right;width: 17%;">Seguro</label>
+            <input type="text" class="ctrl_input_t" style="width: 80%;background-color: #EFFAEE" id="div_nuevo_seg_seg" onblur="fn_onblur(this);" placeholder="Ingrese Seguro" >             
+                       
+        </div> 
+        
+    </div>
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_config_system_salir" onClick="btn_salir('div_nuevo_seg');"><img src="public/images/salir.png" style="width:20px">Cancelar</img></button>
+    <button class="btn_full_act"  id="div_config_system_guardar" onClick="btn_guardar_nuevo_seg_o_esp(0);"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
+    
+</div>
+
+<!-- PARA CREAR UNA NUEVA ESPECIALIDAD -->
+<div id="div_new_especialidad" style="display: none; font-size: 12px" title="NUEVA ESPECIALIDAD">
+    <div class="filtros">
+        <p class="spanasis">ESPECIALIDAD</p><br/>        
+         <div class="ctrl_input">              
+            <label class="ctrl_lavel_0" style="width:9%">Seguro</label>
+            <select id="div_new_especialidad_seguro" class="ctrl_input_t">
+                <option value="select">--SELECCIONE--</option>
+            </select>
+            <label style="text-align: right;width: 16%;">Especialidad</label>
+            <input type="text" class="ctrl_input_t" style="width: 51%;background-color: #EFFAEE" id="div_new_especialidad_new_esp" onblur="fn_onblur(this);" placeholder="Ingrese Especialidad" >             
+                       
+        </div> 
+        
+    </div>
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="div_new_especialidad_salir" onClick="btn_salir('div_new_especialidad');"><img src="public/images/salir.png" style="width:20px">Cancelar</img></button>
+    <button class="btn_full_act"  id="div_new_especialidad_guardar" onClick="btn_guardar_nuevo_seg_o_esp(1);"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
+    
+</div>
 
 <!--<div class="ctrl_input"> 
             <label style="text-align: right;width: 25%;">Contraseña Actual</label>

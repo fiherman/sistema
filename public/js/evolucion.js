@@ -1,53 +1,94 @@
 
 function btn_evolucion() {
-//    pac_id = $.trim($("#grid_con_pac").getCell(ide_trb, "id"));
-//    nom = $.trim($("#grid_con_pac").getCell(ide_trb, "nombre"));
-//    ape = $.trim($("#grid_con_pac").getCell(ide_trb, "apellido"));
+    pac_id=$("#hiddendiv_ver_trat_pac").val();
+    num_trat= $("#div_ver_trat_select").val();
+   
     $("#div_pac_evolucion").dialog({
-        autoOpen: false, modal: true, height: 455, width: 750, show: {effect: "fade", duration: 500}, close: function() {
+        autoOpen: false, modal: true, height: 500, width: 760, show: {effect: "fade", duration: 500}, close: function() {
         }
     }).dialog('open');
-
-    $("#div_pac_evol_fch_act").mask("99/99/9999");
-    $("#div_pac_evol_pro_acti_fch").mask("99/99/9999");    
-
-    timepiker('div_pac_evol_hora_act');
-    timepiker('div_pac_evol_pro_hora_act');
-
-    pintar_verde_todo();
-    limpiar_ctrl('div_pac_evolucion');
-
+    $("#grid_evolucion_pac").jqGrid("clearGridData", true).trigger("reloadGrid");
+    jQuery("#grid_evolucion_pac").jqGrid({
+            url: 'pacientes/pacientes/get_ver_evolucion?pac_id='+pac_id+'&num_trat='+num_trat,
+            datatype: 'json', mtype: 'GET',
+            colNames: ['id','ACTIVIDAD','DOCTOR','FECHA','Prox. Cita','Cons.'],
+            rowNum: 10, sortname: 'evo_ide', sortorder: 'desc', viewrecords: true, caption: 'EVOLUCION DEL PACIENTE', width: '100%', height: '230', align: "center",
+            colModel: [
+                {name: 'evo_ide', index: 'evo_ide', hidden:true},
+                {name: 'evo_act_des', index: 'evo_act_des',width: 340, resizable: true, align: "left"},
+                {name: 'nom_doc', index: 'nom_doc', width: 140, resizable: true, align: "left"},           
+                {name: 'fecha', index: 'fecha', width: 135, resizable: true, align: "center"},
+                {name: 'sig_cita', index: 'sig_cita', width: 75, resizable: true, align: "center"},
+                {name: 'evo_cons', index: 'evo_cons', width: 45, resizable: true, align: "center"}
+            ],
+            rowList: [10, 20, 30],
+            pager: '#pager_evolucion_pac',
+            gridComplete: function () { }      
+        });
+    
+//    $.ajax({
+//        url: 'pacientes/pacientes/get_evolucion_anterior?pac_id='+pac_id, 
+//        type: 'get',       
+//        success: function(data) {
+//            if(data=='no'){
+//               alert('o hay evolucion anterior');
+//            }else{
+//                $("#div_pac_evol_fch_act").val(data[0].evo_fch);
+//                $("#div_pac_evol_hora_act").val(data[0].evo_hra);
+//                $("#div_pac_evol_act_des").val(data[0].evo_des);
+//            }
+//        }
+//    });
+  
     $("#hiddendiv_evol_pac").val($("#hiddendiv_ver_trat_pac").val());
     $("#div_evol_pac").val($("#div_ver_trat_pac").val());
     $("#div_pac_evol_trat_num").val($("#div_ver_trat_select").val());
 
-    var f = new Date();
-    $("#div_pac_evol_fch_act").val(("0" + f.getDate()).slice(-2) + "/" + ("0" + (f.getMonth() + 1)).slice(-2) + "/" + f.getFullYear());
-    $("#div_pac_evol_act_des").focus();
+//    var f = new Date();
+    //$("#div_pac_evol_fch_act").val(("0" + f.getDate()).slice(-2) + "/" + ("0" + (f.getMonth() + 1)).slice(-2) + "/" + f.getFullYear());
+    //$("#div_pac_evol_act_des").focus();
 
+}
+function btn_ins_nue_actividad(){
+    $("#new_evol").dialog({
+        autoOpen: false, modal: true, height: 375, width: 650, show: {effect: "fade", duration: 500}, close: function() {
+        }
+    }).dialog('open');
+    llenararajaxtodo_doctor('new_evol_doctor','pacientes/pacientes/listartodo_doc',0);
+    
+    $("#new_evol_fch").mask("99/99/9999");
+    $("#new_evol_pro_fch").mask("99/99/9999"); 
+    
+    timepiker('new_evol_hora');
+    timepiker('new_evol_prox_hora');
+    limpiar_ctrl('new_evol');
+    pintar_verde_todo(15);
 }
 
 function btn_insert_evol() {
     
     pac_id = $("#hiddendiv_evol_pac").val();
     trat_num = $("#div_pac_evol_trat_num").val();
-    fch_act = $("#div_pac_evol_fch_act").val();
-    fch_des = $("#div_pac_evol_act_des").val();
-    act_hora = $("#div_pac_evol_hora_act").val();
-    fch_pro_act = $("#div_pac_evol_pro_acti_fch").val();
-    fch_pro_des = $("#div_pac_evol_pro_acti_des").val();
-    pro_act_hora = $("#div_pac_evol_pro_hora_act").val();
-    consult=$("#div_pac_evolucion_consult").val();
+    
+    fch = $("#new_evol_fch").val();
+    hora = $("#new_evol_hora").val();
+    des = $("#new_evol_des").val();
+    doct = $("#new_evol_doctor").val();
+    consult=$("#new_evol_consu").val();
+    
+    fch_pro_act = $("#new_evol_pro_fch").val();    
+    pro_act_hora = $("#new_evol_prox_hora").val();
+    
 
-    if (pac_id != "" && trat_num != "" && act_hora != "" && fch_act != "" && fch_des != "" && fch_pro_act != "" && fch_pro_des != "" && pro_act_hora != "" && consult!='0') {
+    if (pac_id != "" && trat_num != "" && hora != "" && fch != "" && des != "" && doct != "" && fch_pro_act != "" && pro_act_hora != "" && consult!='0') {
 //        evo_act_fch=fch_act + " "+MilitaryTime(act_hora.split(':')).join(':');
 //        evo_pro_acti_fch=fch_pro_act+" " + MilitaryTime(pro_act_hora.split(':')).join(':');
-        evo_act_fch=fch_act+"."+act_hora;
+        evo_act_fch=fch+"."+hora;
         evo_pro_acti_fch=fch_pro_act+"."+pro_act_hora;
 //        evo_act_fch=evo_act_fch.substring(0, evo_act_fch.length - 3)+":00";
 //        evo_pro_acti_fch=evo_pro_acti_fch.substring(0, evo_pro_acti_fch.length - 3)+":00";
         
-        datos = fch_des.toUpperCase()+ '*'+ fch_pro_des.toUpperCase() + '*' + pac_id + '*' + trat_num + '*' + evo_act_fch + '*' + evo_pro_acti_fch+ '*'+ consult;
+        datos = pac_id+'*'+des.toUpperCase()+'*'+trat_num+'*'+evo_act_fch+'*'+evo_pro_acti_fch+'*'+doct+'*'+consult;
         $.ajax({
             url: 'pacientes/Evolucion/insert_evolucion_pac?datos=' + datos,
             type: 'GET',

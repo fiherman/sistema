@@ -635,6 +635,10 @@ class reportes extends CI_Controller
         }
         echo json_encode($Lista);
     }
+    
+    function saludo(){
+        echo 'hola';
+    }
 }
 
 

@@ -165,9 +165,16 @@ class Pago_model extends CI_Model{
     
     function get_serie_fac(){
         $this->db->query("set names 'utf8';");
-        return $this->db->query("
-            select pag_id,pag_num_factura from pagos where pag_doc_fac='3' order by 1 desc limit 1
-        ")->result()[0];
+        $sql= $this->db->query("select pag_id,pag_num_factura from pagos where pag_doc_fac='3' order by 1 desc limit 1")->result();
+        if($sql){
+            return $this->db->query("
+                select pag_id,pag_num_factura from pagos where pag_doc_fac='3' order by 1 desc limit 1
+            ")->result()[0];
+        }else{
+            return false;
+        }
+        
+        
     }
     
     function get_limite_fac(){        

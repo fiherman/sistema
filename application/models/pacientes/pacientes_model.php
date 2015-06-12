@@ -2,7 +2,7 @@
 
 class Pacientes_model extends CI_Model {
 
-    function insert_pacientes($nom, $ape, $direc, $dni, $distri, $sexo, $fchnac, $tel = null, $movi = null, $claro = null, $email, $depen = null, $seg_id) {
+    function insert_pacientes($nom, $ape, $direc, $dni, $distri, $sexo, $fchnac, $tel = null, $movi = null, $claro = null, $email=null, $depen = null, $seg_id) {
         $ide = $this->db->query('select count(id)+1 as id from pacientes')->result()[0];
         if ($ide) {
             $this->db->query("set names 'utf8';");
@@ -38,7 +38,7 @@ class Pacientes_model extends CI_Model {
         }
     }
 
-    function update_pacientes($id, $nom, $ape, $direc, $dni = null, $distri, $sexo, $fchnac, $tel = null, $movi = null, $claro = null, $email, $depen = null, $seg_id) {
+    function update_pacientes($id, $nom, $ape, $direc, $dni = null, $distri, $sexo, $fchnac, $tel = null, $movi = null, $claro = null, $email=null, $depen = null, $seg_id) {
         if(!$dni){
             $dni='null';
         }
@@ -74,12 +74,15 @@ class Pacientes_model extends CI_Model {
     }
 
     function get_all_pacientes($sidx, $sord, $start, $limit) {
-        $this->db->query("set names 'utf8';");
+        $this->db->query("set names 'utf8';");        
+        
         return $this->db->query("
                 select *,CASE
                 WHEN seg_id = 1::numeric THEN 'SIN SEGURO'::text
                 WHEN seg_id = 2::numeric THEN 'LA POSITIVA'::text
                 WHEN seg_id = 3::numeric THEN 'CERRO VERDE'::text
+                WHEN seg_id = 4::numeric THEN 'MAPFRE'::text
+                WHEN seg_id = 5::numeric THEN 'BAMBAS'::text
                 ELSE NULL::text
                 END AS seguro from pacientes order by $sidx $sord limit $limit offset $start
                 ")->result();
@@ -110,11 +113,14 @@ class Pacientes_model extends CI_Model {
                 $lsBus.=" AND cad_lar LIKE UPPER('%" . $laPalabras[$i] . "%')";
             }
         }
+        
         return $this->db->query("
                 select *,CASE
                 WHEN seg_id = 1::numeric THEN 'SIN SEGURO'::text
                 WHEN seg_id = 2::numeric THEN 'LA POSITIVA'::text
                 WHEN seg_id = 3::numeric THEN 'CERRO VERDE'::text
+                WHEN seg_id = 4::numeric THEN 'MAPFRE'::text
+                WHEN seg_id = 5::numeric THEN 'BAMBAS'::text
                 ELSE NULL::text
                 END AS seguro from pacientes where $lsBus order by $sidx $sord limit $limit offset $start
                 ")->result();
@@ -182,12 +188,13 @@ class Pacientes_model extends CI_Model {
             return FALSE;
         }
     }
+    // edita el tratamiento uno por uno
     function update_tratamiento_unid($trat_num, $pac_id, $seg_id, $esp_tip, $esp_cod, $esp_des, $esp_cos, $doc_id,$esp_cos_dol,$cant,$codigo,$fch) {
         $this->db->query("set names 'utf8';");
         $update = $this->db->query("
          UPDATE tratamiento set trat_seg_id=$seg_id,trat_esp_tip=$esp_tip,trat_esp_cod=$esp_cod,trat_esp_des='$esp_des',
          trat_esp_cos_sol=$esp_cos,trat_doc_id=$doc_id,trat_esp_cos_dol=$esp_cos_dol,trat_fch='$fch',trat_cant=$cant,trat_est='1' 
-         where trat_num=$trat_num and trat_id=$codigo and trat_pac_id=$pac_id
+         where trat_num=$trat_num and trat_id=$codigo and trat_pac_id=$pac_id;
          "
         );
 
@@ -197,7 +204,21 @@ class Pacientes_model extends CI_Model {
             return FALSE;
         }
     }
+    // edita la consulta en un tratamiento
+    function update_tratamiento_unid_consulta($codigo,$trat_num, $esp_des, $esp_cos,$fch) {
+        $this->db->query("set names 'utf8';");
+        $update = $this->db->query("
+         UPDATE tratamiento set trat_esp_des='$esp_des',trat_esp_cos_sol=$esp_cos,trat_fch='$fch',trat_est='1' where trat_num=$trat_num and trat_id=$codigo;
+         "
+        );
 
+        if ($update) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+    
     function insert_dscto_trat($pac_id, $trat_num, $trat_subtot, $dscto, $trat_tot, $des,$porcent) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("
@@ -325,7 +346,7 @@ class Pacientes_model extends CI_Model {
     function model_get_ruc($id){
         return $this->db->query("select * from ruc where id=$id")->result()[0];
     }
-    function insert_ruc($raz_soc,$num_ruc,$direccion,$est) {
+    function insert_nuevo_ruc($raz_soc,$num_ruc,$direccion,$est) {
         $this->db->query("set names 'utf8';");
         $insert = $this->db->query("insert into ruc(ruc_raz_soc,ruc_num, ruc_dir, ruc_est) values "
                 . "('$raz_soc',$num_ruc,'$direccion','$est')");
@@ -341,6 +362,23 @@ class Pacientes_model extends CI_Model {
         return $this->db->query("select id, ruc_num,ruc_raz_soc from ruc")->result();
     }
     
+    function get_evo_anterior($pac_id){
+        return $this->db->query("select (evo_pro_acti_fch::date)as fecha,(evo_pro_acti_fch::time)as hora,evo_pro_acti_des from evolucion where evo_pac_id=$pac_id order by evo_ide desc limit 1")->result();
+    }
+    ////////evolucion/////////////////////////////////////
+    
+    function get_all_cont_evo($pac_id,$num_trat){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("select * from evolucion where evo_pac_id=$pac_id and evo_trat_num=$num_trat")->result();
+    }
+    function get_all_evolucion($pac_id,$num_trat,$sidx,$sord,$start,$limit){
+        $this->db->query("set names 'utf8';");        
+        
+        return $this->db->query("
+            select a.*,(b.doc_nom || ' ' || b.doc_ape)as nom_doc,(a.evo_act_fch::date) as fch,(a.evo_act_fch::time) as hora,date(a.evo_pro_acti_fch) as prox  from evolucion a left join doctores b
+            on a.evo_doc_id = b.doc_id where a.evo_pac_id=4738 and a.evo_trat_num=1 order by $sidx $sord limit $limit offset $start;
+                ")->result();
+    }
     
     /////////////////////////// EDAD
     

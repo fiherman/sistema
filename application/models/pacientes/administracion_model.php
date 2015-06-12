@@ -1,14 +1,14 @@
 <?php
 class administracion_model extends CI_Model{    
     
-    function insert_doctores($doc_nom,$doc_ape,$doc_cop,$doc_uni,$doc_hab){
+    function insert_doctores($doc_nom,$doc_ape,$doc_cop,$doc_uni,$doc_hab,$doc_dir=nul,$doc_email=null,$doc_cel=null,$doc_fijo=null){
 
             $this->db->query("set names 'utf8';");
       
             $insert = $this->db->query(
-            "INSERT INTO doctores(doc_nom, doc_ape,doc_cop,doc_uni,doc_fch,doc_hab)"
+            "INSERT INTO doctores(doc_nom, doc_ape,doc_cop,doc_uni,doc_fch,doc_hab,doc_dir,doc_email,doc_cel,doc_fijo)"
             ."values"
-            ."('$doc_nom','$doc_ape','$doc_cop','$doc_uni','".date('d/m/Y')."','$doc_hab')");
+            ."('$doc_nom','$doc_ape','$doc_cop','$doc_uni','".date('d/m/Y')."','$doc_hab','$doc_dir','$doc_email','$doc_cel','$doc_fijo')");
 
            if($insert){   
                $this->db->query("update doctores set cad_lar=(doc_nom ||' '|| doc_ape ||' '|| doc_cop ||' '||doc_id) where doc_cop='$doc_cop'");
@@ -18,13 +18,14 @@ class administracion_model extends CI_Model{
            }              
     }
     
-    function update_doctores($id,$doc_nom,$doc_ape,$doc_cop,$doc_uni,$doc_hab){
+    function update_doctores($id,$doc_nom,$doc_ape,$doc_cop,$doc_uni,$doc_hab,$doc_dir=nul,$doc_email=null,$doc_cel=null,$doc_fijo=null){
       
         $this->db->query("set names 'utf8';");
 
         $update = $this->db->query(
         "update doctores set "
-        ." doc_nom='$doc_nom',doc_ape='$doc_ape',doc_cop='$doc_cop',doc_fch='".date('d/m/Y')."',doc_uni='$doc_uni',doc_hab='$doc_hab'"
+        ." doc_nom='$doc_nom',doc_ape='$doc_ape',doc_cop='$doc_cop',doc_fch='".date('d/m/Y')."',doc_uni='$doc_uni',doc_hab='$doc_hab',"
+        ." doc_dir='$doc_dir',doc_email='$doc_email',doc_cel='$doc_cel',doc_fijo='$doc_fijo'"
         ." where doc_id=$id");
        if($update){
            $this->db->query("update doctores set cad_lar=(doc_nom ||' '|| doc_ape ||' '|| doc_cop ||' '||doc_id) where doc_id=$id");
@@ -42,7 +43,7 @@ class administracion_model extends CI_Model{
     function get_all_doctores($sidx,$sord,$start,$limit){
         $this->db->query("set names 'utf8';");
         return $this->db->query("
-            select doc_id,doc_nom,doc_ape,doc_cop,doc_uni,doc_hab,doc_fch from doctores order by $sidx $sord limit $limit offset $start
+            select doc_id,doc_nom,doc_ape,doc_cop,doc_uni,doc_hab,doc_fch,doc_dir,doc_email,doc_cel,doc_fijo from doctores order by $sidx $sord limit $limit offset $start
         ")->result();
     }
     
@@ -80,6 +81,13 @@ class administracion_model extends CI_Model{
             SELECT distinct(esp_tip), trim(esp_tip_des)as des FROM especialidad where seg_id=$seg_id order by 1
         ")->result();
     }
+    
+    function get_ver_all_seg(){
+        $this->db->query("set names 'utf8';");
+        return $this->db->query("
+            select distinct seg_id,seg_des from especialidad order by 1;
+        ")->result();
+    }
     ////////////especilalidades////////////////////////////////
     function get_cont_especialidades($seg_id,$esp_tip){
         $this->db->query("set names 'utf8';");
@@ -92,7 +100,7 @@ class administracion_model extends CI_Model{
         $this->db->query("set names 'utf8';");
         return $this->db->query("
             select esp_id,seg_id,esp_tip,esp_des,esp_cos_sol from especialidad 
-            where seg_id=$seg_id and esp_tip=$esp_tip order by $sidx $sord limit $limit offset $start
+            where seg_id=$seg_id and esp_tip=$esp_tip and esp_des!='' order by $sidx $sord limit $limit offset $start
         ")->result();
     }
     
@@ -190,6 +198,51 @@ class administracion_model extends CI_Model{
             return FALSE;
         }  
     }
+    
+    function insert_nuevo_seguro($seg){
+        $this->db->query("set names 'utf8';");
+        $seg_id = $this->db->query('select (count(distinct seg_id)+1)as seg_id from especialidad')->result()[0];       
+        if($seg_id){
+            $insert = $this->db->query("
+                INSERT INTO especialidad( seg_id, esp_cos_sol, esp_cos_dol, esp_tip_des, esp_des, esp_cod, esp_tip, seg_des)
+                VALUES ($seg_id->seg_id, 0.00, 0.00, 'OTROS', 'DIAGNOSTICO', 1, 1, '$seg');
+            ");
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+    
+    function insert_new_especialidad($seg_id,$seg_des,$esp){
+        $this->db->query("set names 'utf8';");              
+        $esp_tip = $this->db->query("select (count(distinct esp_tip)+1)as esp_tip from especialidad where seg_id=$seg_id;")->result()[0]; 
+         if($esp_tip){
+             $insert = $this->db->query("
+                INSERT INTO especialidad( seg_id, esp_cos_sol, esp_cos_dol, esp_tip_des, esp_des, esp_cod, esp_tip, seg_des)
+                VALUES ($seg_id, 0.00, 0.00, '$esp', '', null , $esp_tip->esp_tip, '$seg_des');
+             ");
+             return true;
+         }else{
+            return false;
+        }
+    }
+    
+    function insert_new_trat($seg_id,$seg_des,$esp_tip,$esp_tip_des,$esp_des,$esp_cos_sol){
+        $this->db->query("set names 'utf8';");              
+        $esp_cod = $this->db->query("select (count(distinct esp_cod)+1)as esp_cod from especialidad where seg_id=$seg_id and esp_tip=$esp_tip")->result()[0]; 
+        if($esp_cod){
+             $insert = $this->db->query("
+                INSERT INTO especialidad( seg_id, esp_cos_sol, esp_cos_dol, esp_tip_des, esp_des, esp_cod, esp_tip, seg_des)
+                VALUES ($seg_id, $esp_cos_sol, 0.00, '$esp_tip_des', '$esp_des', $esp_cod->esp_cod , $esp_tip, '$seg_des');
+             ");
+             return true;
+        }else{
+            return false;
+        }
+    }
+    
+    
     
     //////////////////////////////factura///////////
     function get_system_igv() {

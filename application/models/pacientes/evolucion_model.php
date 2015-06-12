@@ -2,14 +2,14 @@
 
 class Evolucion_model extends CI_Model {
 
-    function insert_evol_pac($evo_des, $evo_pro_des, $pac_id, $trat_num, $evo_act_fch, $evo_pro_acti_fch, $age_cons) {
+    function insert_evol_pac($pac_id, $des, $trat_num, $evo_act_fch, $evo_pro_acti_fch, $doc, $age_cons) {
 
         $this->db->query("set names 'utf8';");
 
         date_default_timezone_set('America/Lima');
         $agenda_notas = $this->db->query("
            INSERT INTO agenda_notas(ide_per,des_not,ano_eje,fch_reg)
-            values($pac_id,'$evo_pro_des','" . date('Y') . "','" . date("d-m-Y H:i:s") . "');
+            values($pac_id,'$des','" . date('Y') . "','" . date("d-m-Y H:i:s") . "');
         ");
         $ide_not = $this->db->insert_id();
 

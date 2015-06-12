@@ -96,7 +96,7 @@ class Pacientes extends CI_Controller{
                             trim($Datos->dependiente),
                             trim($Datos->seg_id),
                             trim($Datos->estado),
-                            trim($Datos->seguro));
+                            trim($Datos->seg_des));
 	      
         }
         echo json_encode($Lista);
@@ -155,7 +155,7 @@ class Pacientes extends CI_Controller{
                             trim($Datos->dependiente),
                             trim($Datos->seg_id),
                             trim($Datos->estado),
-                            trim($Datos->seguro));
+                            trim($Datos->seg_des));
 	      
         }
         echo json_encode($Lista);
@@ -336,6 +336,8 @@ class Pacientes extends CI_Controller{
                     $Datos->trat_doc_id,
                     '',
                     '',
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Tratamiento" src="'.base_url('public/images/editar.png').'" onClick="btn_open_editar_consulta('.$Datos->trat_id.');"/>',
+                    '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Eliminar Tratamiento" src="'.base_url('public/images/delete.png').'" onClick="del_trat_unidad('.$Datos->trat_id.','.$Datos->trat_esp_cos_sol.','.$Datos->trat_esp_cos_dol.');"/>',
                     $ttotal->total
                );
            }else{
@@ -351,6 +353,8 @@ class Pacientes extends CI_Controller{
                     $Datos->trat_seg_id,
                     $Datos->doctor,
                     $Datos->trat_doc_id,
+                    $Datos->trat_esp_tip,
+                    $Datos->trat_esp_cod,
                     '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Editar Tratamiento" src="'.base_url('public/images/editar.png').'" onClick="btn_open_editar_trat('.$Datos->trat_id.','.$Datos->trat_esp_cos_sol.','.$Datos->trat_esp_cos_dol.');"/>',
                     '<input id="btn_image_editar_pac" type="image" width="17px" height="15px" title="Eliminar Tratamiento" src="'.base_url('public/images/delete.png').'" onClick="del_trat_unidad('.$Datos->trat_id.','.$Datos->trat_esp_cos_sol.','.$Datos->trat_esp_cos_dol.');"/>',
                     $ttotal->total
@@ -373,6 +377,16 @@ class Pacientes extends CI_Controller{
     function editar_tratamiento(){
         $cam=  explode('*', $_GET['datos']);
         $sql=$this->pacientes_model->update_tratamiento_unid($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8],$cam[9],$cam[10],$cam[11]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
+    
+    function editar_trat_consulta(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->pacientes_model->update_tratamiento_unid_consulta($cam[0],$cam[1],$cam[2],$cam[3],$cam[4]);
         if($sql){
             echo 'si';
         }else{
@@ -472,7 +486,7 @@ class Pacientes extends CI_Controller{
     }
     function insert_ruc(){
         $cam=  explode('*', $_GET['datos']); 
-        $sql=$this->pacientes_model->insert_ruc($cam[0],$cam[1],$cam[2],$cam[3],$cam[4]);
+        $sql=$this->pacientes_model->insert_nuevo_ruc($cam[0],$cam[1],$cam[2],$cam[3]);
         if($sql){
             echo 'si';
         }else{
@@ -480,5 +494,67 @@ class Pacientes extends CI_Controller{
         }
     }
     
-   
+    function get_evolucion_anterior(){
+        $Consulta= $this->pacientes_model->get_evo_anterior($_GET['pac_id']);  
+
+        if($Consulta){
+            header("Content-Type: application/json");   
+            $trat=array();
+            foreach($Consulta as $Datos){
+                $Lista=new stdClass();           
+                $Lista->evo_fch=date('d/m/Y',strtotime(str_replace("-", "/", trim($Datos->fecha)))); 
+                $Lista->evo_hra=date("g:i a",strtotime($Datos->hora)); 
+                $Lista->evo_des=trim($Datos->evo_pro_acti_des); 
+                array_push($trat,$Lista);
+            }
+            echo @json_encode($trat);
+        }else{
+            echo 'no';
+        }
+    }
+    
+    function get_ver_evolucion(){
+        header('Content-type: application/json');
+        $page  = $_GET['page']; // get the requested page
+        $limit = $_GET['rows']; // get how many rows we want to have into the grid
+        $sidx  = $_GET['sidx']; // get index row - i.e. user click to sort
+        $sord  = $_GET['sord']; // get the direction
+        $pac_id = $_GET['pac_id'];
+        $num_trat = $_GET['num_trat'];
+        
+         $total_pages = 0;
+        if(!$sidx){
+            $sidx  = 1;
+        }
+        $count = count($this->pacientes_model->get_all_cont_evo($pac_id,$num_trat));
+
+        if($count > 0){
+            $total_pages = ceil($count / $limit);
+        }
+        if($page > $total_pages){
+            $page   = $total_pages;
+        }
+        $start  = ($limit * $page) - $limit; // do not put $limit*($page - 1)  
+        if($start<0){
+            $start = 0;
+        }
+        $Consulta =$this->pacientes_model->get_all_evolucion($pac_id,$num_trat,$sidx,$sord,$start,$limit);
+
+        $Lista = new stdClass();
+        $Lista->page    = $page;
+        $Lista->total   = $total_pages;
+        $Lista->records = $count;
+        
+        foreach($Consulta as $Index => $Datos)
+        {           
+           $Lista->rows[$Index]['id'] = $Datos->evo_ide;
+	   $Lista->rows[$Index]['cell']= array($Datos->evo_ide,
+                            trim($Datos->evo_act_des),
+                            trim($Datos->nom_doc),               
+                            trim(date('d/m/Y',strtotime(str_replace("-", "/", trim($Datos->fch)))).'  '.date("g:i a",strtotime($Datos->hora))),
+                            trim(date('d/m/Y',strtotime(str_replace("-", "/", trim($Datos->prox))))),
+                            trim($Datos->evo_cons));	      
+        }
+        echo json_encode($Lista);
+    }
 }

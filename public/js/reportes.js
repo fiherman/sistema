@@ -82,25 +82,6 @@ function ver_rep_resumen_pag(){
 //    var iframe = $('<div><iframe src="pacientes/reportes/saludo/'+pac_id+'/'+trat_num+'" style="width:100%;height:100%" /></div>');
 //    crearframe(iframe);
 }
-function crearframe(iframe)
-{
-    img="public/images/cargando.gif";
-    $.blockUI(
-    { message: '<img width=100px src="'+img+'"/><br/>Espere por favor',
-      css:{border: 'none', padding: '15px',   backgroundColor: '#000',  'border-radius': '10px',  opacity: .5,   color: '#fff' }
-    });
-    iframe.dialog(
-    {   autoOpen: false, modal: true, title: "Reporte -  Resumen de Pagos", resizable: false, width: '95%',height: 650,
-        show: {effect: "blind", duration: 300},
-        hide: {effect: "blind", duration: 200},
-        close: function (e) {
-            $(this).empty();
-            $(this).dialog('destroy');
-        }
-    });
-    iframe.dialog('open');
-    $('iframe').load(function(){ setTimeout($.unblockUI, 500);}).show();
-}
 
 function ver_rep_ingresos(){
     $("#div_pac_rep_ing").dialog({
@@ -172,35 +153,59 @@ function factura(tip,fch,monto){
                 trat_num=$("#div_ver_trat_select").val(); 
                 raz_soc=data.ruc_raz_soc;
                 ruc_num=data.ruc_num;
-                window.open("pacientes/reportes/factura/"+Id+"/"+trat_num+"/"+raz_soc+"/"+ruc_num+"/"+fecha.replace('/','-')+"/"+monto); //crea la factura si ya esta registrado el ruc     
-
+//                window.open("pacientes/reportes/factura/"+Id+"/"+trat_num+"/"+raz_soc+"/"+ruc_num+"/"+fecha.replace('/','-')+"/"+monto); //crea la factura si ya esta registrado el ruc     
+                var iframe = $('<div><iframe src="pacientes/reportes/factura/'+Id+'/'+trat_num+'/'+raz_soc+'/'+ruc_num+'/'+fecha.replace("/","-")+'/'+monto+'" style="width:100%;height:100%" /></div>');
+                crearframe(iframe);               
             },
-            error:function(data){//si no tiene ruc abre un dialigo para registrarlo        
-                $("#div_reg_ruc").dialog({//abre el dialogo para registrar el ruc
-                    autoOpen: false, modal: true, height: 370, width: 550, show: {effect: "fade", duration: 300} 
-                }).dialog('open');
-                pintar_verde_todo();
-                limpiar_ctrl_c_u('div_reg_ruc','div_reg_ruc_raz_soc*div_reg_ruc_num_ruc*div_reg_ruc_dir');
-                $("#hiddendiv_reg_ruc_nom_pac").val(Id);
-                $("#div_reg_ruc_nom_pac").val($("#div_ver_trat_pac").val());
+            error:function(data){      
+                alert('error al traer los datos');
             }
         }); 
     }
         
 }
 
+function crearframe(iframe)
+{
+    img="public/images/cargando.gif";
+    $.blockUI(
+    { message: '<img width=100px src="'+img+'"/><br/>Espere por favor',
+      css:{border: 'none', padding: '15px',   backgroundColor: '#000',  'border-radius': '10px',  opacity: .5,   color: '#fff' }
+    });
+    iframe.dialog(
+    {   autoOpen: false, modal: true, title: "IMPRESION DE FACTURA", resizable: false, width: '90%',height: 620,
+        show: {effect: "blind", duration: 300},
+        hide: {effect: "blind", duration: 200},
+        close: function (e) {
+            $(this).empty();
+            $(this).dialog('destroy');
+        }
+    });
+    iframe.dialog('open');
+    $('iframe').load(function(){ setTimeout($.unblockUI, 500);}).show();
+}
+
+function open_registro_ruc(){
+    $("#div_reg_ruc").dialog({//abre el dialogo para registrar el ruc
+        autoOpen: false, modal: true, height: 300, width: 550, show: {effect: "fade", duration: 300} 
+    }).dialog('open');
+    pintar_verde_todo();
+    limpiar_ctrl_c_u('div_reg_ruc','div_reg_ruc_raz_soc*div_reg_ruc_num_ruc*div_reg_ruc_dir');
+    
+}
+
 function brn_guardar_ruc(modo){
-    pac_id=$("#hiddendiv_reg_ruc_nom_pac").val();
+    
     raz_soc=$("#div_reg_ruc_raz_soc").val();
     num_ruc=$("#div_reg_ruc_num_ruc").val();
     dir=$("#div_reg_ruc_dir").val();
     est=$("#div_reg_ruc_est").val();
     
     
-    if (pac_id != "" && raz_soc != "" && num_ruc != "" && dir != "") {
+    if (raz_soc != "" && num_ruc != "" && dir != "") {
 
            if(modo=='INSERTAR'){                   
-               var datos= pac_id+'*'+raz_soc.toUpperCase()+'*'+num_ruc+'*'+dir.toUpperCase()+'*'+est;
+               var datos= raz_soc.toUpperCase()+'*'+num_ruc+'*'+dir.toUpperCase()+'*'+est;
                 $.ajax({                   
                     url: 'pacientes/pacientes/insert_ruc?datos='+datos,
                     type: 'GET',
@@ -208,23 +213,13 @@ function brn_guardar_ruc(modo){
                         if(data=='si'){
                             mensaje_sis('mensaje',' DATOS INSERTADOS CORRECTAMENTE','MENSAJE DEL SISTEMA');
                             shorcut_enter=0;
-                            btn_salir('div_reg_ruc');                            
+                            btn_salir('div_reg_ruc'); 
+                            llenararajaxtodo_ruc('div_pac_realizar_pago_factura_ruc','pacientes/pacientes/listartodo_ruc',0); 
                         }
                     }
                 });
             }else if(modo=='EDITAR'){                    
-               var datos=pac_id+'*'+nombre.toUpperCase()+'*'+apellidos.toUpperCase()+'*'+direccion.toUpperCase()+'*'+dni+'*'+distrito.toUpperCase()+'*'+sexo.toUpperCase();
-                $.ajax({                   
-                    url: 'pacientes/pacientes/update_pac?datos='+datos,
-                    type: 'GET',
-                    success: function(data){
-                        if(data=='si'){
-                            mensaje_sis('mensaje',' DATOS MODIFICADO CORRECTAMENTE','MENSAJE DEL SISTEMA');
-                            btn_salir('div_reg_pac_nuevo');
-                            btn_actualizar();
-                        }
-                    }
-                }); 
+              //para editar el ruc
             }                
             return true;
 //            }

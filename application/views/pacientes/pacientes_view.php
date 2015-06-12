@@ -146,7 +146,7 @@
         </div>           
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Distrito</label>
-            <input type="text" class="ctrl_input_t" style="width: 40%;background-color: #EFFAEE" id="distrito"  onblur="fn_onblur(this);" tabindex="5" placeholder="Distrito">           
+            <input type="text" class="ctrl_input_t" style="width: 40%;" id="distrito"  tabindex="5" placeholder="Distrito">           
             <label class="ctrl_lavel_0">Sexo</label>
             <input type="text" class="ctrl_input_t" style="width: 10%;background-color: #EFFAEE" id="sexo"  onblur="fn_onblur(this);" tabindex="6" placeholder="M / F" maxlength="1"> 
             <label class="ctrl_lavel_0">Fch. Nac.</label>
@@ -162,7 +162,7 @@
         </div>          
         <div class="ctrl_input">
             <label class="ctrl_lavel_0">Email</label>
-            <input type="text" class="" style="width: 89%;background-color: #EFFAEE;background-image: none;height: 27px;  padding: 3px 10px;  font-size: 12px;  color: #555555;  vertical-align: middle; border: 1px solid #83CBFF;  border-radius: 3px;"id="email" name="email" onblur="fn_onblur(this);" tabindex="11" value="" placeholder="Ingrese Correo electronico">
+            <input type="text" class="" style="width: 89%;background-image: none;height: 27px;  padding: 3px 10px;  font-size: 12px;  color: #555555;  vertical-align: middle; border: 1px solid #83CBFF;  border-radius: 3px;"id="email" name="email" tabindex="11" value="" placeholder="Ingrese Correo electronico">
         </div> 
     </div>
     <div class="filtros">
@@ -174,9 +174,7 @@
         <div class="ctrl_input">
             <label class="ctrl_lavel_1">Seguro</label>
             <select class="ctrl_input_t" id="seg_id" tabindex="13" style="background-color: #EFFAEE">
-                <option value="1">SIN SEGURO</option>
-                <option value="2">LA POSITIVA</option>
-                <option value="3">CERRO VERDE</option>
+
             </select>
             <!--<input type="text" class="ctrl_input_t" style="width: 85%" id="seguro" placeholder="Ingrese Datos de Seguro Medico">-->
         </div> 
@@ -225,9 +223,7 @@
             <label class="ctrl_lavel_1" style="width:11%">Seguro</label>
             <!--<input type="text" class="ctrl_input_t" style="width: 22%;background-color: #EFFAEE" id="div_trat_seg_id" disabled>-->
             <select class="ctrl_input_t" id="div_trat_seg_id" onchange="fn_load_seguro(this.value);" style="background-color: #EFFAEE">
-                <option value="1">SIN SEGURO</option>
-                <option value="2">LA POSITIVA</option>
-                <option value="3">CERRO VERDE</option>
+                
             </select>
         </div> 
     </div>
@@ -545,14 +541,6 @@
             <input type="text" class="ctrl_input_t" style="width: 66%;background-color: #EFFAEE"  id="div_razon_soc_factura" onchange="fn_onblur(this);"  onblur="fn_onblur(this);" >
                                   
         </div>
-        
-<!--        <div style="margin:-1% 1.5% 2%;padding: 0.5%;background: #D9E6F7">             
-            <label>RAZON SOCIAL</label>
-            <input type="hidden" id="hiddendiv_razon_soc_factura" value=""/>
-            <input type="text" class="ctrl_input_t" id="div_razon_soc_factura" onblur="fn_onblur(this);" style="width:44%">&nbsp;&nbsp;&nbsp;&nbsp;
-            
-        </div>-->
-
         <div class="ctrl_input"> 
             <label class="ctrl_lavel_1" style="width:25%">Fecha de emision</label>
             <input type="text" class="ctrl_input_t" style="width: 25%;background-color: #EFFAEE"  id="div_pac_realizar_pago_factura_fch"  onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de Pago"/>              
@@ -567,7 +555,8 @@
 
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="div_pac_realizar_pago_salir_fac" onClick="btn_salir('div_pac_realizar_pago_factura');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="div_pac_realizar_pago_guardar_fac" onClick="btn_guardar_pago('factura');"><img src="public/images/editar.png" style="width:20px">Guardar Pago</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_guardar_fac" onClick="btn_guardar_pago('factura');"><img src="public/images/guardar.png" style="width:20px">Guardar Pago</img></button>
+    <button class="btn_full_act" id="div_pac_realizar_pago_nuevo_ruc_fac" onClick="open_registro_ruc();"><img src="public/images/insertar.png" style="width:20px">Nuevo Ruc</img></button>
 
 </div>
 
@@ -631,7 +620,7 @@
 
 </div>
 
-<!--evolucion--> 
+<!--GRID EVOLUCION--> 
 <div id="div_pac_evolucion" style="display: none; font-size: 12px" title="EVOLUCION">
     <div class="filtros">
         <p class="spanasis">PACIENTE</p><br/>                
@@ -643,27 +632,26 @@
             <input type="text" class="ctrl_input_t" style="width: 8%;background-color: #EFFAEE" id="div_pac_evol_trat_num"  disabled/> 
         </div>      
     </div>
+    <div style="margin: 1.5% 1.5% 1%;">
+        <table id="grid_evolucion_pac"></table>
+        <div id="pager_evolucion_pac"></div>
+    </div> 
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="btn_evol_salir" onClick="btn_salir('div_pac_evolucion');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="btn_evol_new_evo" onClick="btn_ins_nue_actividad();"><img src="public/images/evolucion.png" style="width:20px">Ingresar Nueva Actividad</img></button>
+
+</div>
+<!-- NUEVA EVOLUCION-->
+<div id="new_evol" style="display: none; font-size: 12px" title="NUEVA EVOLUCION">   
     <div class="filtros">
-        <p class="spanasis">ACTIVIDAD REALIZADA</p><br/> 
-        <div class="ctrl_input" style="margin:-1%">
+        <p class="spanasis"> ACTIVIDAD REALIZADA</p><br/>
+        <div class="ctrl_input">
             <label class="ctrl_lavel_1" style="width:16%">Fecha</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_fch_act" onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha" value="">            
-            <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_hora_act" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm"> 
-            <br>
-            <label class="ctrl_lavel_1" style="width:16%">Descripcion</label>
-            <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 78%;height: 42px;background-color: #EFFAEE" id="div_pac_evol_act_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>
-        </div>
-    </div>
-    <div class="filtros">
-        <p class="spanasis">PROXIMA ACTIVIDAD - CITA</p><br/>
-        <div class="ctrl_input" style="margin:-1%">
-            <label class="ctrl_lavel_1" style="width:16%">Fecha</label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_pro_acti_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">                          
-            <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
-            <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="div_pac_evol_pro_hora_act" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
-            <label class="ctrl_lavel_1">Consultorio</label>
-            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 20%;" id="div_pac_evolucion_consult">
+            <input type="text" class="ctrl_input_t" style="width: 18%;background-color: #EFFAEE"  id="new_evol_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">                          
+            <label class="ctrl_lavel_1" style="width:6%"><i class="glyphicon glyphicon-time" >Hora</i></label>
+            <input type="text" class="ctrl_input_t" style="width: 18%;background-color: #EFFAEE"  id="new_evol_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
+            <label class="ctrl_lavel_1" style="width:14%">Consultorio</label>
+            <select class="ctrl_input_t" style="background-color: #EFFAEE; width: 21.3%;" id="new_evol_consu">
                 <option value="0">--Seleccione--</option>
                 <option value="C1">Consultorio 1</option>
                 <option value="C2">Consultorio 2</option>
@@ -676,18 +664,29 @@
                 <option value="C9">Consultorio 9</option>
                 <option value="C10">Consultorio 10</option>
             </select> 
-            <br>
+        </div>
+        <div class="ctrl_input">
             <label class="ctrl_lavel_1" style="width:16%">Descripcion</label>
-            <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 78%;height: 42px;background-color: #EFFAEE" id="div_pac_evol_pro_acti_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>
+            <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 80%;height: 42px;background-color: #EFFAEE" id="new_evol_des" onblur="fn_onblur(this);" placeholder="actividad"></textarea>
+        </div>
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style="width:16%">Doctor</label>
+            <input type="hidden" id="hiddennew_evol" value=""/>
+            <input type="text" class="ctrl_input_t" id="new_evol_doctor" onblur="fn_onblur(this);" style="width:80%">
         </div>
     </div>
-
+    <div class="filtros">
+        <p class="spanasis"> PROXIMA CITA</p><br/>
+        <label class="ctrl_lavel_1" style="width:31%">Fecha de la Proxima Cita</label>
+        <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="new_evol_pro_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">
+        <label class="ctrl_lavel_1" style="width:6%"><i class="glyphicon glyphicon-time">Hora</i></label>
+        <input type="text" class="ctrl_input_t" style="width: 18%;background-color: #EFFAEE"  id="new_evol_prox_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
+    </div>
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
-    <button class="btn_full_act" id="btn_evol_salir" onClick="btn_salir('div_pac_evolucion');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="btn_evol_salir" onClick="btn_salir('new_evol');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_evol_guardar" onClick="btn_insert_evol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>
 
 </div>
-
 <!--HISTORIAL DE PAGOS-->
 <div id="div_historial_pagos" style="display: none; font-size: 12px;" title="HISTORIAL DE PAGOS">
     <div class="filtros" style="">
@@ -748,7 +747,9 @@
             <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_cant" onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="Cantidad" maxlength="2"> 
            
         </div> 
-        <div class="ctrl_input">       
+        <div class="ctrl_input"> 
+            <input type="hidden" id="div_editar_trat_pre_uni_sol" value="">
+            <input type="hidden" id="div_editar_trat_pre_uni_dol" value="">
             <label class="ctrl_lavel_1" style="width: 17.5%;">Soles</label>
             <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_sol"  onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/."> 
             <label class="ctrl_lavel_1" style="width: 11.5%;">Dolares</label>
@@ -771,21 +772,40 @@
         </div> 
     </div>     
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
-    <button class="btn_full_act" id="btn_salir_consulta" onClick="btn_salir('div_editar_trat');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
-    <button class="btn_full_act" id="btn_guardar_consulta" onClick="btn_editar_trat();"><img src="public/images/guardar.png" style="width:20px">Editar</img></button>    
+    <button class="btn_full_act" id="btn_salir_consulta" onClick="btn_salir('div_editar_trat');"><img src="public/images/salir.png" style="width:20px">Cancelar</img></button>
+    <button class="btn_full_act" id="btn_guardar_consulta" onClick="btn_editar_trat(0);"><img src="public/images/guardar.png" style="width:20px">Editar</img></button>    
 </div>
 
+<!--EDITAR CONSULTA----->
+<div id="div_editar_trat_consulta" style="display: none; font-size: 12px" title="EDITAR CONSULTA">
+    <div class="filtros">
+        <p class="spanasis">TRATAMIENTO</p><br/>       
+        <div class="ctrl_input">               
+            <input type="hidden" id="div_editar_trat_consulta_pac_id" value="">
+            <input type="hidden" id="div_editar_trat_consulta_trat_num" value="">
+            <input type="hidden" id="div_editar_trat_consulta_codigo" value="">
+            
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Descripcion</label>
+            <input type="text" class="ctrl_input_t" style="width: 78%;background-color: #EFFAEE" id="div_editar_trat_consulta_des"  onblur="fn_onblur(this);"> 
+            
+        </div>       
+       
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Soles</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_consulta_sol"  onblur="fn_onblur(this);" onkeypress="return soloNumeroTab(event);" placeholder="S/.">             
+        </div> 
+        <div class="ctrl_input">       
+            <label class="ctrl_lavel_1" style="width: 17.5%;">Fecha</label>
+            <input type="text" class="ctrl_input_t" style="width: 32.5%;background-color: #EFFAEE" id="div_editar_trat_consulta_fch" onblur="fn_onblur(this);" >            
+        </div>        
+    </div>     
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="btn_salir_consulta" onClick="btn_salir('div_editar_trat_consulta');"><img src="public/images/salir.png" style="width:20px">Cancelar</img></button>
+    <button class="btn_full_act" id="btn_guardar_consulta" onClick="btn_editar_trat(1);"><img src="public/images/guardar.png" style="width:20px">Editar</img></button>    
+</div>
 
 <!--RUC-->
-<div id="div_reg_ruc" style="display: none; font-size: 12px;" title="REGISTRO DE RUC"> 
-    <div class="filtros">
-        <p class="spanasis">DATOS DEL PACIENTE</p><br/>       
-        <div class="ctrl_input" style="margin-top: -1%; margin-bottom: -1.5%">
-            <input type="hidden" id="hiddendiv_reg_ruc_nom_pac" value="">
-            <label class="ctrl_lavel_1" style="width:16%">Paciente</label>
-            <input type="text" class="ctrl_input_t" style="width: 81.5%;background-color: #EFFAEE" id="div_reg_ruc_nom_pac" disabled/> 
-        </div>        
-    </div>
+<div id="div_reg_ruc" style="display: none; font-size: 12px;" title="REGISTRO DE RUC">
     <div class="filtros" style="">
         <p class="spanasis">DATOS DEL RUC</p><br/> 
         <div class="ctrl_input">

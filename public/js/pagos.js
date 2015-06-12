@@ -107,7 +107,7 @@ function btn_guardar_pago(tip) {
     
     if(tip=='factura'){//soles - factura
         pac_id = $.trim($("#hiddendiv_pac_realizar_pago_fac").val());
-        trat_num = $.trim($("#div_realizar_pago_trat_num_fac").val());
+        trat_num = $.trim($("#div_realizar_pago_trat_num_fac").val());        
         num_factura = $.trim($("#div_pac_realizar_pago_factura_serie").val());
         monto = $.trim($("#div_pac_realizar_pago_factura_monto").val());
         fch = $.trim($("#div_pac_realizar_pago_factura_fch").val());
@@ -122,11 +122,11 @@ function btn_guardar_pago(tip) {
                 url: 'pacientes/Pago/insert_pago_paciente_factura?datos=' + datos,
                 type: 'GET',
                 success: function(data) {
-                    if (data == 'si') {                                              
+                    if (data == 'si') {
                         trat_saldo(pac_id, trat_num,0);
                         btn_salir('div_pac_realizar_pago_factura');
                         factura(doc_fac,fch,monto);//realiza la factura
-                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');  
+//                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');  
                     } else {
                         mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
                     }
@@ -148,86 +148,84 @@ function btn_guardar_pago(tip) {
             mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
             return false;
         }
+    }else if(tip==0){//soles        
+        pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
+        trat_num = $.trim($("#div_realizar_pago_trat_num").val());
+        codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
+        monto = $.trim($("#div_pac_rea_pago_cos").val());
+        fch = $.trim($("#div_pac_rea_pago_fch").val());
+        forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
+        doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
+        obs = $.trim($("#div_pac_rea_pago_obs").val());
+        usuario = $.trim($("#hiddendiv_usuario").val());
+        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
+            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
+            $.ajax({
+                url: 'pacientes/Pago/insert_pago_paciente?datos=' + datos,
+                type: 'GET',
+                success: function(data) {
+                    if (data == 'si') {
+                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
+                        btn_salir('div_pac_realizar_pago');
+                        trat_saldo(pac_id, trat_num,0);                        
+                    } else {
+                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
+                    }
+                }
+            });
+        } else {
+            if (monto == "") {
+                $("#div_pac_rea_pago_cos").css({border: "1px solid red"});
+            }
+            if (fch == "") {
+                $("#div_pac_rea_pago_fch").css({border: "1px solid red"});
+            }
+            if (codigo == "") {
+                $("#div_pac_rea_pago_num_fac_bol").css({border: "1px solid red"});
+            }
+            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+            return false;
+        }
     }
-    
-//    if(tip==0){//soles
-//        pac_id = $.trim($("#hiddendiv_pac_realizar_pago").val());
-//        trat_num = $.trim($("#div_realizar_pago_trat_num").val());
-//        codigo = $.trim($("#div_pac_rea_pago_num_fac_bol").val());
-//        monto = $.trim($("#div_pac_rea_pago_cos").val());
-//        fch = $.trim($("#div_pac_rea_pago_fch").val());
-//        forma_pag = $.trim($("#div_pac_rea_pago_for_pago").val());
-//        doc_fac = $.trim($("#div_pac_rea_pago_doc_fac").val());
-//        obs = $.trim($("#div_pac_rea_pago_obs").val());
-//        usuario = $.trim($("#hiddendiv_usuario").val());
-//        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
-//            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
-//            $.ajax({
-//                url: 'pacientes/Pago/insert_pago_paciente?datos=' + datos,
-//                type: 'GET',
-//                success: function(data) {
-//                    if (data == 'si') {
-//                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
-//                        btn_salir('div_pac_realizar_pago');
-//                        trat_saldo(pac_id, trat_num,0);                        
-//                    } else {
-//                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
-//                    }
-//                }
-//            });
-//        } else {
-//            if (monto == "") {
-//                $("#div_pac_rea_pago_cos").css({border: "1px solid red"});
-//            }
-//            if (fch == "") {
-//                $("#div_pac_rea_pago_fch").css({border: "1px solid red"});
-//            }
-//            if (codigo == "") {
-//                $("#div_pac_rea_pago_num_fac_bol").css({border: "1px solid red"});
-//            }
-//            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
-//            return false;
-//        }
-//    }
-//    else{
-//        pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
-//        trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
-//        codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
-//        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
-//        fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
-//        forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
-//        doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());
-//        obs = $.trim($("#div_pac_rea_pago_dol_obs").val());
-//        usuario = $.trim($("#hiddendiv_usuario_dol").val());
-//        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
-//            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
-//            $.ajax({
-//                url: 'pacientes/Pago/insert_pago_dol_paciente?datos=' + datos,
-//                type: 'GET',
-//                success: function(data) {
-//                    if (data == 'si') {
-//                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
-//                        btn_salir('div_pac_realizar_pago_dol');
-//                        trat_saldo(pac_id, trat_num,0);
-//                    } else {
-//                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
-//                    }
-//                }
-//            });
-//        } else {
-//            if (monto == "") {
-//                $("#div_pac_rea_pago_dol_cos").css({border: "1px solid red"});
-//            }
-//            if (fch == "") {
-//                $("#div_pac_rea_pago_dol_fch").css({border: "1px solid red"});
-//            }
-//            if (codigo == "") {
-//                $("#div_pac_rea_pago_dol_num_fac_bol").css({border: "1px solid red"});
-//            }
-//            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
-//            return false;
-//        }
-//    }    
+    else{        
+        pac_id = $.trim($("#hiddendiv_pac_realizar_pago_dol").val());
+        trat_num = $.trim($("#div_realizar_pago_trat_num_dol").val());
+        codigo = $.trim($("#div_pac_rea_pago_dol_num_fac_bol").val());
+        monto = $.trim($("#div_pac_rea_pago_dol_cos").val());
+        fch = $.trim($("#div_pac_rea_pago_dol_fch").val());
+        forma_pag = $.trim($("#div_pac_rea_pago_dol_for_pago").val());
+        doc_fac = $.trim($("#div_pac_rea_pago_dol_fac").val());
+        obs = $.trim($("#div_pac_rea_pago_dol_obs").val());
+        usuario = $.trim($("#hiddendiv_usuario_dol").val());
+        if (pac_id != "" && trat_num != "" && codigo != "" && monto != "" && fch != "" && usuario != "") {
+            datos = pac_id + '*' + trat_num + '*' + codigo + '*' + monto + '*' + fch + '*' + forma_pag + '*' + doc_fac + '*' + obs + '*' + usuario;
+            $.ajax({
+                url: 'pacientes/Pago/insert_pago_dol_paciente?datos=' + datos,
+                type: 'GET',
+                success: function(data) {
+                    if (data == 'si') {
+                        mensaje_sis('mensaje', ' PAGO REALIZADO CON EXITO', 'MENSAJE DEL SISTEMA');
+                        btn_salir('div_pac_realizar_pago_dol');
+                        trat_saldo(pac_id, trat_num,0);
+                    } else {
+                        mensaje_sis('mensaje', ' ERROR AL REALIZAR EL PAGO', 'MENSAJE DEL SISTEMA');
+                    }
+                }
+            });
+        } else {
+            if (monto == "") {
+                $("#div_pac_rea_pago_dol_cos").css({border: "1px solid red"});
+            }
+            if (fch == "") {
+                $("#div_pac_rea_pago_dol_fch").css({border: "1px solid red"});
+            }
+            if (codigo == "") {
+                $("#div_pac_rea_pago_dol_num_fac_bol").css({border: "1px solid red"});
+            }
+            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+            return false;
+        }
+    }    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,7 +235,8 @@ function trat_saldo(Id, trat_num, flag) {
 //    pac_id=$("#hiddendiv_ver_trat_pac").val();
 //    trat_num=$("#div_ver_trat_select").val();
 //    cos_total=$("#div_ver_trat_ttotal").val();
-    datos = Id + '*' + trat_num;    
+    datos = Id + '*' + trat_num;   
+    
     $.ajax({
         url: 'pacientes/Pago/get_saldo?datos=' + datos,
         type: 'GET',

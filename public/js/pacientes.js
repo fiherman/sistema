@@ -1,12 +1,15 @@
-shorcut_enter=0;// atajo de tecla para guardar... desactivado 0 desactivado, 1 inserta, 2 buscar paciente,
+shorcut_enter=0;// atajo de tecla para guardar... desactivado 0 desactivado, 1 inserta, 2 buscar paciente,3 multiplica tratamiento
 shortcut.add("enter",function() {
     if(shorcut_enter==1){
-//        alert("insertar");
         $("#btn_guardar_registro").click();        
     }
     if(shorcut_enter==2 && $('#txtbuscar_pac').val()!=""){
-//        alert("buscar paciente");
         $("#btn_buscar").click();       
+    }
+    if(shorcut_enter==3){
+        $("#div_trat_des").focus();
+        $("#div_trat_total").click();        
+        $("#div_trat_total_dol").click();
     }
 });
 
@@ -149,7 +152,7 @@ function fn_open_pac(){
             {name: 'dependiente', index: 'dependiente', hidden: true},
             {name: 'seg_id', index: 'seg_des', hidden: true},
             {name: 'estado', index: 'estado', hidden: true},
-            {name: 'seguro', index: 'seguro', hidden: true}
+            {name: 'seguro', index: 'seg_des', hidden: true}
         ],
         rowList: [13, 26, 35],
         pager: '#pager_con_pac',
@@ -183,7 +186,8 @@ function btn_salir(dialogo){
 function btn_nuevo_pac(modo){
     $("#div_reg_pac_nuevo").dialog({
         autoOpen: false, modal: true, height: 510, width: 800, show: {effect: "fade", duration: 300},close: function(event, ui) {         
-            shorcut_enter=2;         
+            shorcut_enter=2;  
+            document.getElementById('seg_id').options.length = 1;
         } 
     }).dialog('open'); 
     $("#fec_nac").mask("99/99/9999");//para autocompletar la fecha
@@ -198,7 +202,8 @@ function btn_nuevo_pac(modo){
         $("#btn_editar_registro").show();
     }
     limpiar_ctrl('div_reg_pac_nuevo');
-    pintar_verde_todo();   
+    pintar_verde_todo(1);
+    llenar_combo_seguros(3);
 }
 
 function btn_rea_consulta(){  
@@ -233,7 +238,7 @@ function btn_rea_consulta(){
             
         }
     });
-    pintar_verde_todo();
+    pintar_verde_todo(2);
     limpiar_ctrl('div_consulta');    
 }
 
@@ -323,6 +328,7 @@ function btn_plan_tratamiento(){
                         autoOpen: false, modal: true, height: 510, width: 920, show: {effect: "fade", duration: 500},close: function(event, ui) {         
                             fn_close_tratamiento('todo');
                             cont=1;
+                            shorcut_enter=2;
                         }
                     }).dialog('open');
                     nom_com=nom+' '+ape;
@@ -332,6 +338,7 @@ function btn_plan_tratamiento(){
                     limpiar_ctrl('div_plan_tratamiento');
                     llenararajaxtodo_tip_trat('div_trat_des','pacientes/pacientes/listartodo_trat',seg_id,0);
                     llenararajaxtodo_doctor('div_trat_doctor','pacientes/pacientes/listartodo_doc',0); 
+                    llenar_combo_seguros(4);
 //                    llenararajaxtodo_doctor('div_trat_doctor','pacientes/pacientes/listartodo_ruc',0); 
                     
                     $("#div_trat_pac").val(nom_com);
@@ -340,11 +347,12 @@ function btn_plan_tratamiento(){
                     $("#div_trat_tip").attr('disabled',true);
                     $("#div_trat_cos").attr('disabled',true);    
                 //    $("#btn_dscto_trat_dol").attr('disabled',true);
-                    pintar_verde_todo();
+                    pintar_verde_todo(3);
 
                     $("#cos_sol_1").val(dato.costo);//coloca el costo de la consulta en el tratamiento
                     $("#div_trat_total").val(dato.costo); 
                     total=parseFloat(dato.costo);
+                    shorcut_enter=3;
                 },
                 error:function(dato){            
                     mensaje_sis('mensaje','NECESITA CREAR UNA CONSULTA NUEVA AL PACIENTE','MENSAJE DEL SISTEMA');            
@@ -405,7 +413,7 @@ function grid_ver_tratamiento(pac_id,num_trat){
     jQuery("#grid_ver_trat_pac").jqGrid({
             url: 'pacientes/pacientes/get_ver_tratamiento?pac_id='+pac_id+'&num_trat='+num_trat,
             datatype: 'json', mtype: 'GET',
-            colNames: ['COD.','NºTRAT', 'DESCRIPCION','Cant.','Cost S/.','Cost $.', 'FECHA','SEGURO','seg_id','DOCTOR','doc_id','Edit','Elim','tot'],
+            colNames: ['COD.','NºTRAT', 'DESCRIPCION','Cant.','Cost S/.','Cost $.', 'FECHA','SEGURO','seg_id','DOCTOR','doc_id','esp_tip','esp_cod','Edit','Elim','tot'],
             rowNum: 10, sortname: 'trat_esp_tip', sortorder: 'asc', viewrecords: true, caption: 'LISTADO DE TRATAMIENTOS', width: '100%', height: '230', align: "center",
             colModel: [
                 {name: 'trat_id', index: 'trat_id', width: 57, resizable: true, align: "center"},
@@ -418,7 +426,9 @@ function grid_ver_tratamiento(pac_id,num_trat){
                 {name: 'seguro', index: 'seguro', width: 95, resizable: true, align: "left"},
                 {name: 'trat_seg_id', index: 'trat_seg_id',hidden:true},
                 {name: 'doctor', index: 'doctor',  width: 113, resizable: true, align: "left"},
-                {name: 'trat_doc_id', index: 'trat_doc_id',hidden:true},
+                {name: 'trat_doc_id', index: 'trat_doc_id',hidden:true},                
+                {name: 'trat_esp_tip', index: 'trat_esp_tip',hidden:true},
+                {name: 'trat_esp_cod', index: 'trat_esp_cod',hidden:true},                
                 {name: 'editar', index: 'eliminar',  width: 35, resizable: true, align: "center"},
                 {name: 'eliminar', index: 'eliminar',  width: 35, resizable: true, align: "center"},
                 {name: 'ttotal', index: 'ttotal', hidden:true}
@@ -461,9 +471,11 @@ function btn_agregar_insertar(){
         "<input type='hidden' id='hidden_dina_esp_tip_"+(cont)+"' value='"+tra_esp_tip+"'/>\n\
         <input type='hidden' id='hidden_dina_esp_cod_"+(cont)+"' value='"+tra_esp_cod+"'/>\n\
         <label class='lbl_din'>"+(cont)+"</label><input class='des_din' type='text' value='"+tra_des+"' id='des_dina_"+(cont)+"' style='width:42%;height: 20px;font-size: 11px;' disabled/>\n\
-        <input type='text' id='cant_"+(cont)+"' style='width: 2.5%;height: 20px;font-size: 11px;text-align:right' value='1'>\n\
-        <input class='cos_din' type='text' value='"+cos_sol.toFixed(2)+"' id='cos_sol_"+(cont)+"' style='font-size: 11px;'/>\n\
-        <input class='cos_din' type='text' value='"+cos_dol.toFixed(2)+"' id='cos_dol_"+(cont)+"' style='font-size: 11px;'/>\n\
+        <input type='text' id='cant_"+(cont)+"' style='width: 2.5%;height: 20px;font-size: 11px;text-align:right' value='1' onblur='fn_onblur(this);' />\n\
+        <input type='hidden' value='"+cos_sol.toFixed(2)+"' id='pre_uni_sol_"+(cont)+"' />\n\
+        <input class='cos_din' type='text' value='"+cos_sol.toFixed(2)+"' id='cos_sol_"+(cont)+"' style='font-size: 11px;' />\n\
+        <input type='hidden' value='"+cos_dol.toFixed(2)+"' id='pre_uni_dol_"+(cont)+"'/>\n\
+        <input class='cos_din' type='text' value='"+cos_dol.toFixed(2)+"' id='cos_dol_"+(cont)+"' style='font-size: 11px;' />\n\
         <input type='hidden' id='hidden_seg_id_din_"+(cont)+"' value='"+seg_id+"'/>\n\
         <input type='text' id='seg_id_din_"+(cont)+"' value='"+seguro+"' style='width:12%;height: 20px;font-size: 11px;' disabled />\n\
         <input type='text' id='doc_id_din_"+(cont)+"' value='"+doctor+"' style='width:20%;height: 20px;font-size: 11px;' disabled/>\n\
@@ -574,7 +586,7 @@ function btn_guardar_trat_tot(){
     }    
 }
 editar_trat_global=0;  // variable que guarda el id del trataminto que se va a editar
-function btn_open_editar_trat(trat_id,sol,dol){
+function btn_open_editar_trat(trat_id,sol,dol){//esitar el tratamiento uno por uno 
     editar_trat_global=trat_id;
 //    pac_id = $.trim($("#div_editar_trat_pac_id").getCell(trat_id,"trat_esp_des"));
     descripcion = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_des"));
@@ -585,10 +597,20 @@ function btn_open_editar_trat(trat_id,sol,dol){
     seguro = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_seg_id"));
     doc_id = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_doc_id"));
     doctor = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"doctor"));
-   
+    
+    esp_tip = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_tip"));
+    esp_cod = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_cod"));
     $("#div_editar_trat").dialog({
         autoOpen: false, modal: true, height: 320, width: 600, show: {effect: "fade", duration: 500} 
     }).dialog('open');
+    
+    var a = sol.replace(',','');
+    pre_uni_sol=(parseFloat(a)/parseFloat(cant));    
+    $("#div_editar_trat_pre_uni_sol").val(pre_uni_sol.toFixed(2));
+    
+    var b = dol.replace(',','');
+    pre_uni_dol=(parseFloat(b)/parseFloat(cant));
+    $("#div_editar_trat_pre_uni_dol").val(pre_uni_dol.toFixed(2));
     
     $("#div_editar_trat_codigo").val(trat_id);
     $("#div_editar_trat_trat_num").val($("#div_ver_trat_select").val());
@@ -602,44 +624,89 @@ function btn_open_editar_trat(trat_id,sol,dol){
     $("#div_editar_trat_doctor").val(doctor);
     $("#div_editar_trat_doc_id").val(doc_id);
     
+    $("#hiddendiv_editar_trat_tip").val(esp_tip);
+    $("#hiddendiv_editar_trat_des").val(esp_cod);
+    
     llenararajaxtodo_editar_trat('div_editar_trat_des','pacientes/pacientes/listartodo_trat',seguro,0);
     llenararajaxtodo_doctor('div_editar_trat_doctor','pacientes/pacientes/listartodo_doc',0);
     $("#div_editar_trat_fch").mask("99/99/9999");  
     $("#div_editar_trat_seguro").css({ border: "1px solid #00C000"});
 }
-function btn_editar_trat(){
-    fch=$("#div_editar_trat_fch").val();
-    codigo=$("#div_editar_trat_codigo").val();
-    trat_num=$.trim($("#div_editar_trat_trat_num").val());
-    pac_id=$.trim($("#div_editar_trat_pac_id").val());
-    
-    esp_tip=$.trim($("#hiddendiv_editar_trat_tip").val());
-    esp_cod=$.trim($("#hiddendiv_editar_trat_des").val());
-    esp_des=$.trim($("#div_editar_trat_des").val());
-    esp_cos=$.trim($("#div_editar_trat_sol").val());
-    esp_cos_dol=$.trim($("#div_editar_trat_dol").val());
-    seg_id=$.trim($("#div_editar_trat_seguro").val());
-    doc_id=$.trim($("#div_editar_trat_doc_id").val());
-    cant=$.trim($("#div_editar_trat_cant").val());
-    
-    
-    if(pac_id != "" && seg_id != "" && doc_id != "" && esp_des != "" && esp_cos != "" && esp_cos_dol != "" && cant != ""){
-        datos=trat_num+'*'+pac_id+'*'+seg_id+'*'+esp_tip+'*'+esp_cod+'*'+esp_des+'*'+esp_cos+'*'+doc_id+'*'+esp_cos_dol+'*'+cant+'*'+codigo+'*'+fch;
+function btn_editar_trat(tip){//0 tratamiento / 1 consulta
+    if (tip==0){
+        fch=$("#div_editar_trat_fch").val();
+        codigo=$("#div_editar_trat_codigo").val();
+        trat_num=$.trim($("#div_editar_trat_trat_num").val());
+        pac_id=$.trim($("#div_editar_trat_pac_id").val());
+
+        esp_tip=$.trim($("#hiddendiv_editar_trat_tip").val());
+        esp_cod=$.trim($("#hiddendiv_editar_trat_des").val());
+        esp_des=$.trim($("#div_editar_trat_des").val());
+        esp_cos=$.trim($("#div_editar_trat_sol").val());
+        esp_cos_dol=$.trim($("#div_editar_trat_dol").val());
+        seg_id=$.trim($("#div_editar_trat_seguro").val());
+        doc_id=$.trim($("#div_editar_trat_doc_id").val());
+        cant=$.trim($("#div_editar_trat_cant").val());
+
+
+        if(pac_id != "" && seg_id != "" && doc_id != "" && esp_des != "" && esp_cos != "" && esp_cos_dol != "" && cant != ""){
+            datos=trat_num+'*'+pac_id+'*'+seg_id+'*'+esp_tip+'*'+esp_cod+'*'+esp_des+'*'+esp_cos+'*'+doc_id+'*'+esp_cos_dol+'*'+cant+'*'+codigo+'*'+fch;
+
+            $.ajax({                   
+                url: 'pacientes/pacientes/editar_tratamiento?datos='+datos,
+                type: 'GET',
+                success: function(data){ 
+                    select_ver_trat(trat_num);//actualizar grilla ver tratamiento
+                    btn_salir('div_editar_trat');
+                },
+                error: function (data) {
+                    mensaje_sis('mensaje',' ERROR AL EDITAR TRATAMIENTO','MENSAJE DEL SISTEMA');
+                }
+            });    
+        }
+    }else if(tip==1){
         
-        $.ajax({                   
-            url: 'pacientes/pacientes/editar_tratamiento?datos='+datos,
-            type: 'GET',
-            success: function(data){ 
-                select_ver_trat(trat_num);
-                btn_salir('div_editar_trat');
-            },
-            error: function (data) {
-                mensaje_sis('mensaje',' ERROR AL GUARDAR TRATAMIENTO','MENSAJE DEL SISTEMA');
-            }
-        });
-//        fn_close_tratamiento('unidad');
+        codigo=$("#div_editar_trat_consulta_codigo").val();
+        trat_num=$.trim($("#div_editar_trat_consulta_trat_num").val());
+        esp_des=$.trim($("#div_editar_trat_consulta_des").val());
+        esp_cos=$.trim($("#div_editar_trat_consulta_sol").val());
+        fch=$("#div_editar_trat_consulta_fch").val();
+        
+        if( fch != "" && esp_cos != "" && esp_des != "" ){
+            datos=codigo+'*'+trat_num+'*'+esp_des+'*'+esp_cos+'*'+fch;
+
+            $.ajax({                   
+                url: 'pacientes/pacientes/editar_trat_consulta?datos='+datos,
+                type: 'GET',
+                success: function(data){ 
+                    select_ver_trat(trat_num);//actualizar grilla ver tratamiento
+                    btn_salir('div_editar_trat_consulta');
+                },
+                error: function (data) {
+                    mensaje_sis('mensaje',' ERROR AL EDITAR CONSULTA','MENSAJE DEL SISTEMA');
+                }
+            });    
+        }
     }
+    
 }
+
+function btn_open_editar_consulta(trat_id){
+    descripcion = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_des"));
+    fch = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_fch"));
+    sol = $.trim($("#grid_ver_trat_pac").getCell(trat_id,"trat_esp_cos_sol"));
+    $("#div_editar_trat_consulta").dialog({
+        autoOpen: false, modal: true, height: 280, width: 500, show: {effect: "fade", duration: 500} 
+    }).dialog('open');
+    $("#div_editar_trat_consulta_codigo").val(trat_id);
+    $("#div_editar_trat_consulta_trat_num").val($("#div_ver_trat_select").val());
+    $("#div_editar_trat_consulta_pac_id").val($("#hiddendiv_ver_trat_pac").val());
+    $("#div_editar_trat_consulta_des").val(descripcion);
+    $("#div_editar_trat_consulta_sol").val(sol);
+    $("#div_editar_trat_consulta_fch").val(fch);
+    $("#div_editar_trat_consulta_fch").mask("99/99/9999"); 
+}
+
 function btn_eliminar_trat(trat_id){
     trat_num=$("#div_ver_trat_select").val();
     $.ajax({                   
@@ -827,6 +894,9 @@ function llenararajaxtodo_editar_trat(textbox,url,seg_id,val){
                               $("#div_editar_trat_dol").val(ui.item.dol);                              
                               //$("#div_trat_tip").val(ui.item.esp_tip_des);
                               $("#hiddendiv_trat_tip").val(ui.item.esp_tip);
+                              $("#div_editar_trat_cant").val(1);
+                              $("#div_editar_trat_pre_uni_sol").val(ui.item.sol);
+                              $("#div_editar_trat_pre_uni_dol").val(ui.item.dol);
                               return false;
                       }   
                   });             
@@ -834,35 +904,6 @@ function llenararajaxtodo_editar_trat(textbox,url,seg_id,val){
     });
 }
 
-
-//function llenararajaxtodo_doctor(textbox,url,val){
-//    $.ajax({
-//           type: 'GET',
-//           url: url,
-//           success: function(data){                
-//                var $local_sourcedoctotodo=data;  
-//                
-//                 $("#"+textbox).autocomplete({
-//                      source: $local_sourcedoctotodo,
-//                      focus: function(event, ui) {
-//                             
-//                             $("#"+textbox).val(ui.item.label);                             
-//                             $("#hidden"+textbox).val(ui.item.value);
-//                             return false;
-//                      },
-//                      select: function(event, ui) {
-//                              
-//                              $("#"+textbox).val(ui.item.label);
-//                              $("#hidden"+textbox).val(ui.item.value); 
-//                              return false;
-//                      }   
-//                  });             
-//            },
-//            error: function(data){
-//                mensaje_sis('mensaje',' ERROR AL CREAR CONSULTA','MENSAJE DEL SISTEMA');
-//            }
-//    });
-//}
 function llenararajaxtodo_doctor(textbox,url,val){
     $.ajax({
            type: 'GET',
@@ -875,11 +916,16 @@ function llenararajaxtodo_doctor(textbox,url,val){
                              $("#"+textbox).val(ui.item.label);                             
                              $("#hidden"+textbox).val(ui.item.value);
                              $("#"+textbox).attr('maxlength', ui.item.label.length);
+                             $("#div_editar_trat_doc_id").val(ui.item.value);
+                             $("#hiddennew_evol").val(ui.item.value);
+                             
                              return false;
                       },
                       select: function(event, ui) {
                               $("#"+textbox).val(ui.item.label);
-                              $("#hidden"+textbox).val(ui.item.value); 
+                              $("#hidden"+textbox).val(ui.item.value);
+                              $("#div_editar_trat_doc_id").val(ui.item.value);
+                              $("#hiddennew_evol").val(ui.item.value);
                               return false;
                       }   
                   });             
@@ -914,30 +960,71 @@ function btn_actualizar(){
     deshabilitar_ctrl('div_pac_reg','btn_consulta_pac*btn_plan_trat_pac*btn_evolucion',true);
 //    deshabilitar_ctrl('div_pac_reg','btn_actualizar_pac*btn_consulta_pac*btn_nuevo_pac');  
     fn_buscar_pac();
+    
+//    jQuery("#grid_con_especialidad").jqGrid('setGridParam', {
+//        url: 'pacientes/administracion/get_especialidad_des?seg_id=' + seguro_id_global + '&esp_tip=' + esp_tip
+//    }).trigger('reloadGrid');
    
 }
 
-function pintar_verde_todo(){
-    //registro
-    $("#nombre").css({ border: "1px solid #7DCE73"});
-    $("#apellidos").css({ border: "1px solid #7DCE73"});
-    $("#direccion").css({ border: "1px solid #7DCE73"});
-    $("#dni").css({ border: "1px solid #7DCE73"});
-    $("#distrito").css({ border: "1px solid #7DCE73"});
-    $("#sexo").css({ border: "1px solid #7DCE73"});
-    $("#fchnac").css({ border: "1px solid #7DCE73"});
-    $("#email").css({ border: "1px solid #7DCE73"});
-    $("#seguro").css({ border: "1px solid #7DCE73"});
-    ///consulta
-    $("#div_cons_cos").css({ border: "1px solid #7DCE73"});
-    $("#div_cons_fch").css({ border: "1px solid #7DCE73"});
-    $("#div_cons_hora").css({ border: "1px solid #7DCE73"});
-    $("#div_trat_des").css({ border: "1px solid #7DCE73"});
+function pintar_verde_todo(tip){
+    switch (tip) {
+        case 1://registro            
+            $("#nombre").css({ border: "1px solid #7DCE73"});
+            $("#apellidos").css({ border: "1px solid #7DCE73"});
+            $("#direccion").css({ border: "1px solid #7DCE73"});
+            $("#dni").css({ border: "1px solid #7DCE73"});
+        //    $("#distrito").css({ border: "1px solid #7DCE73"});
+            $("#sexo").css({ border: "1px solid #7DCE73"});
+            $("#fchnac").css({ border: "1px solid #7DCE73"});
+        //    $("#email").css({ border: "1px solid #7DCE73"});
+            $("#seguro").css({ border: "1px solid #7DCE73"});
+           break
+        case 2:///consulta            
+            $("#div_cons_cos").css({ border: "1px solid #7DCE73"});
+            $("#div_cons_fch").css({ border: "1px solid #7DCE73"});
+            $("#div_cons_hora").css({ border: "1px solid #7DCE73"});
+            $("#div_trat_des").css({ border: "1px solid #7DCE73"});
+           break
+        case 3:// nuevo tratamiento para llenar
+            $("#div_trat_doctor").css({ border: "1px solid #7DCE73"});
+            $("#div_trat_des").css({ border: "1px solid #7DCE73"});
+            $("#div_trat_seg_id").css({ border: "1px solid #7DCE73"});
+            $("#btn_agregar_insertar").css({ border: "1px solid #7DCE73"});
+           break
+        case 4:
+
+           break
+        case 5:
+
+           break
+        case 6:
+        case 7:
+
+           break
+        case 15: ///// nueva evolucion 15
+            $("#new_evol_fch").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_hora").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_des").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_doctor").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_pro_fch").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_prox_hora").css({ border: "1px solid #7DCE73"});
+         break;
+        default:
+          
+    } 
+    
+    
     ///doctores
     $("#txtadm_doc_nom").css({ border: "1px solid #7DCE73"});
     $("#txtadm_doc_ape").css({ border: "1px solid #7DCE73"});
     $("#txtadm_doc_uni").css({ border: "1px solid #7DCE73"});
     $("#txtadm_doc_cop").css({ border: "1px solid #7DCE73"});
+    
+    $("#txtadm_doc_dir").css({ border: "1px solid #7DCE73"});
+    $("#txtadm_doc_email").css({ border: "1px solid #7DCE73"});
+    $("#txtadm_doc_cel").css({ border: "1px solid #7DCE73"});
+    $("#txtadm_doc_fijo").css({ border: "1px solid #7DCE73"});
     ///realizar pago
     $("#div_pac_rea_pago_cos").css({ border: "1px solid #7DCE73"});
     $("#div_pac_rea_pago_fch").css({ border: "1px solid #7DCE73"});
@@ -968,6 +1055,14 @@ function pintar_verde_todo(){
     $("#div_pac_realizar_pago_factura_ruc").css({ border: "1px solid #7DCE73"});
     $("#div_razon_soc_factura").css({ border: "1px solid #7DCE73"});
     $("#div_pac_realizar_pago_factura_fch").css({ border: "1px solid #7DCE73"});
+    
+    $("#div_adm_nueva_esp_seg").css({ border: "1px solid #7DCE73"});
+    $("#div_adm_nueva_esp_tipo").css({ border: "1px solid #7DCE73"});
+    
+    
+   
+    
+    
     
 }
 
@@ -1068,6 +1163,8 @@ function OnMinuteShowCallback(hour, minute) {
     return true;  // valid
 }
 function fn_onblur(input) {
+    
+    
     if (input.value == "" || !input.value) {
 //        mostraralertas('* campo requerido'); 
 //        $('body').animate({
@@ -1082,15 +1179,15 @@ function fn_onblur(input) {
         $("#" + input.id).css({border: "1px solid #00C000"});
 //        $("#registrar").attr("disabled", false);
     }
-    if (input.id == "email" || input.id=="txt_divnuevousu_email") {
-//        expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        expr = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/;
-        if (!expr.test($.trim(input.value))) {
-            $("#" + input.id).css({border: "1px solid red"});
-            mostraralertas('informe','* email no valido','INFORMACION');
-//            input.focus();
-        }
-    }
+    
+//    if (input.id == "email" || input.id=="txt_divnuevousu_email") {
+//        expr = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/;
+//        if (!expr.test($.trim(input.value))) {
+//            $("#" + input.id).css({border: "1px solid red"});
+//            mostraralertas('informe','* email no valido','INFORMACION');
+//        }
+//    }//para valida el email..
+//    
 //    if(input.id == "div_dscto_dscto"){       
 //        subtot =$("#div_trat_total").val();
 //        dscto = parseFloat(input.value);
@@ -1135,8 +1232,13 @@ function fn_onblur(input) {
             $("#" + input.id).val("");
         }       
     }
-    if(input.id == "div_adm_nueva_esp_cos" || input.id=="div_cons_cos" || input.id=="div_editar_trat_sol" || input.id=="div_editar_trat_dol"){         
-        $("#" + input.id).val(formato_numero(input.value,2,'.',','));
+    if(input.id == "div_adm_nueva_esp_cos" || input.id=="div_cons_cos" || input.id=="div_editar_trat_sol" || input.id=="div_editar_trat_dol" || input.id=="div_adm_nueva_esp_cos"){ 
+        
+        var a = $("#"+input.id).val(); 
+        
+        var b = a.replace(',',''); 
+            bb= parseFloat(b).toFixed(2);
+        $("#" + input.id).val(bb);
     }
     
     if(input.id == "div_dscto_porcent"){   
@@ -1147,7 +1249,7 @@ function fn_onblur(input) {
         $("#div_dscto_tot").val((monto-des).toFixed(2));
         
     }
-     if(input.id == "div_dscto_porcent_dol"){   
+    if(input.id == "div_dscto_porcent_dol"){   
         monto=parseFloat($("#div_dscto_subtot_dol").val());
         porc=input.value;
         des=(monto*porc)/100;
@@ -1171,6 +1273,40 @@ function fn_onblur(input) {
         }       
     }
     
+    if(input.id == "div_editar_trat_cant"){//para multiplicar al editar el tratamiento
+        sol=$("#div_editar_trat_pre_uni_sol").val();
+        dol=$("#div_editar_trat_pre_uni_dol").val();
+        cant = input.value;
+        var b = sol.replace(',','');
+        var bb = dol.replace(',','');
+        
+        $("#div_editar_trat_sol").val((b*cant).toFixed(2));
+        $("#div_editar_trat_dol").val((bb*cant).toFixed(2));
+        
+    }
+   
+    multi=(input.id).substring(0,5); 
+    
+    if(multi == "cant_"){ 
+         
+         num=(input.id).substring(5);
+         cant=input.value;
+         
+         var a = $("#pre_uni_sol_"+num).val();      
+         var b = a.replace(',','');       
+         pre_uni_sol=parseFloat(b);        
+         precio=(pre_uni_sol*parseInt(cant));
+         
+                 
+         var aa = $("#pre_uni_dol_"+num).val();        
+         var bb = aa.replace(',','');       
+         pre_uni_dol=parseFloat(bb);         
+         precio_d=(pre_uni_dol*parseInt(cant));
+         
+         $("#cos_sol_"+num).val(formato_numero(precio,2,'.',','));
+         $("#cos_dol_"+num).val(formato_numero(precio_d,2,'.',','));
+         
+    }
 }
 
 function fn_load_seguro(seg_id){
@@ -1216,23 +1352,28 @@ function get_dscto_all(pac_id,num_trat,num_type){
 }
 
 function calc(tip){    
-    sum_sol=0;sum_dol=0;
+    
     if(tip==0){
-        
+        sum_sol=0;
         for(i=1; i<=cont; i++){   
-//            seg = $("#hidden_seg_id_din_"+i).val();//calcula la suma SOLES de todo el tratamiento SIN DISTINCION DE SEGUROS            
-            sum_sol+= parseFloat($("#cos_sol_"+i).val());
+//            seg = $("#hidden_seg_id_din_"+i).val();//calcula la suma SOLES de todo el tratamiento SIN DISTINCION DE SEGUROS      
+            var a = $("#cos_sol_"+i).val();      
+            var b = a.replace(',','');           
+            sum_sol+= parseFloat(b);
         }
-        $("#div_trat_total").val(sum_sol.toFixed(2));
-        total=parseFloat(sum_sol.toFixed(2));
+        $("#div_trat_total").val(formato_numero(sum_sol,2,'.',','));
+//        total=parseFloat(sum_sol.toFixed(2));
     }else{
-        
+        sum_dol=0;
         for(i=1; i<=cont; i++){                                     
-//            seg = $("#hidden_seg_id_din_"+i).val();// calcula la suma  de todo el tratamiento SIN DISTINCION DE SEGUROS            
-            sum_dol+=parseFloat($("#cos_dol_"+i).val());            
+//            seg = $("#hidden_seg_id_din_"+i).val();// calcula la suma  de todo el tratamiento SIN DISTINCION DE SEGUROS  
+            var a = $("#cos_dol_"+i).val();      
+            var b = a.replace(',','');           
+            sum_dol+= parseFloat(b);
+                        
         }
-        $("#div_trat_total_dol").val(sum_dol.toFixed(2));
-        total_dol=parseFloat(sum_dol.toFixed(2));
+        $("#div_trat_total_dol").val(formato_numero(sum_dol,2,'.',','));
+//        total_dol=parseFloat(sum_dol.toFixed(2));
     }
 }
 

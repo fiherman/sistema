@@ -15,7 +15,7 @@ function open_doctores() {
     jQuery("#grid_con_doc").jqGrid({
         url: 'pacientes/administracion/get_all',
         datatype: 'json', mtype: 'GET',
-        colNames: ['CODIGO', 'NOMBRES', 'APELLIDOS', 'RNE', 'EDITAR', 'VER', 'universidad', 'estado', 'fecha reg'],
+        colNames: ['CODIGO', 'NOMBRES', 'APELLIDOS', 'RNE', 'EDITAR', 'VER', 'universidad', 'estado', 'fecha reg','dir','email','cel','fijo'],
         rowNum: 12, sortname: 'doc_id', sortorder: 'desc', viewrecords: true, caption: 'LISTADO DE DOCTORES', width: '100%', height: '265', align: "center",
         colModel: [
             {name: 'doc_id', index: 'doc_id', width: 70, resizable: true, align: "center"},
@@ -26,7 +26,11 @@ function open_doctores() {
             {name: 'Vista', index: 'Vista', width: 70, resizable: true, align: "center"},
             {name: 'doc_uni', index: 'doc_uni', hidden: true},
             {name: 'doc_hab', index: 'doc_hab', hidden: true},
-            {name: 'doc_fch', index: 'doc_fch', hidden: true}
+            {name: 'doc_fch', index: 'doc_fch', hidden: true},            
+            {name: 'doc_dir', index: 'doc_dir', hidden: true},
+            {name: 'doc_email', index: 'doc_email', hidden: true},
+            {name: 'doc_cel', index: 'doc_cel', hidden: true},
+            {name: 'doc_fijo', index: 'doc_fijo', hidden: true}
         ],
         rowList: [12, 25],
         pager: '#pager_con_doc',
@@ -81,14 +85,18 @@ function open_especialidades() {
             document.getElementById("div_adm_esp_seg_id").value = "select";
             document.getElementById('div_adm_esp_tipo').options.length = 1;
             $("#grid_con_especialidad").jqGrid("clearGridData", true);
+            document.getElementById('div_adm_esp_seg_id').options.length = 1;// reinicia el combo para que no haya datos duplicados
+            document.getElementById('div_adm_nueva_esp_seg').options.length = 1;
         }
     }).dialog('open');
     ver_especialidades(0, 0);
+    llenar_combo_seguros(0);
+    
 }
 
 function btn_nuevo_doc(modo) {
     $("#div_nuevo_doc").dialog({
-        autoOpen: false, modal: true, height: 310, width: 600, show: {effect: "fade", duration: 300}
+        autoOpen: false, modal: true, height: 390, width: 600, show: {effect: "fade", duration: 300}
     }).dialog('open');
     if (modo == 'INSERTAR') {
         $("#btn_adm_guardar_doc").show();
@@ -106,6 +114,11 @@ function btn_editar_doc(Id) {
     universidad = $.trim($("#grid_con_doc").getCell(Id, "doc_uni"));
     rne = $.trim($("#grid_con_doc").getCell(Id, "doc_cop"));
     estado = $.trim($("#grid_con_doc").getCell(Id, "doc_hab"));
+    
+    dir = $.trim($("#grid_con_doc").getCell(Id, "doc_dir"));
+    email = $.trim($("#grid_con_doc").getCell(Id, "doc_email"));
+    cel = $.trim($("#grid_con_doc").getCell(Id, "doc_cel"));
+    fijo = $.trim($("#grid_con_doc").getCell(Id, "doc_fijo"));
 
     btn_nuevo_doc('EDITAR');
     $("#doc_id").val(Id);
@@ -113,7 +126,12 @@ function btn_editar_doc(Id) {
     $("#txtadm_doc_ape").val(apellido);
     $("#txtadm_doc_uni").val(universidad);
     $("#txtadm_doc_cop").val(rne);
-    $("#txtadm_doc_hab").val(estado);
+    $("#txtadm_doc_hab").val(estado);    
+    $("#txtadm_doc_dir").val(dir);
+    $("#txtadm_doc_email").val(email);
+    $("#txtadm_doc_cel").val(cel);
+    $("#txtadm_doc_fijo").val(fijo);
+    
 }
 function brn_guardar_doc(modo) {
     doc_id = $("#doc_id").val();
@@ -122,10 +140,15 @@ function brn_guardar_doc(modo) {
     doc_cop = $("#txtadm_doc_cop").val();
     doc_uni = $("#txtadm_doc_uni").val();
     doc_hab = $("#txtadm_doc_hab").val();
+    
+    dir = $("#txtadm_doc_dir").val();
+    email = $("#txtadm_doc_email").val();
+    cel = $("#txtadm_doc_cel").val();
+    tel = $("#txtadm_doc_fijo").val();
 
     if (doc_nom != "" && doc_ape != "" && doc_cop != "" && doc_uni != "") {
         if (modo == 'INSERTAR') {
-            var datos = doc_nom.toUpperCase() + '*' + doc_ape.toUpperCase() + '*' + doc_cop.toUpperCase() + '*' + doc_uni.toUpperCase() + '*' + doc_hab;
+            var datos = doc_nom.toUpperCase() + '*' + doc_ape.toUpperCase() + '*' + doc_cop.toUpperCase() + '*' + doc_uni.toUpperCase() + '*' + doc_hab + '*' + dir.toUpperCase() + '*' + email + '*' + cel + '*' + tel;
             $.ajax({
                 url: 'pacientes/administracion/insert_doc?datos=' + datos,
                 type: 'GET',
@@ -138,7 +161,7 @@ function brn_guardar_doc(modo) {
                 }
             });
         } else if (modo == 'EDITAR') {
-            var datos = doc_id + '*' + doc_nom.toUpperCase() + '*' + doc_ape.toUpperCase() + '*' + doc_cop.toUpperCase() + '*' + doc_uni.toUpperCase() + '*' + doc_hab;
+            var datos = doc_id + '*' + doc_nom.toUpperCase() + '*' + doc_ape.toUpperCase() + '*' + doc_cop.toUpperCase() + '*' + doc_uni.toUpperCase() + '*' + doc_hab + '*' + dir.toUpperCase() + '*' + email + '*' + cel + '*' + tel;
             $.ajax({
                 url: 'pacientes/administracion/update_doc?datos=' + datos,
                 type: 'GET',
@@ -174,25 +197,37 @@ function brn_guardar_doc(modo) {
 }
 function btn_nueva_especialidad(modo) {
     $("#div_adm_nueva_esp").dialog({
-        autoOpen: false, modal: true, height: 265, width: 650, show: {effect: "fade", duration: 300}
+        autoOpen: false, modal: true, height: 265, width: 650, show: {effect: "fade", duration: 300},
+        close: function() {            
+            document.getElementById('div_adm_nueva_esp_seg').options.length = 1;//reinicia combo 
+            document.getElementById('div_adm_nueva_esp_tipo').options.length = 1;
+        }
     }).dialog('open');
     if (modo == 'INSERTAR') {
         document.getElementById('div_adm_nueva_esp_seg').disabled = false;
         document.getElementById('div_adm_nueva_esp_tipo').disabled = false;
         $("#btn_adm_nuevo_pac_ins").show();
         $("#btn_adm_nuevo_pac_upd").hide();
+        llenar_combo_seguros(1);
     } else if (modo == 'EDITAR') {
         document.getElementById('div_adm_nueva_esp_seg').disabled = true;
         document.getElementById('div_adm_nueva_esp_tipo').disabled = true;
         $("#btn_adm_nuevo_pac_ins").hide();
         $("#btn_adm_nuevo_pac_upd").show();
+//        llenar_combo_seguros(1);
     }
     limpiar_ctrl('div_adm_nueva_esp');
     pintar_verde_todo();
+    
 }
 function btn_editar_especialidad(Id) {
+    llenar_combo_seguros(1);
     combo_seg_id = document.getElementById("div_adm_esp_seg_id");
     selected_seg_id = combo_seg_id.options[combo_seg_id.selectedIndex].value;
+    
+    $("#div_adm_nueva_esp_seg").val(selected_seg_id); 
+//    selected_seg_des= combo_seg_id.options[combo_seg_id.selectedIndex].text;
+         
     combo_esp_tipo = document.getElementById("div_adm_esp_tipo");
     selected_esp_tipo = combo_esp_tipo.options[combo_esp_tipo.selectedIndex].value;
 //    selected_text = combo_esp_tipo.options[combo_esp_tipo.selectedIndex].text; 
@@ -200,14 +235,16 @@ function btn_editar_especialidad(Id) {
     select_adm_seg_id(selected_seg_id, 1);
 //    alert(selected_seg_id+'-'+selected_esp_tipo+'-'+selected_text);
     alert("EDITAR TRATAMIENTO");
-
+    
+    
+    
     esp_id = $.trim($("#grid_con_especialidad").getCell(Id, "esp_id"));
     esp_des = $.trim($("#grid_con_especialidad").getCell(Id, "esp_des"));
     esp_cos = $.trim($("#grid_con_especialidad").getCell(Id, "esp_cos_sol"));
-
     btn_nueva_especialidad('EDITAR');
+    
     $("#esp_id").val(Id);
-    $("#div_adm_nueva_esp_seg").val(selected_seg_id);
+    $("#div_adm_nueva_esp_seg").val(selected_seg_id);    
     $("#div_adm_nueva_esp_tipo").val(selected_esp_tipo);
     $("#esp_id").val(esp_id);
     $("#div_adm_nueva_esp_des").val(esp_des);
@@ -215,63 +252,91 @@ function btn_editar_especialidad(Id) {
 
 }
 function brn_guardar_especialidad(modo) {
-    combo_1 = document.getElementById("div_adm_nueva_esp_seg");
-    selected_val_1 = combo_1.options[combo_1.selectedIndex].value;
-    selected_text_1 = combo_1.options[combo_1.selectedIndex].text;
-
     combo_2 = document.getElementById("div_adm_nueva_esp_tipo");
-    selected_val_2 = combo_2.options[combo_2.selectedIndex].value;
-    selected_text_2 = combo_2.options[combo_2.selectedIndex].text;
+    esp_tip = combo_2.options[combo_2.selectedIndex].value;
+    esp_tip_des = combo_2.options[combo_2.selectedIndex].text;
+    //console.log(esp_id + '-' + esp_des + '-' + esp_cos);
+    
+    if (modo == 'INSERTAR') {//////////////////////////
 
-    esp_id = $("#esp_id").val();
-    esp_des = $("#div_adm_nueva_esp_des").val();
-    esp_cos = $("#div_adm_nueva_esp_cos").val();
-    console.log(esp_id + '-' + esp_des + '-' + esp_cos);
-    if (selected_val_1 != "select" && selected_val_2 != "select" && esp_des != "" && esp_cos != "") {
-        if (modo == 'INSERTAR') {
-            var datos = doc_nom.toUpperCase() + '*' + doc_ape.toUpperCase() + '*' + doc_cop.toUpperCase() + '*' + doc_uni.toUpperCase() + '*' + doc_hab;
+        combo_1 = document.getElementById("div_adm_nueva_esp_seg");
+        seg_id = combo_1.options[combo_1.selectedIndex].value;
+        seg_des = combo_1.options[combo_1.selectedIndex].text;
+
+        esp_des = $("#div_adm_nueva_esp_des").val();
+        esp_cos_sol = $("#div_adm_nueva_esp_cos").val();
+
+        if (seg_id != "select" && esp_tip != "select" && esp_des != "" && esp_cos_sol != "") {
+            var datos = seg_id+'*'+ seg_des.toUpperCase() + '*' + esp_tip+'*'+ esp_tip_des.toUpperCase() + '*' + esp_des.toUpperCase() + '*' + esp_cos_sol;
+
             $.ajax({
-                url: 'pacientes/administracion/insert_doc?datos=' + datos,
+                url: 'pacientes/administracion/insert_trat?datos=' + datos,
                 type: 'GET',
                 success: function(data) {
                     if (data == 'si') {
                         mensaje_sis('mensaje', ' DATOS INSERTADOS CORRECTAMENTE', 'MENSAJE DEL SISTEMA');
                         btn_salir('div_adm_nueva_esp');
+                        select_adm_esp_tipo(esp_tip);
                     }
                 }
             });
-        } else if (modo == 'EDITAR') {
+            return true;
+        } else {
+            
+            if (seg_id == "select") {
+                $("#div_adm_nueva_esp_seg").css({border: "1px solid red"});
+            }
+            if (esp_tip == "select") {
+                $("#div_adm_nueva_esp_tipo").css({border: "1px solid red"});
+            }            
+            if (esp_des == "") {
+                $("#div_adm_nueva_esp_des").css({border: "1px solid red"});
+            }
+            if (esp_cos_sol == "") {
+                $("#div_adm_nueva_esp_cos").css({border: "1px solid red"});
+            }
+
+            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+            return false;
+        }
+
+
+    } else if (modo == 'EDITAR') {
+        
+
+        esp_id = $("#esp_id").val();
+        esp_des = $("#div_adm_nueva_esp_des").val();
+        esp_cos = $("#div_adm_nueva_esp_cos").val();
+        
+        if(esp_id!='' & esp_des!='' && esp_cos!=''){
             var datos = esp_id + '*' + esp_des.toUpperCase() + '*' + esp_cos;
             $.ajax({
-                url: 'pacientes/administracion/update_esp?datos=' + datos,
+                url: 'pacientes/administracion/update_trat?datos=' + datos,
                 type: 'GET',
                 success: function(data) {
                     if (data == 'si') {
                         mensaje_sis('mensaje', ' DATOS MODIFICADO CORRECTAMENTE', 'MENSAJE DEL SISTEMA');
-                        select_adm_esp_tipo(selected_val_2);
+                        select_adm_esp_tipo(esp_tip);
                         btn_salir('div_adm_nueva_esp');
                     }
                 }
             });
+            return true;
+        }else{
+            if (esp_des == "") {
+                $("#div_adm_nueva_esp_des").css({border: "1px solid red"});
+            }
+            if (esp_cos == "") {
+                $("#div_adm_nueva_esp_cos").css({border: "1px solid red"});
+            }
+            mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
+            return false;
         }
-        return true;
-    } else {
-        if (esp_des == "") {
-            $("#div_adm_nueva_esp_des").css({border: "1px solid red"});
-        }
-        if (esp_cos == "") {
-            $("#div_adm_nueva_esp_cos").css({border: "1px solid red"});
-        }
-        if (selected_val_1 == "select") {
-            $("#div_adm_nueva_esp_seg").css({border: "1px solid red"});
-        }
-        if (selected_val_2 == "select") {
-            $("#div_adm_nueva_esp_tipo").css({border: "1px solid red"});
-        }
-
-        mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
-        return false;
+        
+        
     }
+        
+    
 }
 /////////////////////////////////////////
 function btn_actualizar_cons() {
@@ -343,14 +408,12 @@ function not_parpadear() {
 seguro_id_global = 0;
 function select_adm_seg_id(seg_id, sel_2) {
     seguro_id_global = seg_id;
-    if (sel_2 === 0) {//cuando se la ventarna de especialidades
-        document.getElementById('div_adm_esp_tipo').options.length = 1;
+    if (sel_2 === 0) {//cuando es la ventarna de especialidades
+        document.getElementById('div_adm_esp_tipo').options.length = 1;// reinicia el combo para que no haya datos duplicados
     } else if (sel_2 === 1) {//cuando es nueva especialidad
-        document.getElementById('div_adm_nueva_esp_tipo').options.length = 1;
+        document.getElementById('div_adm_nueva_esp_tipo').options.length = 1;// reinicia combo para volver a llenar
     }
-//    else if(sel_2===2){//para editar la especialidad
-//         document.getElementById('div_adm_nueva_esp_tipo').options.length = 1;
-//    }   
+  
     $.ajax({
         url: 'pacientes/administracion/get_all_esp?seg_id=' + seg_id,
         type: 'GET',
@@ -638,6 +701,104 @@ function brn_guardar_system_config(){
                 mensaje_sis('mensaje', ' DATOS MODIFICADO CORRECTAMENTE', 'MENSAJE DEL SISTEMA');                
                 btn_salir('div_config_system');
             }
+        }
+    });
+}
+
+function btn_nuevo_seguro(){
+    $("#div_nuevo_seg").dialog({
+        autoOpen: false, modal: true, height: 210, width: 400, show: {effect: "fade", duration: 300}
+    }).dialog('open');
+    limpiar_ctrl('div_nuevo_seg');
+    $("#div_nuevo_seg_seg").css({ border: "1px solid #7DCE73"});
+}
+
+function btn_guardar_nuevo_seg_o_esp(tip){// 0 seguro , 1 especialidad
+    if(tip==0){
+        seguro = $("#div_nuevo_seg_seg").val();// descripcion del nuevo seguro , (solo hay 1 campo)
+        if(seguro != ""){            
+            $.ajax({
+                url: 'pacientes/administracion/insert_new_seguro?seguro=' + seguro.toUpperCase(),
+                type: 'GET',
+                success: function(data) {
+                    if (data == 'si') {
+                        document.getElementById('div_adm_esp_seg_id').options.length = 1;
+                        btn_salir('div_nuevo_seg');                       
+                        llenar_combo_seguros(0);
+                    }
+                }
+            });
+            return true;
+        }else{
+            if (seguro == "") {
+                $("#div_nuevo_seg_seg").css({border: "1px solid red"});
+            }
+            return false;
+        }
+    }
+    else if(tip==1){
+        esp = $("#div_new_especialidad_new_esp").val();
+        combo = document.getElementById("div_new_especialidad_seguro");
+        seg_id = combo.options[combo.selectedIndex].value;
+        seg_des = combo.options[combo.selectedIndex].text;
+        if(esp != "" && seg_id != "" && seg_des != ""){
+            datos=seg_id+'*'+seg_des+'*'+esp.toUpperCase();
+            $.ajax({
+                url: 'pacientes/administracion/insert_new_esp?datos=' + datos,
+                type: 'GET',
+                success: function(data) {
+                    if (data == 'si') {
+                        document.getElementById('div_new_especialidad_seguro').options.length = 1;
+                        btn_salir('div_new_especialidad');
+                        select_adm_seg_id(seg_id,0);
+                    }
+                }
+            });
+            return true;
+        }else{
+            if (esp == "") {
+                $("#div_new_especialidad_new_esp").css({border: "1px solid red"});
+            }
+            return false;
+        }
+    }
+}
+
+function btn_new_especialidad(){
+    $("#div_new_especialidad").dialog({
+        autoOpen: false, modal: true, height: 210, width: 650, show: {effect: "fade", duration: 300},
+        close: function() {            
+            document.getElementById('div_new_especialidad_seguro').options.length = 1;//reinicia combo 
+        }
+    }).dialog('open');
+    limpiar_ctrl('div_new_especialidad');
+    $("#div_new_especialidad_new_seg").css({ border: "1px solid #7DCE73"});
+    llenar_combo_seguros(2);
+}
+
+function llenar_combo_seguros(tip){// 0 para llenar combo en especialidad--- 1 para editar la especialidad --- 2 para nueva especialidad --- 
+    $.ajax({
+        url: 'pacientes/administracion/get_all_seguros',
+        type: 'GET',
+        success: function(data) {
+            for (i = 0; i <= data.length - 1; i++) {//carga el combo para seleccionar el seguro desde la BD
+                if (tip == 0) {
+                    $('#div_adm_esp_seg_id').append('<option value=' + (i + 1) + '>' + data[i].seg_des + '</option>');
+                } else if (tip == 1) {
+                    $('#div_adm_nueva_esp_seg').append('<option value=' + (i + 1) + '>' + data[i].seg_des + '</option>');
+                } else if (tip == 2) {
+                    $('#div_new_especialidad_seguro').append('<option value=' + (i + 1) + '>' + data[i].seg_des + '</option>');
+                } else if (tip == 3) {
+                    $('#seg_id').append('<option value=' + (i + 1) + '>' + data[i].seg_des + '</option>');
+                } else if (tip == 4) {// para llenar el combo al crear tratamiento
+                    $('#div_trat_seg_id').append('<option value=' + (i + 1) + '>' + data[i].seg_des + '</option>');
+                }
+                
+                
+            }
+        },
+        error: function(data) {
+            mensaje_sis('mensaje', ' Error al traer seguros', 'INFORMACION');
         }
     });
 }

@@ -6,7 +6,7 @@ class Administracion extends CI_Controller{
         
 //        echo $cam[0].'<br>';
 //        echo $cam[1].'<br>';
-        $sql=$this->administracion_model->insert_doctores($cam[0],$cam[1],$cam[2],$cam[3],$cam[4]);
+        $sql=$this->administracion_model->insert_doctores($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8]);
         if($sql){
             echo 'si';
         }else{
@@ -16,7 +16,7 @@ class Administracion extends CI_Controller{
   
     function update_doc(){
         $cam=  explode('*', $_GET['datos']);
-        $sql=$this->administracion_model->update_doctores($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        $sql=$this->administracion_model->update_doctores($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6],$cam[7],$cam[8],$cam[9]);
         if($sql){
             echo 'si';
         }else{
@@ -65,7 +65,11 @@ class Administracion extends CI_Controller{
                             '<input id="btn_image_ver_doc" type="image" width="17px" height="15px" title="Ver Datos de Paciente" src="'.base_url('public/images/vista_previa.png').'" onClick="btn_ver_doc('.$Datos->doc_id.');"/>',
                             trim($Datos->doc_uni),                            
                             trim($Datos->doc_hab),
-                            trim($Datos->doc_fch));	      
+                            trim($Datos->doc_fch),
+                            trim($Datos->doc_dir),
+                            trim($Datos->doc_email),
+                            trim($Datos->doc_cel),
+                            trim($Datos->doc_fijo));	      
         }
         echo json_encode($Lista);
     }
@@ -130,6 +134,19 @@ class Administracion extends CI_Controller{
         echo json_encode($trat);
     }
     
+    function get_all_seguros(){
+        header("Content-Type: application/json");       
+        $Consulta= $this->administracion_model->get_ver_all_seg();  
+        $trat=array();
+        foreach($Consulta as $Datos){
+            $Lista=new stdClass();           
+            $Lista->seg_id=trim($Datos->seg_id);                      
+            $Lista->seg_des=trim($Datos->seg_des);                      
+            array_push($trat,$Lista);
+        }
+        echo json_encode($trat);
+    }
+    
     ///especialidad//////////////
     function get_especialidad_des(){
         header('Content-type: application/json');
@@ -176,7 +193,7 @@ class Administracion extends CI_Controller{
         echo json_encode($Lista);
     }
     
-    function update_esp(){
+    function update_trat(){
         $cam=  explode('*', $_GET['datos']);
         $sql=$this->administracion_model->update_especialidad($cam[0],$cam[1],$cam[2]);
         if($sql){
@@ -184,6 +201,27 @@ class Administracion extends CI_Controller{
         }else{
             echo 'no';
         }
+    }
+    function insert_trat(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->administracion_model->insert_new_trat($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
+    
+    
+    
+    function insert_new_esp(){
+        $cam=  explode('*', $_GET['datos']);
+        $sql=$this->administracion_model->insert_new_especialidad($cam[0],$cam[1],$cam[2]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        } 
     }
     
     //////////////////////////////////USUARIOS/////////////////////////////////////////////////////////////////
@@ -311,6 +349,15 @@ class Administracion extends CI_Controller{
     function update_config_system(){
         $cam=  explode('*', $_GET['datos']);
         $sql=$this->administracion_model->update_configuracion_sistema($cam[0],$cam[1],$cam[2]);
+        if($sql){
+            echo 'si';
+        }else{
+            echo 'no';
+        }
+    }
+    
+    function insert_new_seguro(){
+        $sql=$this->administracion_model->insert_nuevo_seguro($_GET['seguro']);
         if($sql){
             echo 'si';
         }else{

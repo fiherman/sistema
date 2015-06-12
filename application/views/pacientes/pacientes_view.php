@@ -681,7 +681,12 @@
         <input type="text" class="ctrl_input_t" style="width: 15%;background-color: #EFFAEE"  id="new_evol_pro_fch" onblur="fn_onblur(this);" maxlength="10" placeholder="Fecha" value="">
         <label class="ctrl_lavel_1" style="width:6%"><i class="glyphicon glyphicon-time">Hora</i></label>
         <input type="text" class="ctrl_input_t" style="width: 18%;background-color: #EFFAEE"  id="new_evol_prox_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm">
+        <div class="ctrl_input">
+            <label class="ctrl_lavel_1" style="width:31%">Descripcion Proxima Cita</label>
+            <textarea rows="2" class="ctrl_input_t" style="margin-top: 0.5%;width: 65%;height: 42px;background-color: #EFFAEE" id="new_evol_prox_des" onblur="fn_onblur(this);" placeholder="proxima actividad"></textarea>
+        </div>
     </div>
+    
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_evol_salir" onClick="btn_salir('new_evol');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_evol_guardar" onClick="btn_insert_evol();"><img src="public/images/guardar.png" style="width:20px">Guardar</img></button>

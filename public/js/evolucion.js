@@ -51,7 +51,7 @@ function btn_evolucion() {
 }
 function btn_ins_nue_actividad(){
     $("#new_evol").dialog({
-        autoOpen: false, modal: true, height: 375, width: 650, show: {effect: "fade", duration: 500}, close: function() {
+        autoOpen: false, modal: true, height: 425, width: 650, show: {effect: "fade", duration: 500}, close: function() {
         }
     }).dialog('open');
     llenararajaxtodo_doctor('new_evol_doctor','pacientes/pacientes/listartodo_doc',0);
@@ -73,11 +73,12 @@ function btn_insert_evol() {
     fch = $("#new_evol_fch").val();
     hora = $("#new_evol_hora").val();
     des = $("#new_evol_des").val();
-    doct = $("#new_evol_doctor").val();
+    doct = $("#hiddennew_evol").val();
     consult=$("#new_evol_consu").val();
     
     fch_pro_act = $("#new_evol_pro_fch").val();    
     pro_act_hora = $("#new_evol_prox_hora").val();
+    prox_des = $("#new_evol_prox_des").val();
     
 
     if (pac_id != "" && trat_num != "" && hora != "" && fch != "" && des != "" && doct != "" && fch_pro_act != "" && pro_act_hora != "" && consult!='0') {
@@ -88,43 +89,25 @@ function btn_insert_evol() {
 //        evo_act_fch=evo_act_fch.substring(0, evo_act_fch.length - 3)+":00";
 //        evo_pro_acti_fch=evo_pro_acti_fch.substring(0, evo_pro_acti_fch.length - 3)+":00";
         
-        datos = pac_id+'*'+des.toUpperCase()+'*'+trat_num+'*'+evo_act_fch+'*'+evo_pro_acti_fch+'*'+doct+'*'+consult;
+        datos = pac_id+'*'+des.toUpperCase()+'*'+trat_num+'*'+evo_act_fch+'*'+evo_pro_acti_fch+'*'+doct+'*'+consult+'*'+prox_des.toUpperCase();
         $.ajax({
             url: 'pacientes/Evolucion/insert_evolucion_pac?datos=' + datos,
             type: 'GET',
             success: function(data) {
                 if (data == 'si') {
                     mensaje_sis('mensaje', ' DATOS INSERTADOS CORRECTAMENTE', 'MENSAJE DEL SISTEMA');
-                    btn_salir('div_pac_evolucion');
+                    btn_salir('new_evol');
                 }
             }
         });
-    } else {      
-       
-        if (fch_act == "") {
-            $("#div_pac_rea_pago_cos").css({border: "1px solid red"});
-        }
-        if (fch_des == "") {
-            $("#div_pac_evol_act_des").css({border: "1px solid red"});
-        }
-        if (fch_pro_act == "") {
-            $("#div_pac_rea_pago_num_fac_bol").css({border: "1px solid red"});
-        }
-        if (fch_pro_des == "") {
-            $("#div_pac_evol_pro_acti_des").css({border: "1px solid red"});
-        }
-        if (consult=='0'){
-            $("#div_pac_evolucion_consult").css({border: "1px solid red"});
-        }
-        if(fch_pro_act==""){
-            $("#div_pac_evol_pro_acti_fch").css({border: "1px solid red"});
-        }
-        if (act_hora==""){
-            $("#div_pac_evol_hora_act").css({border: "1px solid red"});            
-        }
-        if (pro_act_hora==""){
-            $("#div_pac_evol_pro_hora_act").css({border: "1px solid red"});
-        }
+    } else {  
+        if (fch == "") { $("#new_evol_fch").css({border: "1px solid red"}); }
+        if (hora == "") { $("#new_evol_hora").css({border: "1px solid red"}); }
+        if (des == "") { $("#new_evol_des").css({border: "1px solid red"});}
+        if (doct == "") { $("#hiddennew_evol").css({border: "1px solid red"}); }
+        if (consult=='0'){ $("#new_evol_consu").css({border: "1px solid red"}); }
+        if(fch_pro_act==""){ $("#new_evol_pro_fch").css({border: "1px solid red"}); }        
+        if (pro_act_hora==""){ $("#new_evol_prox_hora").css({border: "1px solid red"}); }
         mostraralertas('informe', '* los campos marcados de rojo son requeridos', 'INFORMACION');
         return false;
     }

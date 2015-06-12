@@ -329,6 +329,7 @@ function btn_plan_tratamiento(){
                             fn_close_tratamiento('todo');
                             cont=1;
                             shorcut_enter=2;
+                            document.getElementById('div_trat_seg_id').options.length = 0;
                         }
                     }).dialog('open');
                     nom_com=nom+' '+ape;
@@ -1009,6 +1010,7 @@ function pintar_verde_todo(tip){
             $("#new_evol_doctor").css({ border: "1px solid #7DCE73"});
             $("#new_evol_pro_fch").css({ border: "1px solid #7DCE73"});
             $("#new_evol_prox_hora").css({ border: "1px solid #7DCE73"});
+            $("#new_evol_prox_des").css({ border: "1px solid #7DCE73"});
          break;
         default:
           

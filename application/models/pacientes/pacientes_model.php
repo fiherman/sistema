@@ -126,10 +126,10 @@ class Pacientes_model extends CI_Model {
                 ")->result();
     }
 
-    function insert_consulta_pac($cons_cos, $cons_fch, $cons_hora, $pac_id, $pac_con_com,$trat_num) {
+    function insert_consulta_pac($cons_cos, $cons_fch, $cons_hora, $pac_id, $pac_con_com,$trat_num,$doctor) {
         $this->db->query("set names 'utf8';");
-        $insert = $this->db->query("insert into consulta(cons_cos, cons_fch,cons_hora, pac_id, pac_nom_com,cons_trat_num) values"
-                . "($cons_cos,'$cons_fch','$cons_hora',$pac_id,'$pac_con_com',$trat_num)");
+        $insert = $this->db->query("insert into consulta(cons_cos, cons_fch,cons_hora, pac_id, pac_nom_com,cons_trat_num,cons_doc_id) values"
+                . "($cons_cos,'$cons_fch','$cons_hora',$pac_id,'$pac_con_com',$trat_num,$doctor)");
 
         if ($insert) {
             return true;
@@ -339,8 +339,22 @@ class Pacientes_model extends CI_Model {
     }
     
     function get_consultas(){
-        $this->db->query("set names 'utf8';");
+        $this->db->query("set names 'utf8';");       
         return $this->db->query("select * from consulta where cons_fch like '".date('d/m/Y')."'")->result();
+//        return $this->db->query("
+//            select a.*,b.* from consulta a inner join evolucion b
+//            on a.pac_id=b.evo_pac_id where (evo_pro_acti_fch::date) between '".date('d/m/Y')."' and  '".date('d/m/Y')."' or a.cons_fch like '".date('d/m/Y')."' 
+//        ")->result();
+    }
+    function get_evolucion($fch){
+         $this->db->query("set names 'utf8';");
+         return $this->db->query("
+                select a.evo_ide,a.evo_pac_id,(a.evo_pro_acti_fch::time)as hora,a.evo_cons,a.evo_pro_acti_des,b.pac_nom_com from evolucion a 
+                inner join consulta b
+                on a.evo_pac_id=b.pac_id 
+                where (evo_pro_acti_fch::date) between '$fch' and  '$fch'
+                 
+         ;")->result();
     }
     /////////RUC
     function model_get_ruc($id){

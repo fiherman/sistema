@@ -36,7 +36,7 @@ class Pacientes extends CI_Controller{
     
     function insert_consulta_pac(){
         $cam=  explode('*', $_GET['datos']);
-        $sql=$this->pacientes_model->insert_consulta_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5]);
+        $sql=$this->pacientes_model->insert_consulta_pac($cam[0],$cam[1],$cam[2],$cam[3],$cam[4],$cam[5],$cam[6]);
         if($sql){
             echo 'si';
         }else{

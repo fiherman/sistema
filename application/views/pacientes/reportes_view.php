@@ -15,6 +15,7 @@
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_salir" onClick="btn_salir('div_pac_reporte');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
     <button class="btn_full_act" id="btn_ver_rep" onClick="cons_dia();"><img src="public/images/ver_cons.png" style="width:20px">Consultas del D&iacute;a</img></button>
+    <button class="btn_full_act" id="btn_ver_rep" onClick="citas_dia();"><img src="public/images/ver_cons.png" style="width:20px">Citas del D&iacute;a</img></button>
     <button class="btn_full_act" id="btn_ver_rep_ing" onClick="ver_rep_ingresos();"><img src="public/images/ingresos.png" style="width:20px">Reporte Ingresos</img></button>
 
 </div>
@@ -78,4 +79,22 @@
 
 </div>
 
+
+<!--reporte de evoluciones-->
+<div id="div_citas_evolucion" style="display: none; font-size: 12px" title="CITAS PENDIENTES">
+    <div class="filtros">
+        <p class="spanasis">FILTROS</p><br/>        
+
+        <div style="margin: -6px 0px -5px 14%;">
+            <label class="ctrl_lavel_0">DIA</label>
+            <input type="input" style="margin-left: 11%; width: 34%; height: 20px;"  id="div_citas_evolucion_fch"  maxlength="10">
+        </div>
+        
+    </div>
+   
+    <hr style="background-color: #418BC3; height: 1px; border: 0;">
+    <button class="btn_full_act" id="rep_ing_btn_salir" onClick="btn_salir('div_citas_evolucion');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>
+    <button class="btn_full_act" id="rep_ing_btn_gen_rep" onClick="ver_citas_evolucion();"><img src="public/images/ver_cons.png" style="width:20px">Ver Citas</img></button>    
+
+</div>
 

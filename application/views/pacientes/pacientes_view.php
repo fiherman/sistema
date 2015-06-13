@@ -206,7 +206,12 @@
             <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_fch" onblur="fn_onblur(this);"  maxlength="10" placeholder="Fecha de consulta">              
             <label class="ctrl_lavel_1"><i class="glyphicon glyphicon-time">Hora</i></label>
             <input type="text" class="ctrl_input_t" style="width: 32%;background-color: #EFFAEE"  id="div_cons_hora" onblur="fn_onblur(this);" maxlength="9" placeholder="00:00am/pm"> 
-        </div>       
+        </div>  
+        <div class="ctrl_input">               
+            <input type="hidden" id="hiddendiv_consulta_doct" value="">
+            <label class="ctrl_lavel_1">Doctor</label>
+            <input type="text" class="ctrl_input_t" style="width: 85%;background-color: #EFFAEE" id="div_consulta_doct" onblur="fn_onblur(this);" >             
+        </div>
     </div>     
     <hr style="background-color: #418BC3; height: 1px; border: 0;">
     <button class="btn_full_act" id="btn_salir_consulta" onClick="btn_salir('div_consulta');"><img src="public/images/salir.png" style="width:20px">Salir</img></button>

@@ -213,7 +213,7 @@ function btn_rea_consulta(){
     nom_com=nom+' '+ape;
     
     $("#div_consulta").dialog({
-        autoOpen: false, modal: true, height: 270, width: 500, show: {effect: "fade", duration: 500} 
+        autoOpen: false, modal: true, height: 300, width: 500, show: {effect: "fade", duration: 500} 
     }).dialog('open'); 
 //    $('#div_cons_fch').datetimepicker({
 //        controlType: 'select',
@@ -239,7 +239,10 @@ function btn_rea_consulta(){
         }
     });
     pintar_verde_todo(2);
-    limpiar_ctrl('div_consulta');    
+    
+    limpiar_ctrl('div_consulta'); 
+    
+    llenararajaxtodo_doctor('div_consulta_doct','pacientes/pacientes/listartodo_doc',3);
 }
 
 function btn_guardar_consuta(){
@@ -249,8 +252,9 @@ function btn_guardar_consuta(){
     cons_fch=$.trim($("#div_cons_fch").val());
     cons_hora=$.trim($("#div_cons_hora").val());
     trat_num=$.trim($("#div_cons_trat_num").val());
-    if(cons_pac != "" && cons_cos != "" && cons_fch != "" && cons_hora != "" && cons_id != ""  && trat_num != ""){
-        datos=cons_cos+'*'+cons_fch+'*'+cons_hora+'*'+cons_id+'*'+cons_pac+'*'+trat_num;
+    doctor=$.trim($("#hiddendiv_consulta_doct").val());
+    if(cons_pac != "" && cons_cos != "" && cons_fch != "" && cons_hora != "" && cons_id != ""  && trat_num != "" && doctor != ""){
+        datos=cons_cos+'*'+cons_fch+'*'+cons_hora+'*'+cons_id+'*'+cons_pac+'*'+trat_num+'*'+doctor;
         $.ajax({                   
             url: 'pacientes/pacientes/insert_consulta_pac?datos='+datos,
             type: 'GET',
@@ -269,6 +273,7 @@ function btn_guardar_consuta(){
         if (cons_cos == "") { $("#div_cons_cos").css({border: "1px solid red"}); }
         if (cons_fch == "") { $("#div_cons_fch").css({border: "1px solid red"}); }
         if (cons_hora == "") { $("#div_cons_hora").css({border: "1px solid red"}); }      
+        if (doctor == "") { $("#div_consulta_doct").css({border: "1px solid red"}); }  
         mostraralertas('informe','* los campos marcados de rojo son requeridos','INFORMACION');
         return false;
     }
@@ -919,6 +924,11 @@ function llenararajaxtodo_doctor(textbox,url,val){
                              $("#"+textbox).attr('maxlength', ui.item.label.length);
                              $("#div_editar_trat_doc_id").val(ui.item.value);
                              $("#hiddennew_evol").val(ui.item.value);
+                             switch(val){
+                                 case 3: //consulta
+                                     $("#hiddendiv_consulta_doct").val(ui.item.value);
+                                     
+                             }
                              
                              return false;
                       },
@@ -927,6 +937,11 @@ function llenararajaxtodo_doctor(textbox,url,val){
                               $("#hidden"+textbox).val(ui.item.value);
                               $("#div_editar_trat_doc_id").val(ui.item.value);
                               $("#hiddennew_evol").val(ui.item.value);
+                              switch(val){
+                                 case 3: //consulta
+                                     $("#hiddendiv_consulta_doct").val(ui.item.value);
+                                     
+                             }
                               return false;
                       }   
                   });             
@@ -985,7 +1000,7 @@ function pintar_verde_todo(tip){
             $("#div_cons_cos").css({ border: "1px solid #7DCE73"});
             $("#div_cons_fch").css({ border: "1px solid #7DCE73"});
             $("#div_cons_hora").css({ border: "1px solid #7DCE73"});
-            $("#div_trat_des").css({ border: "1px solid #7DCE73"});
+            $("#div_consulta_doct").css({ border: "1px solid #7DCE73"});            
            break
         case 3:// nuevo tratamiento para llenar
             $("#div_trat_doctor").css({ border: "1px solid #7DCE73"});

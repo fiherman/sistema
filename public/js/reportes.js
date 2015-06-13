@@ -135,8 +135,15 @@ function ver_rep_ing(){
     
 }
 
-function cons_dia(){
-    window.open("pacientes/reportes/consultas_dia");
+function cons_dia(){    
+    window.open("pacientes/reportes/consultas_dia",'CONSULTAS');
+}
+function citas_dia(){
+    $("#div_citas_evolucion").dialog({
+        autoOpen: false, modal: true, height: 190, width: 310, show: {effect: "fade", duration: 300} 
+    }).dialog('open');
+    
+    $("#div_citas_evolucion_fch").mask("99/99/9999");
 }
 
 function factura(tip,fch,monto){
@@ -235,4 +242,13 @@ function brn_guardar_ruc(modo){
         return false;
         shorcut_enter=1;
     }
+}
+
+function ver_citas_evolucion(){
+    fch=$("#div_citas_evolucion_fch").val();
+    
+    
+  
+    window.open("pacientes/reportes/citas_dia?fch="+fch,'CITAS');
+    btn_salir('div_citas_evolucion');
 }
